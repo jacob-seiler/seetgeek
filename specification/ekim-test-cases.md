@@ -1,5 +1,3 @@
-# Untitled
-
 # R4: '/sell'
 
 ### The name of the ticket has to be alphanumeric-only, and space allowed only if it is not the first or the last character
