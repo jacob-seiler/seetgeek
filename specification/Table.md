@@ -86,3 +86,8 @@
 |                                   Logout will invalidate the current session and redirect to the login page.                                   | R7.1.1       |                  When the user logs out, redirect them to the login page                   |
 |                                      After logout, the user shouldn't be able to access restricted pages.                                      | R7.1.2       |                Do not allow user to access restricted pages when logged out                |
 |                               For any other requests except the ones above, the system should return a 404 error                               | R8.1         |                      Return error if user visits a non-existing page                       |
+
+
+
+
+Our team all worked on our test cases in our individual test case branches. We have decided to create a specification folder to keep our specifications separate from the rest of our code
