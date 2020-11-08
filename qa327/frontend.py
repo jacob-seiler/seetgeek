@@ -1,6 +1,7 @@
 from flask import render_template, request, session, redirect
 from qa327 import app
 import qa327.backend as bn
+import re
 
 """
 This file defines the front-end part of the service.
@@ -12,8 +13,45 @@ The html templates are stored in the 'templates' folder.
 
 @app.route('/register', methods=['GET'])
 def register_get():
-    # templates are stored in the templates folder
+    # If user is logged in, redirect to /
+    if 'logged_in' in session:
+        return redirect("/")
+    # If user is not logged in, serve the register page
     return render_template('register.html', message='')
+
+
+def validate_email(email):
+    # Regex for validating email address
+    regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
+    if len(email) < 1:
+        return "Email must not be empty."
+    if not re.search(regex, email):
+        return "Email format invalid."
+    return False
+
+
+def validate_name(name):
+    # Regex for validating email address
+    if len(name) < 2 and len(name) > 20:
+        return "Name must be between 2 and 20 characters."
+    if not name.replace(" ", "").isalnum():
+        return "Name must only contain alphanumeric characters or spaces."
+    if name[0] == " " or name[-1] == " ":
+        return "First and last characters can't be spaces."
+    return False
+
+
+def validate_password(password):
+    # Regex for validating email address
+    if len(password) < 7:
+        return "Password must be at least 6 characters long."
+    if not any(x.isupper() for x in password):
+        return "Password must have at least one uppercase character."
+    if not any(x.islower() for x in password):
+        return "Password must have at least one lowercase character."
+    if not any(not c.isalpha() for c in password):
+        return "Password must have at least one special character."
+    return False
 
 
 @app.route('/register', methods=['POST'])
@@ -24,15 +62,17 @@ def register_post():
     password2 = request.form.get('password2')
     error_message = None
 
-
+    email_error = validate_email(email)
+    name_error = validate_name(name)
+    password_error = validate_password(password)
     if password != password2:
         error_message = "The passwords do not match"
-
-    elif len(email) < 1:
-        error_message = "Email format error"
-
-    elif len(password) < 1:
-        error_message = "Password not strong enough"
+    elif name_error:
+        error_message = name_error
+    elif email_error:
+        error_message = email_error
+    elif password_error:
+        error_message = password_error
     else:
         user = bn.get_user(email)
         if user:
