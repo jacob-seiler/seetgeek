@@ -24,7 +24,6 @@ def register_post():
     password2 = request.form.get('password2')
     error_message = None
 
-
     if password != password2:
         error_message = "The passwords do not match"
 
@@ -127,3 +126,11 @@ def profile(user):
     # front-end portals
     tickets = bn.get_all_tickets()
     return render_template('index.html', user=user, tickets=tickets)
+
+# custom page for 404 error
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    # note that we set the 404 status explicitly
+    return render_template('404.html'), 404
