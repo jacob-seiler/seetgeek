@@ -22,9 +22,9 @@ def validate_email(email):
 
 
 def validate_name(name):
-    # Regex for validating email address
     if len(name) < 2 and len(name) > 20:
         return "Name must be between 2 and 20 characters."
+    # Check if the name is all alphanumeric besides the spaces
     if not name.replace(" ", "").isalnum():
         return "Name must only contain alphanumeric characters or spaces."
     if name[0] == " " or name[-1] == " ":
@@ -33,7 +33,7 @@ def validate_name(name):
 
 
 def validate_password(password):
-    # Regex for validating email address
+    # Bunch of if statements that check for at least one uppercase, lowercase and special character, length 6 or greater
     if len(password) < 7:
         return "Password must be at least 6 characters long."
     if not any(x.isupper() for x in password):
