@@ -11,15 +11,6 @@ The html templates are stored in the 'templates' folder.
 """
 
 
-@app.route('/register', methods=['GET'])
-def register_get():
-    # If user is logged in, redirect to /
-    if 'logged_in' in session:
-        return redirect("/")
-    # If user is not logged in, serve the register page
-    return render_template('register.html', message='')
-
-
 def validate_email(email):
     # Regex for validating email address
     regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
@@ -54,6 +45,15 @@ def validate_password(password):
     return False
 
 
+@app.route('/register', methods=['GET'])
+def register_get():
+    # If user is logged in, redirect to /
+    if 'logged_in' in session:
+        return redirect("/")
+    # If user is not logged in, serve the register page
+    return render_template('register.html', message='')
+
+
 @app.route('/register', methods=['POST'])
 def register_post():
     email = request.form.get('email')
@@ -62,9 +62,11 @@ def register_post():
     password2 = request.form.get('password2')
     error_message = None
 
+    # These helper functions return the error with a field if there is any, or False otherwise
     email_error = validate_email(email)
     name_error = validate_name(name)
     password_error = validate_password(password)
+
     if password != password2:
         error_message = "The passwords do not match"
     elif name_error:
