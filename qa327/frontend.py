@@ -49,7 +49,11 @@ def register_post():
 
 @app.route('/login', methods=['GET'])
 def login_get():
-    return render_template('login.html', message='Please login')
+    # Check if the user is logged in, redirect to /
+    if 'logged_in' in session:
+        return redirect('/')
+    else:
+        return render_template('login.html', message='Please login')
 
 
 @app.route('/login', methods=['POST'])
