@@ -1,6 +1,6 @@
-from qa327.models import db, User
+from qa327.models import db, User, Ticket
 from werkzeug.security import generate_password_hash, check_password_hash
-
+from datetime import date
 """
 This file defines all backend logic that interacts with database and other services
 """
@@ -56,4 +56,16 @@ def register_user(email, name, password, password2):
 
 
 def get_all_tickets():
-    return []
+    """
+    Retrieve all the tickets belonging to a specific user, identified by email
+    :param email: The user's email
+    :return: The list of tickets belonging to the user
+    """
+    ticketsList = []
+    for ticket in db.query(Ticket):
+        if(ticket.expiration_date>date.today()):
+            ticketsList.append(ticket)
+    return ticketsList
+
+def sell_ticket(name, quantity, price, expiration_date):
+    pass
