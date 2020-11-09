@@ -12,6 +12,8 @@ password: string
 
 balance: int
 
+
+
 # Routes
 
 ## /login
@@ -151,6 +153,21 @@ Register can be broken up into these parts:
     ```
 
     If at any point the user is redirected to `/login` throw an error and fail the test.
+
+## /
+
+### GET
+
+When a GET request is made to `/``, we check to see if a login session is active for the user.
+
+If they are not logged in, redirect to `/login` .
+
+Otherwise, render `login.html`
+
+### Testing
+
+Test that `/` loads after login 
+
 
 ## 404
 
