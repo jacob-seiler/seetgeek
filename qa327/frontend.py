@@ -1,6 +1,7 @@
 from flask import render_template, request, session, redirect
 from qa327 import app
 import qa327.backend as bn
+import re
 
 """
 This file defines the front-end part of the service.
@@ -60,7 +61,17 @@ def login_get():
 def login_post():
     email = request.form.get('email')
     password = request.form.get('password')
-    user = bn.login_user(email, password)
+    
+    error_message = 'email/password combination incorrect'
+    user = None
+
+    if len(password) == 0 and len(email) == 0:
+        error_message = 'login failed'
+    elif not email_formatted(email) or not pasword_is_complex(password):
+        error_message = 'email/password format is incorrect.'
+    else:
+        user = bn.login_user(email, password)
+
     if user:
         session['logged_in'] = user.email
         """
@@ -77,7 +88,7 @@ def login_post():
         # code 303 is to force a 'GET' request
         return redirect('/', code=303)
     else:
-        return render_template('login.html', message='login failed')
+        return render_template('login.html', message=error_message)
 
 
 @app.route('/logout')
@@ -86,6 +97,30 @@ def logout():
         session.pop('logged_in', None)
     return redirect('/')
 
+def email_formatted(email):
+    regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
+    return re.search(regex, email)
+
+def pasword_is_complex(password):
+    # minimum length 6
+    if len(password) < 6:
+        return False
+
+    # at least one upper case, lower case, and special character
+    has_upper = False
+    has_lower = False
+    has_special = False
+
+    for c in password:
+        if c.isupper():
+            has_upper = True
+        else:
+            has_lower = True
+        
+        if not c.isalnum():
+            has_special = True
+    
+    return has_upper and has_lower and has_special
 
 def authenticate(inner_function):
     """
