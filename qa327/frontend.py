@@ -11,9 +11,46 @@ The html templates are stored in the 'templates' folder.
 """
 
 
+def validate_email(email):
+    # Regex for validating email address
+    regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
+    if len(email) < 1:
+        return "Email must not be empty."
+    if not re.search(regex, email):
+        return "Email format invalid."
+    return False
+
+
+def validate_name(name):
+    if len(name) < 2 and len(name) > 20:
+        return "Name must be between 2 and 20 characters."
+    # Check if the name is all alphanumeric besides the spaces
+    if not name.replace(" ", "").isalnum():
+        return "Name must only contain alphanumeric characters or spaces."
+    if name[0] == " " or name[-1] == " ":
+        return "First and last characters can't be spaces."
+    return False
+
+
+def validate_password(password):
+    # Bunch of if statements that check for at least one uppercase, lowercase and special character, length 6 or greater
+    if len(password) < 7:
+        return "Password must be at least 6 characters long."
+    if not any(x.isupper() for x in password):
+        return "Password must have at least one uppercase character."
+    if not any(x.islower() for x in password):
+        return "Password must have at least one lowercase character."
+    if not any(not c.isalpha() for c in password):
+        return "Password must have at least one special character."
+    return False
+
+
 @app.route('/register', methods=['GET'])
 def register_get():
-    # templates are stored in the templates folder
+    # If user is logged in, redirect to /
+    if 'logged_in' in session:
+        return redirect("/")
+    # If user is not logged in, serve the register page
     return render_template('register.html', message='')
 
 
@@ -26,19 +63,24 @@ def register_post():
     error_message = None
 
 
+    # These helper functions return the error with a field if there is any, or False otherwise
+    email_error = validate_email(email)
+    name_error = validate_name(name)
+    password_error = validate_password(password)
+
     if password != password2:
         error_message = "The passwords do not match"
-
-    elif len(email) < 1:
-        error_message = "Email format error"
-
-    elif len(password) < 1:
-        error_message = "Password not strong enough"
+    elif name_error:
+        error_message = name_error
+    elif email_error:
+        error_message = email_error
+    elif password_error:
+        error_message = password_error
     else:
         user = bn.get_user(email)
         if user:
             error_message = "User exists"
-        elif not bn.register_user(email, name, password, password2):
+        elif bn.register_user(email, name, password, password2):
             error_message = "Failed to store user info."
     # if there is any error messages when registering new user
     # at the backend, go back to the register page.
@@ -181,3 +223,11 @@ def profile(user):
     # front-end portals
     tickets = bn.get_all_tickets()
     return render_template('index.html', user=user, tickets=tickets)
+
+# custom page for 404 error
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    # note that we set the 404 status explicitly
+    return render_template('404.html'), 404
