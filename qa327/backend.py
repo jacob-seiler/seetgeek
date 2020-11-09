@@ -61,9 +61,11 @@ def get_all_tickets():
     :param email: The user's email
     :return: The list of tickets belonging to the user
     """
-    # ticketsList = []
-    # # for ticket in Ticket.objects.all():
-    # #     if(ticket.expiration_date>date.today()):
-    # #         ticketsList.append(ticket)
-    # return ticketsList
-    pass
+
+    # Gets todays date in format YYYYMMDD
+    date_string = date.today().strftime('%Y-%m-%d').replace("-", "")
+
+    # Query for all tickets where the expiration date is greater than or equal to current date
+    ticket_list = Ticket.query.filter(Ticket.expiration_date >= date_string)
+
+    return ticket_list

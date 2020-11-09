@@ -11,11 +11,11 @@
 
 <h2>Here are all available tickets</h2>
 <div id="tickets">
-{% for ticket in get_all_tickets() %}
+    {% for ticket in tickets %}
     <div>
         <h4>{{ ticket.name }} {{ ticket.email }} {{ ticket.price }}</h4>
     </div>
-{% endfor %}
+    {% endfor %}
 </div>
 
 <form id="sell-form" action="/qa327/templates/sell.html" method="post">
@@ -26,13 +26,13 @@
 
     <label for="sell-form-quantity">Quantity:</label>
     <input type="text" id="sell-form-quantity"><br>
-    
+
     <label for="sell-form-price">Price:</label>
     <input type="text" id="sell-form-price"><br>
-    
+
     <label for="sell-form-expiration-date">Expiration Date:</label>
     <input type="text" id="sell-form-expiration-date"><br>
-    
+
     <input type="submit" id="sell-form-submit">
     </p>
 </form>
@@ -61,7 +61,7 @@
 
     <label for="update-form-price">Price:</label>
     <input type="text" id="update-form-price"><br>
-    
+
     <label for="update-form-expiration-date">Expiration Date:</label>
     <input type="text" id="update-form-expiration-date"><br>
 
