@@ -27,8 +27,9 @@ class Ticket(db.Model):
     """
     A ticket model which defines the sql table
     """
-    name = db.Column(db.String(100), primary_key=True)
-    email = db.Column(bd.String(100))
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100))
+    email = db.Column(db.String(100))
     quantity = db.Column(db.Integer)
     price = db.Column(db.Float)
     expiration_date = db.Column(db.Date)

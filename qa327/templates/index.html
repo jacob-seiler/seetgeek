@@ -5,18 +5,69 @@
 {% endblock %}
 
 {% block content %}
-<h2 id="welcome-header">Welcome {{ user.name }} !</h2>
+<h2 id="welcome-header">Hi {{ user.name }} !</h2>
 
+<h2>User balance: {{ user.balance }}</h2>
 
-<h2 >Here are all available tickets</h2>
-
+<h2>Here are all available tickets</h2>
 <div id="tickets">
-{% for ticket in tickets %}
+{% for ticket in get_all_tickets() %}
     <div>
         <h4>{{ ticket.name }} {{ ticket.price }}</h4>
     </div>
 {% endfor %}
 </div>
+
+<form id="sell-form">
+    <p>
+    <h2>Sell Tickets</h2>
+    <label for="sell-form-name">Name:</label>
+    <input type="text" id="sell-form-name" for=><br>
+
+    <label for="sell-form-quantity">Quantity:</label>
+    <input type="text" id="sell-form-quantity"><br>
+    
+    <label for="sell-form-price">Price:</label>
+    <input type="text" id="sell-form-price"><br>
+    
+    <label for="sell-form-expiration-date">Expiration Date:</label>
+    <input type="text" id="sell-form-expiration-date"><br>
+    
+    <input type="submit" id="sell-form-submit">
+    </p>
+</form>
+
+<form id="buy-form">
+    <p>
+    <h2>Buy Tickets</h2>
+    <label for="buy-form-name">Name:</label>
+    <input type="text" id="buy-form-name" for=><br>
+
+    <label for="buy-form-quantity">Quantity:</label>
+    <input type="text" id="buy-form-quantity"><br>
+
+    <input type="submit">
+    </p>
+</form>
+
+<form id="update-form">
+    <p>
+    <h2>Update Tickets</h2>
+    <label for="update-form-name">Name:</label>
+    <input type="text" id="update-form-name" for=><br>
+
+    <label for="update-form-quantity">Quantity:</label>
+    <input type="text" id="update-form-quantity"><br>
+
+    <label for="update-form-price">Price:</label>
+    <input type="text" id="update-form-price"><br>
+    
+    <label for="update-form-expiration-date">Expiration Date:</label>
+    <input type="text" id="update-form-expiration-date"><br>
+
+    <input type="submit">
+    </p>
+</form>
 
 <a href='/logout'>logout</a>
 {% endblock %}
