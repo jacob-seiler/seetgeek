@@ -92,14 +92,30 @@ def register_post():
 
 @app.route('/login', methods=['GET'])
 def login_get():
-    return render_template('login.html', message='Please login')
+    # Check if the user is logged in, redirect to /
+    if 'logged_in' in session:
+        return redirect('/')
+    else:
+        return render_template('login.html', message='Please login')
 
 
 @app.route('/login', methods=['POST'])
 def login_post():
+    # Get info from form
     email = request.form.get('email')
     password = request.form.get('password')
-    user = bn.login_user(email, password)
+    
+    error_message = 'email/password combination incorrect'
+    user = None
+
+    # Check each condition and provide appropriate error message
+    if len(password) == 0 and len(email) == 0:
+        error_message = 'login failed'
+    elif not email_formatted(email) or not pasword_is_complex(password):
+        error_message = 'email/password format is incorrect.'
+    else:
+        user = bn.login_user(email, password)
+
     if user:
         session['logged_in'] = user.email
         """
@@ -116,7 +132,7 @@ def login_post():
         # code 303 is to force a 'GET' request
         return redirect('/', code=303)
     else:
-        return render_template('login.html', message='login failed')
+        return render_template('login.html', message=error_message)
 
 
 @app.route('/logout')
@@ -125,6 +141,43 @@ def logout():
         session.pop('logged_in', None)
     return redirect('/')
 
+"""
+Checks if email is formatted correctly
+Takes string email
+Returns True if formatted properly
+"""
+def email_formatted(email):
+    regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
+
+    # Apply regex to email
+    return re.search(regex, email)
+
+"""
+Checks if password has required complexity
+Takes string password
+Returns True if complexity is met
+"""
+def pasword_is_complex(password):
+    # Minimum length 6
+    if len(password) < 6:
+        return False
+
+    # At least one upper case, lower case, and special character
+    has_upper = False
+    has_lower = False
+    has_special = False
+
+    # Check every character for instance
+    for c in password:
+        if c.isupper():
+            has_upper = True
+        else:
+            has_lower = True
+        
+        if not c.isalnum():
+            has_special = True
+    
+    return has_upper and has_lower and has_special
 
 def authenticate(inner_function):
     """
