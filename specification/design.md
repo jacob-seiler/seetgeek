@@ -12,6 +12,8 @@ password: string
 
 balance: int
 
+
+
 # Routes
 
 ## /login
@@ -152,6 +154,22 @@ Register can be broken up into these parts:
 
     If at any point the user is redirected to `/login` throw an error and fail the test.
 
+<<<<<<< HEAD
+## /
+
+### GET
+
+When a GET request is made to `/``, we check to see if a login session is active for the user.
+
+If they are not logged in, redirect to `/login` .
+
+Otherwise, render `login.html`
+
+### Testing
+
+Test that `/` loads after login 
+
+=======
 ## /logout
 
 ### GET/POST
@@ -161,6 +179,7 @@ When a call is made to logout, invalidate the current session and redirect to th
 ### Testing
 
 Test that when /logout is visited, the user is redirected to `/login` and the login screen is displayed
+>>>>>>> bc56d3188e5ba89226cd952a34553fe55e66e500
 
 ## 404
 
