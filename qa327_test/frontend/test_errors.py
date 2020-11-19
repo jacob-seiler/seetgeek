@@ -24,8 +24,7 @@ class FrontEndHomePageTest(BaseCase):
 
     def test_error_404(self, *_):
         """
-        This is a sample front end unit test to login to home page
-        and verify if the tickets are correctly listed.
+        This is a front end unit test to login to 404 error page.
         """
         # open an incorrect page
         self.open(base_url + '/error')
