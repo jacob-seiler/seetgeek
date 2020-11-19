@@ -29,4 +29,4 @@ class FrontEndHomePageTest(BaseCase):
         # open an incorrect page
         self.open(base_url + '/error')
         # verify we get 404
-        self.assert_element("#error", "Error 404")
+        self.assert_text("Error 404", "#title")
