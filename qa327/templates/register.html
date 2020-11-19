@@ -1,10 +1,8 @@
 {% extends 'base.html' %}
 
-{% block header %}
-<h1>{% block title %}Register{% endblock %}</h1>
-{% endblock %}
 
 {% block content %}
+<h1 id="title">{% block title %}Register{% endblock %}</h1>
 <h4 id='message'>{{message}}</h4>
 <form method="post">
   <div class="form-group">
@@ -17,7 +15,7 @@
     <label for="password">Confirm Password</label>
     <input class="form-control" type="password" name="password2" id="password2" required>
     <input class="btn btn-primary" type="submit" value="Register">
-  <a href='/login' class="btn btn-primary" id="btn-submit" >Login</a>
+    <a href='/login' class="btn btn-primary" id="btn-submit">Login</a>
   </div>
 </form>
 {% endblock %}
