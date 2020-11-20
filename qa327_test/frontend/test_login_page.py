@@ -35,6 +35,17 @@ test_tickets = [
 
 
 class FrontEndHomePageTest(BaseCase):
+    def test_login_default(self, *_):
+        """
+        If the user hasn't logged in, show the login page.
+        """
+
+        # log out user
+        self.open(base_url + '/logout')
+        # open /login
+        self.open(base_url + '/login')
+        # validate that current page contains #title
+        self.assert_element("#login-title")
 
     @patch('qa327.backend.get_user', return_value=test_user)
     @patch('qa327.backend.get_all_tickets', return_value=test_tickets)
