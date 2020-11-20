@@ -7,7 +7,7 @@ from qa327.models import db, User
 from werkzeug.security import generate_password_hash, check_password_hash
 
 """
-This file defines all unit tests for the frontend homepage.
+This file defines all unit tests for the login page.
 
 The tests will only test the frontend portion of the program, by patching the backend to return
 specfic values. For example:
