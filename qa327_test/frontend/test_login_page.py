@@ -159,7 +159,7 @@ class FrontEndHomePageTest(BaseCase):
         Email and password are not empty.
         """
         # Open /login
-        self.open(base_url)
+        self.open(base_url + '/login')
         # Enter value into form field #email that is not empty
         self.type("#email", "tester0@gmail.com")
         # Enter value into form field #password that is not empty
@@ -174,7 +174,7 @@ class FrontEndHomePageTest(BaseCase):
         Email is empty.
         """
         # Open /login
-        self.open(base_url)
+        self.open(base_url + '/login')
         # Enter value into form field #email that is empty
         self.type("#email", "")
         # Enter value into form field #password that is not empty
@@ -189,7 +189,7 @@ class FrontEndHomePageTest(BaseCase):
         Password is empty.
         """
         # Open /login
-        self.open(base_url)
+        self.open(base_url + '/login')
         # Enter value into form field #email that is not empty
         self.type("#email", "tester0@gmail.com")
         # Enter value into form field #password that is empty
@@ -204,7 +204,7 @@ class FrontEndHomePageTest(BaseCase):
         Email follows addr-spec defined in RFC 5322 (see https://en.wikipedia.org/wiki/Email_address for a human-friendly explanation).
         """
         # Open /login
-        self.open(base_url)
+        self.open(base_url + '/login')
         # Enter value into form field #email that follows addr-spec defined in RFC 5322
         self.type("#email", "tester0@gmail.com")
         # Enter value into form field #password
@@ -219,7 +219,7 @@ class FrontEndHomePageTest(BaseCase):
         Email doesn't follow addr-spec defined in RFC 5322 (see https://en.wikipedia.org/wiki/Email_address for a human-friendly explanation).
         """
         # Open /login
-        self.open(base_url)
+        self.open(base_url + '/login')
         # Enter value into form field #email that doesn't follow addr-spec defined in RFC 5322
         self.type("#email", "tester0gmail.com")
         # Enter value into form field #password
@@ -234,9 +234,9 @@ class FrontEndHomePageTest(BaseCase):
         Password does not meet the required complexity since length is less than 6.
         """
         # Open /login
-        self.open(base_url)
+        self.open(base_url + '/login')
         # Enter value into form field #email that is not empty
-        self.type("#email", "tester0gmail.com")
+        self.type("#email", "tester0@gmail.com")
         # Enter value into form field #password that is less than 6 characters long
         self.type("#password", "hello")
         # Click #btn-submit
@@ -249,9 +249,9 @@ class FrontEndHomePageTest(BaseCase):
         Password does not meet the required complexity since no uppercase.
         """
         # Open /login
-        self.open(base_url)
+        self.open(base_url + '/login')
         # Enter value into form field #email that is not empty
-        self.type("#email", "tester0gmail.com")
+        self.type("#email", "tester0@gmail.com")
         # Enter value into form field #password that has no uppercase characters
         self.type("#password", "thishasnouppercase")
         # Click #btn-submit
@@ -264,9 +264,9 @@ class FrontEndHomePageTest(BaseCase):
         Password does not meet the required complexity since no lowercase.
         """
         # Open /login
-        self.open(base_url)
+        self.open(base_url + '/login')
         # Enter value into form field #email that is not empty
-        self.type("#email", "tester0gmail.com")
+        self.type("#email", "tester0@gmail.com")
         # Enter value into form field #password that has no lowercase characters
         self.type("#password", "THISHASNOLOWERCASE")
         # Click #btn-submit
@@ -279,9 +279,9 @@ class FrontEndHomePageTest(BaseCase):
         Password does not meet the required complexity since no special character.
         """
         # Open /login
-        self.open(base_url)
+        self.open(base_url + '/login')
         # Enter value into form field #email that is not empty
-        self.type("#email", "tester0gmail.com")
+        self.type("#email", "tester0@gmail.com")
         # Enter value into form field #password that has no special characters
         self.type("#password", "thisHasNoSpecialCharacters")
         # Click #btn-submit
@@ -294,15 +294,60 @@ class FrontEndHomePageTest(BaseCase):
         Password meets the required complexity: minimum length 6, at least one upper case, at least one lower case, and at least one special character.
         """
         # Open /login
-        self.open(base_url)
+        self.open(base_url + '/login')
         # Enter value into form field #email that is not empty
-        self.type("#email", "tester0gmail.com")
+        self.type("#email", "tester0@gmail.com")
         # Enter value into form field #password that is at least than 6 characters long, contains at least one upper case character, at least one lower case character, and at least one special character
+        self.type("#password", "Password123")
+        # Click #btn-submit
+        self.click("#btn-submit")
+        # Validate #message does not display error
+        self.assert_text_not_visible("email/password format is incorrect.", "#message")
+
+    def test_email_formatting_errors(self, *_):
+        """
+        For any email formatting errors, render the login page and show the message 'email/password format is incorrect.'.
+        """
+        # Open /login
+        self.open(base_url + '/login')
+        # Enter value into form field #email with formatting error(s)
+        self.type("#email", "tester0gmail.com")
+        # Enter value into form field #password without formatting error(s)
         self.type("#password", "Password123")
         # Click #btn-submit
         self.click("#btn-submit")
         # Validate #message displays error
         self.assert_text("email/password format is incorrect.", "#message")
+
+    def test_password_formatting_errors(self, *_):
+        """
+        For any password formatting errors, render the login page and show the message 'email/password format is incorrect.'.
+        """
+        # Open /login
+        self.open(base_url + '/login')
+        # Enter value into form field #email without formatting error(s)
+        self.type("#email", "tester0@gmail.com")
+        # Enter value into form field #password with formatting error(s)
+        self.type("#password", "password123")
+        # Click #btn-submit
+        self.click("#btn-submit")
+        # Validate #message displays error
+        self.assert_text("email/password format is incorrect.", "#message")
+
+    def test_no_formatting_errors(self, *_):
+        """
+        If no formatting errors, don't show the message 'email/password format is incorrect.'.
+        """
+        # Open /login
+        self.open(base_url + '/login')
+        # Enter value into form field #email without formatting error(s)
+        self.type("#email", "tester0@gmail.com")
+        # Enter value into form field #password withoutformatting error(s)
+        self.type("#password", "Password123")
+        # Click #btn-submit
+        self.click("#btn-submit")
+        # Validate #message does not display error
+        self.assert_text_not_visible("email/password format is incorrect.", "#message")
 
     @patch('qa327.backend.get_user', return_value=test_user)
     @patch('qa327.backend.get_all_tickets', return_value=test_tickets)
