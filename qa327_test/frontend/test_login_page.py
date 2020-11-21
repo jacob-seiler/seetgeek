@@ -366,6 +366,57 @@ class FrontEndHomePageTest(BaseCase):
         # Validate #welcome-header is displayed
         self.assert_element("#welcome-header")
 
+    def test_password_correct(self, *_):
+        """
+        If email isn't correct, redict to /login and show message 'email/password combination incorrect'.
+        """
+        # Log out user (to invalidate any logged-in sessions that may exist)
+        self.open(base_url + '/logout')
+        # Open /login
+        self.open(base_url + '/login')
+        # Enter value into form field #email that is not correct
+        self.type("#email", "wrongemail@gmail.com")
+        # Enter value into form field #password that is correct
+        self.type("#password", "Password123")
+        # Click #btn-submit
+        self.click("#btn-submit")
+        # Validate #message displays error
+        self.assert_text("email/password combination incorrect", "#message")
+
+    def test_email_correct(self, *_):
+        """
+        If password isn't correct, redict to /login and show message 'email/password combination incorrect'.
+        """
+        # Log out user (to invalidate any logged-in sessions that may exist)
+        self.open(base_url + '/logout')
+        # Open /login
+        self.open(base_url + '/login')
+        # Enter value into form field #email that is correct
+        self.type("#email", "tester0@gmail.com")
+        # Enter value into form field #password that is not correct
+        self.type("#password", "wrongPassword123")
+        # Click #btn-submit
+        self.click("#btn-submit")
+        # Validate #message displays error
+        self.assert_text("email/password combination incorrect", "#message")
+
+    def test_email_and_password_correct(self, *_):
+        """
+        If email/password are correct, don't show message 'email/password combination incorrect'.
+        """
+        # Log out user (to invalidate any logged-in sessions that may exist)
+        self.open(base_url + '/logout')
+        # Open /login
+        self.open(base_url + '/login')
+        # Enter value into form field #email that is correct
+        self.type("#email", "tester0@gmail.com")
+        # Enter value into form field #password that is correct
+        self.type("#password", "Password123")
+        # Click #btn-submit
+        self.click("#btn-submit")
+        # Validate #message does not display error
+        self.assert_text_not_visible("email/password combination incorrect", "#message")
+
     @patch('qa327.backend.get_user', return_value=test_user)
     @patch('qa327.backend.get_all_tickets', return_value=test_tickets)
     def test_login_success(self, *_):
