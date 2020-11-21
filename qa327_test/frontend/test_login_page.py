@@ -39,7 +39,6 @@ class FrontEndHomePageTest(BaseCase):
         """
         If the user hasn't logged in, show the login page.
         """
-
         # Log out user
         self.open(base_url + '/logout')
         # Open /login
@@ -62,6 +61,28 @@ class FrontEndHomePageTest(BaseCase):
         self.open(base_url + '/login')
         # Validate that current page does not contain #login-header
         self.assert_element_not_present("#login-title")
+    
+    def test_login_message_exists(self, *_):
+        """
+        The login page has a message.
+        """
+        # Log out user (to invalidate any logged-in sessions that may exist)
+        self.open(base_url + '/logout')
+        # Open /login
+        self.open(base_url + '/login')
+        # Validate that current page contains #message
+        self.assert_element("#message")
+    
+    def test_login_message_default(self, *_):
+        """
+        The login page has a message that by default says 'Please login'.
+        """
+        # Log out user (to invalidate any logged-in sessions that may exist)
+        self.open(base_url + '/logout')
+        # Open /login
+        self.open(base_url + '/login')
+        # Validate that #message contains value "Please login"
+        self.assert_text("Please login", "#message")
 
     @patch('qa327.backend.get_user', return_value=test_user)
     @patch('qa327.backend.get_all_tickets', return_value=test_tickets)
