@@ -154,6 +154,51 @@ class FrontEndHomePageTest(BaseCase):
         self.open(base_url)
         self.assert_element("#welcome-header")
 
+    def test_email_password_not_empty(self, *_):
+        """
+        Email and password are not empty.
+        """
+        # Open /login
+        self.open(base_url)
+        # Enter value into form field #email that is not empty
+        self.type("#email", "tester0@gmail.com")
+        # Enter value into form field #password that is not empty
+        self.type("#password", "Password123")
+        # Click #btn-submit
+        self.click("#btn-submit")
+        # Validate #message does not display error
+        self.assert_text_not_visible("email/password format is incorrect.", "#message")
+
+    def test_email_empty(self, *_):
+        """
+        Email is empty.
+        """
+        # Open /login
+        self.open(base_url)
+        # Enter value into form field #email that is empty
+        self.type("#email", "")
+        # Enter value into form field #password that is not empty
+        self.type("#password", "Password123")
+        # Click #btn-submit
+        self.click("#btn-submit")
+        # Validate #message displays error
+        self.assert_text("email/password format is incorrect.", "#message")
+
+    def test_password_empty(self, *_):
+        """
+        Password is empty.
+        """
+        # Open /login
+        self.open(base_url)
+        # Enter value into form field #email that is not empty
+        self.type("#email", "tester0@gmail.com")
+        # Enter value into form field #password that is empty
+        self.type("#password", "")
+        # Click #btn-submit
+        self.click("#btn-submit")
+        # Validate #message displays error
+        self.assert_text("email/password format is incorrect.", "#message")
+
     @patch('qa327.backend.get_user', return_value=test_user)
     @patch('qa327.backend.get_all_tickets', return_value=test_tickets)
     def test_login_success(self, *_):
