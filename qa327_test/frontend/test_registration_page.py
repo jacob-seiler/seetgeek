@@ -75,9 +75,24 @@ class FrontEndRegistrationPageTest(BaseCase):
 
         self.assert_text("User exists", "#message")
 
-    # TODO: Learn how to do session info changes
+    @patch('qa327.backend.get_user', return_value=test_user)
+    @patch('qa327.backend.get_all_tickets', return_value=test_tickets)
     def test_registration_logged_in(self, *_):
-        pass
+        # open login page
+        self.open(base_url + '/login')
+        # fill email and password
+        self.type("#email", "tester0@gmail.com")
+        self.type("#password", "Password123")
+        # click enter button
+        self.click('input[type="submit"]')
+
+        # open home page
+        self.open(base_url + '/register')
+        # test if the page loads correctly
+        self.assert_element("#welcome-header")
+        self.assert_text("Hi Tester Zero !", "#welcome-header")
+        self.assert_element("#tickets div h4")
+        self.assert_text("t1 100", "#tickets div h4")
 
     # Check that a bad email format returns an error
     def test_registration_email_badformat(self, *_):
