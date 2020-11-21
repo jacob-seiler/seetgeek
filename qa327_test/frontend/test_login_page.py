@@ -199,6 +199,36 @@ class FrontEndHomePageTest(BaseCase):
         # Validate #message displays error
         self.assert_text("email/password format is incorrect.", "#message")
 
+    def test_email_valid(self, *_):
+        """
+        Email follows addr-spec defined in RFC 5322 (see https://en.wikipedia.org/wiki/Email_address for a human-friendly explanation).
+        """
+        # Open /login
+        self.open(base_url)
+        # Enter value into form field #email that follows addr-spec defined in RFC 5322
+        self.type("#email", "tester0@gmail.com")
+        # Enter value into form field #password
+        self.type("#password", "Password123")
+        # Click #btn-submit
+        self.click("#btn-submit")
+        # Validate #message does not display error
+        self.assert_text_not_visible("email/password format is incorrect.", "#message")
+
+    def test_email_invalid(self, *_):
+        """
+        Email doesn't follow addr-spec defined in RFC 5322 (see https://en.wikipedia.org/wiki/Email_address for a human-friendly explanation).
+        """
+        # Open /login
+        self.open(base_url)
+        # Enter value into form field #email that doesn't follow addr-spec defined in RFC 5322
+        self.type("#email", "tester0gmail.com")
+        # Enter value into form field #password
+        self.type("#password", "Password123")
+        # Click #btn-submit
+        self.click("#btn-submit")
+        # Validate #message displays error
+        self.assert_text("email/password format is incorrect.", "#message")
+
     @patch('qa327.backend.get_user', return_value=test_user)
     @patch('qa327.backend.get_all_tickets', return_value=test_tickets)
     def test_login_success(self, *_):
