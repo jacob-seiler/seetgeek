@@ -137,6 +137,22 @@ class FrontEndHomePageTest(BaseCase):
         self.open(base_url + '/login')
         # Validate #password is displayed
         self.assert_element("#password")
+    
+    def test_login_form_submit_post(self, *_):
+        """
+        The login form can be submitted as a POST request to the current URL (/login).
+        """
+        # Open /login
+        self.open(base_url + '/login')
+        # Enter value into #email
+        self.type("#email", "tester0@gmail.com")
+        # Enter value into #password
+        self.type("#password", "Password123")
+        # Click #btn-submit
+        self.click("#btn-submit")
+        # Validate POST request sent to current URL (/login)
+        self.open(base_url)
+        self.assert_element("#welcome-header")
 
     @patch('qa327.backend.get_user', return_value=test_user)
     @patch('qa327.backend.get_all_tickets', return_value=test_tickets)
