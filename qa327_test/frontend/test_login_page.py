@@ -229,6 +229,81 @@ class FrontEndHomePageTest(BaseCase):
         # Validate #message displays error
         self.assert_text("email/password format is incorrect.", "#message")
 
+    def test_password_small(self, *_):
+        """
+        Password does not meet the required complexity since length is less than 6.
+        """
+        # Open /login
+        self.open(base_url)
+        # Enter value into form field #email that is not empty
+        self.type("#email", "tester0gmail.com")
+        # Enter value into form field #password that is less than 6 characters long
+        self.type("#password", "hello")
+        # Click #btn-submit
+        self.click("#btn-submit")
+        # Validate #message displays error
+        self.assert_text("email/password format is incorrect.", "#message")
+    
+    def test_password_uppercase(self, *_):
+        """
+        Password does not meet the required complexity since no uppercase.
+        """
+        # Open /login
+        self.open(base_url)
+        # Enter value into form field #email that is not empty
+        self.type("#email", "tester0gmail.com")
+        # Enter value into form field #password that has no uppercase characters
+        self.type("#password", "thishasnouppercase")
+        # Click #btn-submit
+        self.click("#btn-submit")
+        # Validate #message displays error
+        self.assert_text("email/password format is incorrect.", "#message")
+
+    def test_password_lowercase(self, *_):
+        """
+        Password does not meet the required complexity since no lowercase.
+        """
+        # Open /login
+        self.open(base_url)
+        # Enter value into form field #email that is not empty
+        self.type("#email", "tester0gmail.com")
+        # Enter value into form field #password that has no lowercase characters
+        self.type("#password", "THISHASNOLOWERCASE")
+        # Click #btn-submit
+        self.click("#btn-submit")
+        # Validate #message displays error
+        self.assert_text("email/password format is incorrect.", "#message")
+
+    def test_password_special(self, *_):
+        """
+        Password does not meet the required complexity since no special character.
+        """
+        # Open /login
+        self.open(base_url)
+        # Enter value into form field #email that is not empty
+        self.type("#email", "tester0gmail.com")
+        # Enter value into form field #password that has no special characters
+        self.type("#password", "thisHasNoSpecialCharacters")
+        # Click #btn-submit
+        self.click("#btn-submit")
+        # Validate #message displays error
+        self.assert_text("email/password format is incorrect.", "#message")
+
+    def test_password_complex(self, *_):
+        """
+        Password meets the required complexity: minimum length 6, at least one upper case, at least one lower case, and at least one special character.
+        """
+        # Open /login
+        self.open(base_url)
+        # Enter value into form field #email that is not empty
+        self.type("#email", "tester0gmail.com")
+        # Enter value into form field #password that is at least than 6 characters long, contains at least one upper case character, at least one lower case character, and at least one special character
+        self.type("#password", "Password123")
+        # Click #btn-submit
+        self.click("#btn-submit")
+        # Validate #message displays error
+        self.assert_text("email/password format is incorrect.", "#message")
+
     @patch('qa327.backend.get_user', return_value=test_user)
     @patch('qa327.backend.get_all_tickets', return_value=test_tickets)
     def test_login_success(self, *_):
