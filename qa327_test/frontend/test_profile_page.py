@@ -105,8 +105,6 @@ class FrontEndHomePageTest(BaseCase):
         # Validate that page contains button #logout
         self.assert_element_present('#logout-link')
 
-    @patch('qa327.backend.get_user', return_value=test_user)
-    @patch('qa327.backend.get_all_tickets', return_value=test_tickets)
     def test_tickets(self, *_):
         #If the user is logged in, load profile page
         self.open(base_url + '/login')
@@ -120,8 +118,6 @@ class FrontEndHomePageTest(BaseCase):
         # Validate that page contains element #tickets
         self.assert_element('#tickets')
 
-    @patch('qa327.backend.get_user', return_value=test_user)
-    @patch('qa327.backend.get_all_tickets', return_value=test_tickets)
     def test_ticket_sell_form(self, *_):
         #If the user is logged in, load profile page
         self.open(base_url + '/login')
@@ -139,8 +135,6 @@ class FrontEndHomePageTest(BaseCase):
         self.assert_element('#sell-form-price')
         self.assert_element('#sell-form-expiration-date')
     
-    @patch('qa327.backend.get_user', return_value=test_user)
-    @patch('qa327.backend.get_all_tickets', return_value=test_tickets)
     def test_ticket_buy_form(self, *_):
         #If the user is logged in, load profile page
         self.open(base_url + '/login')
@@ -156,8 +150,6 @@ class FrontEndHomePageTest(BaseCase):
         self.assert_element('#buy-form-name')
         self.assert_element('#buy-form-quantity')
 
-    @patch('qa327.backend.get_user', return_value=test_user)
-    @patch('qa327.backend.get_all_tickets', return_value=test_tickets)
     def test_ticket_update_form(self, *_):
         #If the user is logged in, load profile page
         self.open(base_url + '/login')
