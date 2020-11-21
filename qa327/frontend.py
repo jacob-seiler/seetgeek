@@ -204,6 +204,8 @@ def profile_post():
         # expiration_date = request.form.get('sell-form-expiration-date')
 
         return redirect('/sell', code=303)
+    elif 'update' in request.form:
+        return redirect('/', code=303)
     else:
         # TODO for future use
         # name = request.form.get('buy-form-name')

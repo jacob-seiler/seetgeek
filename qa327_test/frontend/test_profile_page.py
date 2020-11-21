@@ -35,7 +35,6 @@ test_tickets = [
 
 
 class FrontEndHomePageTest(BaseCase):
-    """
     def test_not_logged_in_redirect(self, *_):
         #If the user is not logged in, redirect to login page
 
@@ -167,7 +166,7 @@ class FrontEndHomePageTest(BaseCase):
         self.assert_element('#update-form-quantity')
         self.assert_element('#update-form-price')
         self.assert_element('#update-form-expiration-date')
-"""
+
     def test_ticket_sell_post(self, *_):
         """
         The ticket-selling form can be posted to /sell
@@ -211,3 +210,27 @@ class FrontEndHomePageTest(BaseCase):
         self.click('input[id="buy-form-submit"]')
         # Validate POST request sent to /buy
         self.assert_element('#buy-header')
+
+    def test_ticket_update_post(self, *_):
+        """
+        The ticket-update form can be posted to /update
+        """
+        # Logout
+        self.open(base_url + '/logout')
+        # Open / and login
+        self.open(base_url + '/login')
+        self.type("#email", "tester0@gmail.com")
+        self.type("#password", "Password123")
+        self.click('input[type="submit"]')
+        # Enter value into form_update_name
+        self.type("#update-form-name", "Ticket")
+        # Enter value into form_update_quantity
+        self.type("#update-form-quantity", "1")
+        # Enter value into form_update_price
+        self.type("#update-form-price", "9.99")
+        # Enter value into #form_update_expiration_date
+        self.type("#update-form-expiration-date", "2020-11-20")
+        # Click #form_button
+        self.click('input[id="update-form-submit"]')
+        # Validate POST request sent to /update
+        self.assert_element("#welcome-header")
