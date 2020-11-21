@@ -1,0 +1,5 @@
+| Test name             | Test purpose                                    | What was wrong about the output                 | What the error in the code was                    | What was changed to fix it                 |
+|-----------------------|-------------------------------------------------|-------------------------------------------------|---------------------------------------------------|--------------------------------------------|
+| test\_login\_form     | Tests that the login page provides a login form | Asserted false since it could not find the form | Form has no ID to select                          | Added \#login\-form ID to /login           |
+| test\_email\_empty    | Tests that error if email is empty              | Could not detect error message                  | Form could not be submitted if email was blank    | Removed required attribute from \#email    |
+| test\_password\_empty | Tests that error if password is empty           | Could not detect error message                  | Form could not be submitted if password was blank | Removed required attribute from \#password |
