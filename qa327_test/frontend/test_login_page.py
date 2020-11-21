@@ -110,6 +110,33 @@ class FrontEndHomePageTest(BaseCase):
         self.open(base_url)
         # Validate that current page doesn't contain #welcome-header
         self.assert_element_not_present("#welcome-header")
+    
+    def test_login_form(self, *_):
+        """
+        The login page provides a login form.
+        """
+        # Open /login
+        self.open(base_url + '/login')
+        # Validate #login-form is displayed
+        self.assert_element("#login-form")
+
+    def test_login_form_email(self, *_):
+        """
+        The login page provides a login form which requests the field email.
+        """
+        # Open /login
+        self.open(base_url + '/login')
+        # Validate #email is displayed
+        self.assert_element("#email")
+
+    def test_login_form_password(self, *_):
+        """
+        The login page provides a login form which requests the field password.
+        """
+        # Open /login
+        self.open(base_url + '/login')
+        # Validate #password is displayed
+        self.assert_element("#password")
 
     @patch('qa327.backend.get_user', return_value=test_user)
     @patch('qa327.backend.get_all_tickets', return_value=test_tickets)
