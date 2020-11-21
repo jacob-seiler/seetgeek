@@ -35,17 +35,33 @@ test_tickets = [
 
 
 class FrontEndHomePageTest(BaseCase):
-    def test_login_default(self, *_):
+    def test_default_not_logged_in(self, *_):
         """
         If the user hasn't logged in, show the login page.
         """
 
-        # log out user
+        # Log out user
         self.open(base_url + '/logout')
-        # open /login
+        # Open /login
         self.open(base_url + '/login')
-        # validate that current page contains #title
+        # Validate that current page contains #login-title
         self.assert_element("#login-title")
+    
+    def test_default_logged_in(self, *_):
+        """
+        If the user has logged in, do not show the login page.
+        """
+        # Log out user (to invalidate any logged-in sessions that may exist)
+        self.open(base_url + '/logout')
+        # Log in user using #email and #password
+        self.open(base_url + '/login')
+        self.type("#email", "tester0@gmail.com")
+        self.type("#password", "Password123")
+        self.click('input[type="submit"]')
+        # Open /login
+        self.open(base_url + '/login')
+        # Validate that current page does not contain #login-header
+        self.assert_element_not_present("#login-title")
 
     @patch('qa327.backend.get_user', return_value=test_user)
     @patch('qa327.backend.get_all_tickets', return_value=test_tickets)
