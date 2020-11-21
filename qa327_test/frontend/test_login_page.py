@@ -349,6 +349,23 @@ class FrontEndHomePageTest(BaseCase):
         # Validate #message does not display error
         self.assert_text_not_visible("email/password format is incorrect.", "#message")
 
+    def test_redirect(self, *_):
+        """
+        If email/password are correct, redirect to /
+        """
+        # Log out user (to invalidate any logged-in sessions that may exist)
+        self.open(base_url + '/logout')
+        # Open /login
+        self.open(base_url + '/login')
+        # Enter value into form field #email that is correct
+        self.type("#email", "tester0@gmail.com")
+        # Enter value into form field #password that is correct
+        self.type("#password", "Password123")
+        # Click #btn-submit
+        self.click("#btn-submit")
+        # Validate #welcome-header is displayed
+        self.assert_element("#welcome-header")
+
     @patch('qa327.backend.get_user', return_value=test_user)
     @patch('qa327.backend.get_all_tickets', return_value=test_tickets)
     def test_login_success(self, *_):
