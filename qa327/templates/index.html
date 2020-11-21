@@ -7,7 +7,7 @@
 {% block content %}
 <h2 id="welcome-header">Hi {{ user.name }} !</h2>
 
-<h2>User balance: {{ user.balance }}</h2>
+<h2 id="user-balance">User balance: {{ user.balance }}</h2>
 
 <h2>Here are all available tickets</h2>
 <div id="tickets">
@@ -18,7 +18,7 @@
     {% endfor %}
 </div>
 
-<form id="sell-form" action="/qa327/templates/sell.html" method="post">
+<form id="sell-form" method="post">
     <p>
     <h2>Sell Tickets</h2>
     <label for="sell-form-name">Name:</label>
@@ -33,11 +33,11 @@
     <label for="sell-form-expiration-date">Expiration Date:</label>
     <input type="text" id="sell-form-expiration-date"><br>
 
-    <input type="submit" id="sell-form-submit">
+    <input type="submit" id="sell-form-submit" name="sell">
     </p>
 </form>
 
-<form id="buy-form" action="/qa327/templates/buy.html" method="post">
+<form id="buy-form" method="post">
     <p>
     <h2>Buy Tickets</h2>
     <label for="buy-form-name">Name:</label>
@@ -46,11 +46,11 @@
     <label for="buy-form-quantity">Quantity:</label>
     <input type="text" id="buy-form-quantity"><br>
 
-    <input type="submit">
+    <input type="submit" id="buy-form-submit" name="buy">
     </p>
 </form>
 
-<form id="update-form" action="/qa327/templates/update.html" method="post">
+<form id="update-form" method="post">
     <p>
     <h2>Update Tickets</h2>
     <label for="update-form-name">Name:</label>
@@ -65,9 +65,9 @@
     <label for="update-form-expiration-date">Expiration Date:</label>
     <input type="text" id="update-form-expiration-date"><br>
 
-    <input type="submit">
+    <input type="submit" id="update-form-submit" name="update">
     </p>
 </form>
 
-<a href='/logout'>logout</a>
+<a href='/logout' id="logout-link">logout</a>
 {% endblock %}

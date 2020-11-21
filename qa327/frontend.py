@@ -174,6 +174,13 @@ def authenticate(inner_function):
     # return the wrapped version of the inner_function:
     return wrapped_inner
 
+@app.route('/sell')
+def sell():
+    return render_template('sell.html')
+
+@app.route('/buy')
+def buy():
+    return render_template('buy.html')
 
 @app.route('/')
 @authenticate
@@ -186,9 +193,27 @@ def profile(user):
     tickets = bn.get_all_tickets()
     return render_template('index.html', user=user, tickets=tickets)
 
+@app.route('/', methods=['POST'])
+def profile_post():
+    print(request.form)
+    if 'sell' in request.form:
+        # TODO for future use
+        # name = request.form.get('sell-form-name')
+        # quantity = request.form.get('sell-form-quantity')
+        # price = request.form.get('sell-form-price')
+        # expiration_date = request.form.get('sell-form-expiration-date')
+
+        return redirect('/sell', code=303)
+    elif 'update' in request.form:
+        return redirect('/', code=303)
+    else:
+        # TODO for future use
+        # name = request.form.get('buy-form-name')
+        # quantity = request.form.get('buy-form-quantity')
+
+        return redirect('/buy', code=303)
+
 # custom page for 404 error
-
-
 @app.errorhandler(404)
 def page_not_found(e):
     # note that we set the 404 status explicitly
