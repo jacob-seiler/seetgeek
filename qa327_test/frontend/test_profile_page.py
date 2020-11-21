@@ -35,7 +35,6 @@ test_tickets = [
 
 
 class FrontEndHomePageTest(BaseCase):
-    """
     def test_not_logged_in_redirect(self, *_):
         #If the user is not logged in, redirect to login page
 
@@ -167,7 +166,7 @@ class FrontEndHomePageTest(BaseCase):
         self.assert_element('#update-form-quantity')
         self.assert_element('#update-form-price')
         self.assert_element('#update-form-expiration-date')
-"""
+
     def test_ticket_sell_post(self, *_):
         """
         The ticket-selling form can be posted to /sell
