@@ -36,8 +36,9 @@ test_tickets = [
 
 class FrontEndHomePageTest(BaseCase):
     def test_not_logged_in_redirect(self, *_):
-        #If the user is not logged in, redirect to login page
-
+        """
+        If the user is not logged in, redirect to login page
+        """
         # Log out user (to invalidate any logged-in sessions that may exist)
         self.open(base_url + '/logout')
         # Open /
@@ -48,7 +49,10 @@ class FrontEndHomePageTest(BaseCase):
     @patch('qa327.backend.get_user', return_value=test_user)
     @patch('qa327.backend.get_all_tickets', return_value=test_tickets)
     def test_logged_in_load_profile(self, *_):
-        #If the user is logged in, load profile page
+        """
+        If the user is logged in, load profile page
+        """
+        # Open /
         self.open(base_url + '/login')
         # fill email and password
         self.type("#email", "tester0@gmail.com")
@@ -64,7 +68,10 @@ class FrontEndHomePageTest(BaseCase):
     @patch('qa327.backend.get_user', return_value=test_user)
     @patch('qa327.backend.get_all_tickets', return_value=test_tickets)
     def test_greeting_header(self, *_):
-        #If the user is logged in, load profile page
+        """
+        If the user is logged in, load profile page
+        """
+        # Open /
         self.open(base_url + '/login')
         # fill email and password
         self.type("#email", "tester0@gmail.com")
@@ -79,7 +86,10 @@ class FrontEndHomePageTest(BaseCase):
     @patch('qa327.backend.get_user', return_value=test_user)
     @patch('qa327.backend.get_all_tickets', return_value=test_tickets)
     def test_show_user_balance(self, *_):
-        #If the user is logged in, load profile page
+        """
+        If the user is logged in, load profile page
+        """
+        # Open /
         self.open(base_url + '/login')
         # fill email and password
         self.type("#email", "tester0@gmail.com")
@@ -93,7 +103,10 @@ class FrontEndHomePageTest(BaseCase):
 
     @patch('qa327.backend.get_user', return_value=test_user)
     def test_logout_link(self, *_):
-        #If the user is logged in, load profile page
+        """
+        If the user is logged in, load profile page
+        """
+        # Open /
         self.open(base_url + '/login')
         # fill email and password
         self.type("#email", "tester0@gmail.com")
@@ -106,7 +119,10 @@ class FrontEndHomePageTest(BaseCase):
         self.assert_element_present('#logout-link')
 
     def test_tickets(self, *_):
-        #If the user is logged in, load profile page
+        """
+        If the user is logged in, load profile page
+        """
+        # Open /
         self.open(base_url + '/login')
         # fill email and password
         self.type("#email", "tester0@gmail.com")
@@ -119,7 +135,10 @@ class FrontEndHomePageTest(BaseCase):
         self.assert_element('#tickets')
 
     def test_ticket_sell_form(self, *_):
-        #If the user is logged in, load profile page
+        """
+        If the user is logged in, load profile page
+        """
+        # Open /
         self.open(base_url + '/login')
         # fill email and password
         self.type("#email", "tester0@gmail.com")
@@ -136,7 +155,10 @@ class FrontEndHomePageTest(BaseCase):
         self.assert_element('#sell-form-expiration-date')
     
     def test_ticket_buy_form(self, *_):
-        #If the user is logged in, load profile page
+        """
+        If the user is logged in, load profile page
+        """
+        # Open /
         self.open(base_url + '/login')
         # fill email and password
         self.type("#email", "tester0@gmail.com")
@@ -151,7 +173,10 @@ class FrontEndHomePageTest(BaseCase):
         self.assert_element('#buy-form-quantity')
 
     def test_ticket_update_form(self, *_):
-        #If the user is logged in, load profile page
+        """
+        If the user is logged in, load profile page
+        """
+        # Open /
         self.open(base_url + '/login')
         # fill email and password
         self.type("#email", "tester0@gmail.com")
