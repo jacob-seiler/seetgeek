@@ -83,6 +83,33 @@ class FrontEndHomePageTest(BaseCase):
         self.open(base_url + '/login')
         # Validate that #message contains value "Please login"
         self.assert_text("Please login", "#message")
+    
+    def test_redirect_logged_in(self, *_):
+        """
+        If the user has logged in, redirect to the user profile page.
+        """
+        # Log out user (to invalidate any logged-in sessions that may exist)
+        self.open(base_url + '/logout')
+        # Log in user using #email
+        self.open(base_url + '/login')
+        self.type("#email", "tester0@gmail.com")
+        self.type("#password", "Password123")
+        self.click('input[type="submit"]')
+        # Open /
+        self.open(base_url)
+        # Validate that current page contains #welcome-header
+        self.assert_element("#welcome-header")
+    
+    def test_redirect_not_logged_in(self, *_):
+        """
+        If the user hasn't logged in, don't redirect to the user profile page
+        """
+        # Log out user (to invalidate any logged-in sessions that may exist)
+        self.open(base_url + '/logout')
+        # Open /
+        self.open(base_url)
+        # Validate that current page doesn't contain #welcome-header
+        self.assert_element_not_present("#welcome-header")
 
     @patch('qa327.backend.get_user', return_value=test_user)
     @patch('qa327.backend.get_all_tickets', return_value=test_tickets)
