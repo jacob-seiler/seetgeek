@@ -175,19 +175,39 @@ def authenticate(inner_function):
     return wrapped_inner
 
 
-@app.route('/sell')
+@app.route('/sell', methods=['POST'])
 def sell():
-    return render_template('sell.html')
-
-
-@app.route('/update')
-def update():
+    # TODO for future use
+    # name = request.form.get('sell-form-name')
+    # quantity = request.form.get('sell-form-quantity')
+    # price = request.form.get('sell-form-price')
+    # expiration_date = request.form.get('sell-form-expiration-date')
     return redirect('/')
 
 
-@app.route('/buy')
+@app.route('/update', methods=['POST'])
+def update():
+    name = request.form.get('name')
+    quantity = request.form.get('quantity')
+    price = request.form.get('price')
+    expiration_date = request.form.get('date')
+
+    """
+    The name of the ticket has to be alphanumeric-only, and space allowed only if it is not the first or the last character.
+    The name of the ticket is no longer than 60 characters
+    The quantity of the tickets has to be more than 0, and less than or equal to 100.
+    Price has to be of range [10, 100]
+    Date must be given in the format YYYYMMDD (e.g. 20200901)
+    The ticket of the given name must exist
+    For any errors, redirect back to / and show an error message
+    """
+
+    return redirect('/')
+
+
+@app.route('/buy', methods=['POST'])
 def buy():
-    return render_template('buy.html')
+    return redirect('/')
 
 
 @app.route('/')
@@ -200,27 +220,6 @@ def profile(user):
     # front-end portals
     tickets = bn.get_all_tickets()
     return render_template('index.html', user=user, tickets=tickets)
-
-
-@app.route('/', methods=['POST'])
-def profile_post():
-    print(request.form)
-    if 'sell' in request.form:
-        # TODO for future use
-        # name = request.form.get('sell-form-name')
-        # quantity = request.form.get('sell-form-quantity')
-        # price = request.form.get('sell-form-price')
-        # expiration_date = request.form.get('sell-form-expiration-date')
-
-        return redirect('/sell', code=303)
-    elif 'update' in request.form:
-        return redirect('/update', code=303)
-    else:
-        # TODO for future use
-        # name = request.form.get('buy-form-name')
-        # quantity = request.form.get('buy-form-quantity')
-
-        return redirect('/buy', code=303)
 
 # custom page for 404 error
 
