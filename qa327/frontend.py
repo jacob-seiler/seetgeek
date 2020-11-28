@@ -62,7 +62,6 @@ def register_post():
     password2 = request.form.get('password2')
     error_message = None
 
-
     # These helper functions return the error with a field if there is any, or False otherwise
     email_error = validate_email(email)
     name_error = validate_name(name)
@@ -104,7 +103,7 @@ def login_post():
     # Get info from form
     email = request.form.get('email')
     password = request.form.get('password')
-    
+
     error_message = 'email/password combination incorrect'
     user = None
 
@@ -141,6 +140,7 @@ def logout():
         session.pop('logged_in', None)
     return redirect('/')
 
+
 def authenticate(inner_function):
     """
     :param inner_function: any python function that accepts a user object
@@ -174,13 +174,21 @@ def authenticate(inner_function):
     # return the wrapped version of the inner_function:
     return wrapped_inner
 
+
 @app.route('/sell')
 def sell():
     return render_template('sell.html')
 
+
+@app.route('/update')
+def update():
+    return redirect('/')
+
+
 @app.route('/buy')
 def buy():
     return render_template('buy.html')
+
 
 @app.route('/')
 @authenticate
@@ -192,6 +200,7 @@ def profile(user):
     # front-end portals
     tickets = bn.get_all_tickets()
     return render_template('index.html', user=user, tickets=tickets)
+
 
 @app.route('/', methods=['POST'])
 def profile_post():
@@ -205,7 +214,7 @@ def profile_post():
 
         return redirect('/sell', code=303)
     elif 'update' in request.form:
-        return redirect('/', code=303)
+        return redirect('/update', code=303)
     else:
         # TODO for future use
         # name = request.form.get('buy-form-name')
@@ -214,6 +223,8 @@ def profile_post():
         return redirect('/buy', code=303)
 
 # custom page for 404 error
+
+
 @app.errorhandler(404)
 def page_not_found(e):
     # note that we set the 404 status explicitly
