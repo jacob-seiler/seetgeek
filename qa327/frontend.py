@@ -1,4 +1,4 @@
-from flask import render_template, request, session, redirect
+from flask import flash, render_template, request, session, redirect
 from qa327 import app
 import qa327.backend as bn
 import re
@@ -205,7 +205,7 @@ def update():
             error_message = bn.update_ticket(name, quantity, price, date)
 
     if error_message is not None:
-        print("Error:", error_message)
+        flash(error_message)
 
     # For any errors, redirect back to / and show an error message
     return redirect('/')
