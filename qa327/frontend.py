@@ -190,18 +190,24 @@ def update():
     name = request.form.get('name')
     quantity = request.form.get('quantity')
     price = request.form.get('price')
-    expiration_date = request.form.get('date')
+    date = request.form.get('date')
 
-    """
-    The name of the ticket has to be alphanumeric-only, and space allowed only if it is not the first or the last character.
-    The name of the ticket is no longer than 60 characters
-    The quantity of the tickets has to be more than 0, and less than or equal to 100.
-    Price has to be of range [10, 100]
-    Date must be given in the format YYYYMMDD (e.g. 20200901)
-    The ticket of the given name must exist
-    For any errors, redirect back to / and show an error message
-    """
+    error_message = None
 
+    if error_message == None and not bn.validate_ticket(name, quantity, price, date):
+        error_message = 'Invalid ticket. Could not update.'
+
+    if error_message == None:
+        # The ticket of the given name must exist
+        if bn.get_ticket(name) is None:
+            error_message = 'Ticket does not exist.'
+        else:
+            error_message = bn.update_ticket(name, quantity, price, date)
+
+    if error_message is not None:
+        print("Error:", error_message)
+
+    # For any errors, redirect back to / and show an error message
     return redirect('/')
 
 
