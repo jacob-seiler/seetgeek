@@ -45,7 +45,7 @@ class FrontEndHomePageTest(BaseCase):
         self.open(base_url)
         # Validate that current page does not contain #profile_header
         self.assert_element_not_present('#profile_header')
-    
+
     @patch('qa327.backend.get_user', return_value=test_user)
     @patch('qa327.backend.get_all_tickets', return_value=test_tickets)
     def test_logged_in_load_profile(self, *_):
@@ -59,7 +59,7 @@ class FrontEndHomePageTest(BaseCase):
         self.type("#password", "Password123")
         # click enter button
         self.click('input[type="submit"]')
-        # open / 
+        # open /
         self.open(base_url)
         # Validate that current page contains #profile_header
         self.assert_element
@@ -78,7 +78,7 @@ class FrontEndHomePageTest(BaseCase):
         self.type("#password", "Password123")
         # click enter button
         self.click('input[type="submit"]')
-        # open / 
+        # open /
         self.open(base_url)
         # Validate that current page contains #profile_header
         self.assert_element('#welcome-header')
@@ -96,7 +96,7 @@ class FrontEndHomePageTest(BaseCase):
         self.type("#password", "Password123")
         # click enter button
         self.click('input[type="submit"]')
-        # open / 
+        # open /
         self.open(base_url)
         # Validate that current page contains #profile_header
         self.assert_element('#user-balance')
@@ -113,7 +113,7 @@ class FrontEndHomePageTest(BaseCase):
         self.type("#password", "Password123")
         # click enter button
         self.click('input[type="submit"]')
-        # open / 
+        # open /
         self.open(base_url)
         # Validate that page contains button #logout
         self.assert_element_present('#logout-link')
@@ -129,7 +129,7 @@ class FrontEndHomePageTest(BaseCase):
         self.type("#password", "Password123")
         # click enter button
         self.click('input[type="submit"]')
-        # open / 
+        # open /
         self.open(base_url)
         # Validate that page contains element #tickets
         self.assert_element('#tickets')
@@ -145,7 +145,7 @@ class FrontEndHomePageTest(BaseCase):
         self.type("#password", "Password123")
         # click enter button
         self.click('input[type="submit"]')
-        # open / 
+        # open /
         self.open(base_url)
         # Validate that page contains element #sell-form
         self.assert_element('#sell-form')
@@ -153,7 +153,7 @@ class FrontEndHomePageTest(BaseCase):
         self.assert_element('#sell-form-quantity')
         self.assert_element('#sell-form-price')
         self.assert_element('#sell-form-expiration-date')
-    
+
     def test_ticket_buy_form(self, *_):
         """
         If the user is logged in, load profile page
@@ -165,7 +165,7 @@ class FrontEndHomePageTest(BaseCase):
         self.type("#password", "Password123")
         # click enter button
         self.click('input[type="submit"]')
-        # open / 
+        # open /
         self.open(base_url)
         # Validate that page contains element #buy-form
         self.assert_element('#buy-form')
@@ -183,7 +183,7 @@ class FrontEndHomePageTest(BaseCase):
         self.type("#password", "Password123")
         # click enter button
         self.click('input[type="submit"]')
-        # open / 
+        # open /
         self.open(base_url)
         # Validate that page contains element #update-form
         self.assert_element('#update-form')
@@ -214,7 +214,7 @@ class FrontEndHomePageTest(BaseCase):
         # Click #form_button
         self.click('input[id="sell-form-submit"]')
         # Validate POST request sent to /sell
-        self.assert_element('#sell-content')
+        self.assert_element('#welcome-header')
 
     def test_ticket_buy_post(self, *_):
         """
@@ -234,7 +234,7 @@ class FrontEndHomePageTest(BaseCase):
         # Click #form_button
         self.click('input[id="buy-form-submit"]')
         # Validate POST request sent to /buy
-        self.assert_element('#buy-header')
+        self.assert_element('#welcome-header')
 
     def test_ticket_update_post(self, *_):
         """
