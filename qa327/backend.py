@@ -81,6 +81,23 @@ def get_ticket(name):
     return Ticket.query.filter_by(name=name).first()
 
 
+def create_ticket(name, quantity, price, date):
+    """
+    Creates ticket quantity, price, and expiration date
+    :param name: The ticket name to update
+    :param quantity: The new quantity
+    :param price: The new price
+    :param date: The new expiration date
+    """
+
+    new_ticket = User(name=name, quantity=quantity,
+                      price=price, expiration_date=date)
+
+    db.session.add(new_ticket)
+    db.session.commit()
+    return None
+
+
 def update_ticket(name, quantity, price, date):
     """
     Updates ticket quantity, price, and expiration date

@@ -151,26 +151,25 @@ def sell():
     quantity = request.form.get('quantity')
     price = request.form.get('price')
     expiration_date = request.form.get('date')
-    error_message = None
 
+    # Check if each field has an error message or not
     name_error = validate_ticket_name(name)
     quantity_error = validate_ticket_quantity(quantity)
     price_error = validate_ticket_price(price)
     date_error = validate_ticket_date(expiration_date)
-    if name_error:
-        error_message = name_error
-    elif quantity_error:
-        error_message = quantity_error
-    elif price_error:
-        error_message = price_error
-    elif date_error:
-        error_message = date_error
-    else:
-        # Create new ticket
-        pass
 
-    if error_message:
-        flash(error_message)
+    if name_error:
+        flash(name_error)
+    if quantity_error:
+        flash(quantity_error)
+    if price_error:
+        flash(price_error)
+    if date_error:
+        flash(date_error)
+    if not (name_error or quantity_error or price_error or date_error):
+        create_error = bn.create_ticket(name, quantity, price, expiration_date)
+        if create_error:
+            flash(create_error)
 
     return redirect('/')
 
