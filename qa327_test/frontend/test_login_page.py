@@ -34,7 +34,7 @@ test_tickets = [
 ]
 
 
-class FrontEndHomePageTest(BaseCase):
+class FrontEndLoginPageTest(BaseCase):
     def test_default_not_logged_in(self, *_):
         """
         If the user hasn't logged in, show the login page.
@@ -45,7 +45,7 @@ class FrontEndHomePageTest(BaseCase):
         self.open(base_url + '/login')
         # Validate that current page contains #login-title
         self.assert_element("#login-title")
-    
+
     def test_default_logged_in(self, *_):
         """
         If the user has logged in, do not show the login page.
@@ -61,7 +61,7 @@ class FrontEndHomePageTest(BaseCase):
         self.open(base_url + '/login')
         # Validate that current page does not contain #login-header
         self.assert_element_not_present("#login-title")
-    
+
     def test_login_message_exists(self, *_):
         """
         The login page has a message.
@@ -72,7 +72,7 @@ class FrontEndHomePageTest(BaseCase):
         self.open(base_url + '/login')
         # Validate that current page contains #message
         self.assert_element("#message")
-    
+
     def test_login_message_default(self, *_):
         """
         The login page has a message that by default says 'Please login'.
@@ -83,7 +83,7 @@ class FrontEndHomePageTest(BaseCase):
         self.open(base_url + '/login')
         # Validate that #message contains value "Please login"
         self.assert_text("Please login", "#message")
-    
+
     def test_redirect_logged_in(self, *_):
         """
         If the user has logged in, redirect to the user profile page.
@@ -99,7 +99,7 @@ class FrontEndHomePageTest(BaseCase):
         self.open(base_url)
         # Validate that current page contains #welcome-header
         self.assert_element("#welcome-header")
-    
+
     def test_redirect_not_logged_in(self, *_):
         """
         If the user hasn't logged in, don't redirect to the user profile page
@@ -110,7 +110,7 @@ class FrontEndHomePageTest(BaseCase):
         self.open(base_url)
         # Validate that current page doesn't contain #welcome-header
         self.assert_element_not_present("#welcome-header")
-    
+
     def test_login_form(self, *_):
         """
         The login page provides a login form.
@@ -137,7 +137,7 @@ class FrontEndHomePageTest(BaseCase):
         self.open(base_url + '/login')
         # Validate #password is displayed
         self.assert_element("#password")
-    
+
     def test_login_form_submit_post(self, *_):
         """
         The login form can be submitted as a POST request to the current URL (/login).
@@ -167,7 +167,8 @@ class FrontEndHomePageTest(BaseCase):
         # Click #btn-submit
         self.click("#btn-submit")
         # Validate #message does not display error
-        self.assert_text_not_visible("email/password format is incorrect.", "#message")
+        self.assert_text_not_visible(
+            "email/password format is incorrect.", "#message")
 
     def test_email_empty(self, *_):
         """
@@ -212,7 +213,8 @@ class FrontEndHomePageTest(BaseCase):
         # Click #btn-submit
         self.click("#btn-submit")
         # Validate #message does not display error
-        self.assert_text_not_visible("email/password format is incorrect.", "#message")
+        self.assert_text_not_visible(
+            "email/password format is incorrect.", "#message")
 
     def test_email_invalid(self, *_):
         """
@@ -243,11 +245,13 @@ class FrontEndHomePageTest(BaseCase):
         self.click("#btn-submit")
         # Validate #message displays error
         self.assert_text("email/password format is incorrect.", "#message")
-    
+
     def test_password_uppercase(self, *_):
         """
         Password does not meet the required complexity since no uppercase.
         """
+        # Logout to invalidate current session
+        self.open(base_url + '/logout')
         # Open /login
         self.open(base_url + '/login')
         # Enter value into form field #email that is not empty
@@ -302,7 +306,8 @@ class FrontEndHomePageTest(BaseCase):
         # Click #btn-submit
         self.click("#btn-submit")
         # Validate #message does not display error
-        self.assert_text_not_visible("email/password format is incorrect.", "#message")
+        self.assert_text_not_visible(
+            "email/password format is incorrect.", "#message")
 
     def test_email_formatting_errors(self, *_):
         """
@@ -347,7 +352,8 @@ class FrontEndHomePageTest(BaseCase):
         # Click #btn-submit
         self.click("#btn-submit")
         # Validate #message does not display error
-        self.assert_text_not_visible("email/password format is incorrect.", "#message")
+        self.assert_text_not_visible(
+            "email/password format is incorrect.", "#message")
 
     def test_redirect(self, *_):
         """
@@ -415,7 +421,8 @@ class FrontEndHomePageTest(BaseCase):
         # Click #btn-submit
         self.click("#btn-submit")
         # Validate #message does not display error
-        self.assert_text_not_visible("email/password combination incorrect", "#message")
+        self.assert_text_not_visible(
+            "email/password combination incorrect", "#message")
 
     @patch('qa327.backend.get_user', return_value=test_user)
     @patch('qa327.backend.get_all_tickets', return_value=test_tickets)

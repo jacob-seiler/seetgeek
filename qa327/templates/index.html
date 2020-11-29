@@ -5,6 +5,11 @@
 {% endblock %}
 
 {% block content %}
+
+{% for message in get_flashed_messages() %}
+    <p>{{ message }}</p>
+{% endfor %}
+
 <h2 id="welcome-header">Hi {{ user.name }} !</h2>
 
 <h2 id="user-balance">User balance: {{ user.balance }}</h2>
@@ -18,54 +23,54 @@
     {% endfor %}
 </div>
 
-<form id="sell-form" method="post">
+<form id="sell-form" action="/sell" method="post">
     <p>
     <h2>Sell Tickets</h2>
     <label for="sell-form-name">Name:</label>
-    <input type="text" id="sell-form-name" for=><br>
+    <input type="text" id="sell-form-name" name="name" for=><br>
 
     <label for="sell-form-quantity">Quantity:</label>
-    <input type="text" id="sell-form-quantity"><br>
+    <input type="text" id="sell-form-quantity" name="quantity"><br>
 
     <label for="sell-form-price">Price:</label>
-    <input type="text" id="sell-form-price"><br>
+    <input type="text" id="sell-form-price" name="price"><br>
 
     <label for="sell-form-expiration-date">Expiration Date:</label>
-    <input type="text" id="sell-form-expiration-date"><br>
+    <input type="text" id="sell-form-expiration-date" name="date"><br>
 
-    <input type="submit" id="sell-form-submit" name="sell">
+    <input type="submit" id="sell-form-submit">
     </p>
 </form>
 
-<form id="buy-form" method="post">
+<form id="buy-form" action="/buy" method="post">
     <p>
     <h2>Buy Tickets</h2>
     <label for="buy-form-name">Name:</label>
-    <input type="text" id="buy-form-name" for=><br>
+    <input type="text" id="buy-form-name" name="name" for=><br>
 
     <label for="buy-form-quantity">Quantity:</label>
-    <input type="text" id="buy-form-quantity"><br>
+    <input type="text" id="buy-form-quantity" name="quantity"><br>
 
-    <input type="submit" id="buy-form-submit" name="buy">
+    <input type="submit" id="buy-form-submit">
     </p>
 </form>
 
-<form id="update-form" method="post">
+<form id="update-form" action="/update" method="post">
     <p>
     <h2>Update Tickets</h2>
     <label for="update-form-name">Name:</label>
-    <input type="text" id="update-form-name" for=><br>
+    <input type="text" id="update-form-name" name="name" for=><br>
 
     <label for="update-form-quantity">Quantity:</label>
-    <input type="text" id="update-form-quantity"><br>
+    <input type="text" id="update-form-quantity" name="quantity"><br>
 
     <label for="update-form-price">Price:</label>
-    <input type="text" id="update-form-price"><br>
+    <input type="text" id="update-form-price" name="price"><br>
 
     <label for="update-form-expiration-date">Expiration Date:</label>
-    <input type="text" id="update-form-expiration-date"><br>
+    <input type="text" id="update-form-expiration-date" name="date"><br>
 
-    <input type="submit" id="update-form-submit" name="update">
+    <input type="submit" id="update-form-submit">
     </p>
 </form>
 

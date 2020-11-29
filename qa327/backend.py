@@ -1,6 +1,6 @@
 from qa327.models import db, Ticket, User
 from werkzeug.security import generate_password_hash, check_password_hash
-from datetime import date
+from datetime import date, datetime
 """
 This file defines all backend logic that interacts with database and other services
 """
@@ -69,3 +69,81 @@ def get_all_tickets():
     ticket_list = Ticket.query.filter(Ticket.expiration_date >= date_string)
 
     return ticket_list
+
+
+def get_ticket(name):
+    """
+    Gets a ticket by given name
+    :param name: The ticket name to search for
+    :return: True if a ticket with the given name exists
+    """
+
+    return Ticket.query.filter_by(name=name).first()
+
+
+def update_ticket(name, quantity, price, date):
+    """
+    Updates ticket quantity, price, and expiration date
+    :param name: The ticket name to update
+    :param quantity: The new quantity
+    :param price: The new price
+    :param date: The new expiration date
+    """
+
+    ticket = get_ticket(name)
+
+    if ticket is not None:
+        try:
+            ticket.quantity = int(quantity)
+            ticket.price = float(price)
+            ticket.expiration_date = datetime.strptime(date, '%Y%m%d')
+            db.session.commit()
+            return None
+        except:
+            return 'Could not update ticket'
+
+
+def validate_ticket(name, quantity, price, date):
+    """
+    Validates that all ticket data is correct
+    :param name: The ticket name
+    :param quantity: The ticket quantity
+    :param price: The ticket price
+    :param date: The ticket experation date
+    :return: True if all data is valid
+    """
+
+    # Validate types
+    try:
+        quantity = int(quantity)
+        price = float(price)
+    except ValueError:
+        return False
+
+    # The name of the ticket has to be alphanumeric-only, and space allowed only if it is not the first or the last character.
+    for i in range(len(name)):
+        char = name[i]
+        if char == ' ' and (i == 0 or i == len(name) - 1):
+            return False
+        elif not char.isalnum():
+            return False
+
+    # The name of the ticket is no longer than 60 characters
+    if (len(name) > 60):
+        return False
+
+    # The quantity of the tickets has to be more than 0, and less than or equal to 100.
+    if (quantity <= 0 or quantity > 100):
+        return False
+
+    # Price has to be of range [10, 100]
+    if (price < 10 or price > 100):
+        return False
+
+    # Date must be given in the format YYYYMMDD (e.g. 20200901)
+    try:
+        datetime.strptime(date, '%Y%m%d')
+    except ValueError:
+        return False
+
+    return True

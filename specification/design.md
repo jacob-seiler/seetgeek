@@ -12,8 +12,6 @@ password: string
 
 balance: int
 
-
-
 # Routes
 
 ## /login
@@ -60,7 +58,7 @@ Login can be broken up into these parts:
     ```jsx
     name: "Tester Zero",
     email: "tester0@gmail.com",
-    password1: "Password123"
+    password1: "Password123",
     password2: "Password123"
     ```
 
@@ -128,7 +126,7 @@ Register can be broken up into these parts:
     ```jsx
     name: "Tester Zero",
     email: "tester0@gmail.com",
-    password1: "Password123"
+    password1: "Password123",
     password2: "Password123"
     ```
 
@@ -148,13 +146,12 @@ Register can be broken up into these parts:
     ```jsx
     name: " Tester Zero ",
     email: "tester0@gmail.com",
-    password1: "Password123"
+    password1: "Password123",
     password2: "Password123"
     ```
 
     If at any point the user is redirected to `/login` throw an error and fail the test.
 
-<<<<<<< HEAD
 ## /
 
 ### GET
@@ -167,9 +164,51 @@ Otherwise, render `login.html`
 
 ### Testing
 
-Test that `/` loads after login 
+Test that `/` loads after login
 
-=======
+## /update
+
+### POST
+
+Validates ticket information provided from form. If valid and if ticket with the same name exists, updates ticket.
+
+### Testing
+
+-   Testing that ticket validation works and updates correctly
+
+    On a fresh database, create a ticket with the following data:
+
+    ```jsx
+    name: "Test",
+    quantity: 25,
+    price: 50.0,
+    expiration_date: 2050-11-28
+    ```
+
+    Now try to update the ticket with the following data:
+
+    ```jsx
+    name: "Test",
+    quantity: 30,
+    price: 75.0,
+    expiration_date: 2077-12-10
+    ```
+
+    If update is successful, the user should be redirected to `/` and the updated ticket data should be displayed. Check that this is the case.
+
+-   Testing that correct error info is presented with the wrong conditions
+
+    On a fresh database, after a ticket is created, run a loop that tries to update ticket information with data expected to give an error. Example:
+
+    ```jsx
+    name: "Test",
+    quantity: "hello",
+    price: 75.0,
+    expiration_date: 2077-12-10
+    ```
+
+    If at any point an error message is not displayed, throw an error and fail the test.
+
 ## /logout
 
 ### GET/POST
@@ -179,7 +218,6 @@ When a call is made to logout, invalidate the current session and redirect to th
 ### Testing
 
 Test that when /logout is visited, the user is redirected to `/login` and the login screen is displayed
->>>>>>> bc56d3188e5ba89226cd952a34553fe55e66e500
 
 ## 404
 
