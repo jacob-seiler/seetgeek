@@ -158,6 +158,7 @@ def sell():
     price_error = validate_ticket_price(price)
     date_error = validate_ticket_date(expiration_date)
 
+    # For each error, flash the message
     if name_error:
         flash(name_error)
     if quantity_error:
@@ -166,6 +167,7 @@ def sell():
         flash(price_error)
     if date_error:
         flash(date_error)
+    # If no errors, create ticket
     if not (name_error or quantity_error or price_error or date_error):
         create_error = bn.create_ticket(name, quantity, price, expiration_date)
         if create_error:
