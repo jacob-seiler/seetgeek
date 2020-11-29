@@ -90,8 +90,8 @@ def create_ticket(name, quantity, price, date):
     :param date: The new expiration date
     """
 
-    new_ticket = User(name=name, quantity=quantity,
-                      price=price, expiration_date=date)
+    new_ticket = Ticket(name=name, quantity=quantity,
+                        price=price, expiration_date=date)
 
     db.session.add(new_ticket)
     db.session.commit()
