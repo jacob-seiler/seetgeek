@@ -56,7 +56,7 @@ def validate_ticket_quantity(quantity):
 
 def validate_ticket_price(price):
     try:
-        price = int(price)
+        price = float(price)
     except:
         return "Price must be an integer"
     if price < 10 or price > 100:
