@@ -1,6 +1,7 @@
 import datetime
 
 
+# ERROR CHECKERS
 def validate_email(email):
     # Regex for validating email address
     regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
