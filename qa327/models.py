@@ -23,16 +23,17 @@ class User(db.Model):
     name = db.Column(db.String(1000))
     # balance = db.Column(db.Integer) # this will be added in future updates
 
+
 class Ticket(db.Model):
     """
     A ticket model which defines the sql table
     """
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100))
-    email = db.Column(db.String(100))
     quantity = db.Column(db.Integer)
     price = db.Column(db.Float)
     expiration_date = db.Column(db.Date)
+
 
 # it creates all the SQL tables if they do not exist
 with app.app_context():

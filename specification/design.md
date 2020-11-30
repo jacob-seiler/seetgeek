@@ -166,6 +166,42 @@ Otherwise, render `login.html`
 
 Test that `/` loads after login
 
+## /sell
+
+### POST
+
+Validates ticket information provided from form. If all fields are valid, a new ticket is created
+
+### Testing
+
+-   Testing that ticket creation works
+
+    On a fresh database, create a ticket with the following data:
+
+    ```jsx
+    name: "Test",
+    quantity: 25,
+    price: 50.0,
+    expiration_date: 2050-11-28
+    ```
+
+    If successful, the user should be redirected to `/` and the new ticket data should be displayed. Check that this is the case.
+
+-   Testing that correct error info is presented with the wrong conditions
+
+    On a fresh database, after a ticket is created, run a loop that tries to update ticket information with data expected to give an error. Example:
+
+    ```jsx
+    name: "Test",
+    quantity: "hello",
+    price: 75.0,
+    expiration_date: 2077-12-10
+    ```
+
+    If at any point an error message is not displayed, throw an error and fail the test.
+
+
+
 ## /update
 
 ### POST

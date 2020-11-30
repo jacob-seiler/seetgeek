@@ -1,5 +1,8 @@
+from logging import error
 from flask import flash, render_template, request, session, redirect
+from flask.helpers import url_for
 from qa327 import app
+from qa327.utils import validate_email, validate_name, validate_password, validate_ticket_date, validate_ticket_name, validate_ticket_price, validate_ticket_quantity
 import qa327.backend as bn
 import re
 
@@ -9,40 +12,6 @@ It elaborates how the services should handle different
 http requests from the client (browser) through templating.
 The html templates are stored in the 'templates' folder. 
 """
-
-
-def validate_email(email):
-    # Regex for validating email address
-    regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
-    if len(email) < 1:
-        return "Email must not be empty."
-    if not re.search(regex, email):
-        return "Email format invalid."
-    return False
-
-
-def validate_name(name):
-    if len(name) < 2 and len(name) > 20:
-        return "Name must be between 2 and 20 characters."
-    # Check if the name is all alphanumeric besides the spaces
-    if not name.replace(" ", "").isalnum():
-        return "Name must only contain alphanumeric characters or spaces."
-    if name[0] == " " or name[-1] == " ":
-        return "First and last characters can't be spaces."
-    return False
-
-
-def validate_password(password):
-    # Bunch of if statements that check for at least one uppercase, lowercase and special character, length 6 or greater
-    if len(password) < 7:
-        return "Password must be at least 6 characters long."
-    if not any(x.isupper() for x in password):
-        return "Password must have at least one uppercase character."
-    if not any(x.islower() for x in password):
-        return "Password must have at least one lowercase character."
-    if not any(not c.isalpha() for c in password):
-        return "Password must have at least one special character."
-    return False
 
 
 @app.route('/register', methods=['GET'])
@@ -178,10 +147,32 @@ def authenticate(inner_function):
 @app.route('/sell', methods=['POST'])
 def sell():
     # TODO for future use
-    # name = request.form.get('sell-form-name')
-    # quantity = request.form.get('sell-form-quantity')
-    # price = request.form.get('sell-form-price')
-    # expiration_date = request.form.get('sell-form-expiration-date')
+    name = request.form.get('name')
+    quantity = request.form.get('quantity')
+    price = request.form.get('price')
+    expiration_date = request.form.get('date')
+
+    # Check if each field has an error message or not
+    name_error = validate_ticket_name(name)
+    quantity_error = validate_ticket_quantity(quantity)
+    price_error = validate_ticket_price(price)
+    date_error = validate_ticket_date(expiration_date)
+
+    # For each error, flash the message
+    if name_error:
+        flash(name_error)
+    if quantity_error:
+        flash(quantity_error)
+    if price_error:
+        flash(price_error)
+    if date_error:
+        flash(date_error)
+    # If no errors, create ticket
+    if not (name_error or quantity_error or price_error or date_error):
+        create_error = bn.create_ticket(name, quantity, price, expiration_date)
+        if create_error:
+            flash(create_error)
+
     return redirect('/')
 
 

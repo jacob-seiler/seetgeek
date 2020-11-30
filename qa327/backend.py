@@ -81,6 +81,28 @@ def get_ticket(name):
     return Ticket.query.filter_by(name=name).first()
 
 
+def create_ticket(name, quantity, price, date):
+    """
+    Creates ticket quantity, price, and expiration date
+    :param name: The ticket name to update
+    :param quantity: The new quantity
+    :param price: The new price
+    :param date: The new expiration date
+    """
+    try:
+        quantity = int(quantity)
+        price = float(price)
+        date = datetime.strptime(date, '%Y%m%d')
+        new_ticket = Ticket(name=name, quantity=quantity,
+                            price=price, expiration_date=date)
+
+        db.session.add(new_ticket)
+        db.session.commit()
+        return None
+    except:
+        return "Unable to parse query"
+
+
 def update_ticket(name, quantity, price, date):
     """
     Updates ticket quantity, price, and expiration date
