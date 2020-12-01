@@ -2,7 +2,7 @@ from logging import error
 from flask import flash, render_template, request, session, redirect
 from flask.helpers import url_for
 from qa327 import app
-from qa327.backend import enough_balance, enough_tickets, ticket_exists
+from qa327.backend import enough_balance, enough_tickets, ticket_exists, validate_ticket
 from qa327.utils import validate_email, validate_name, validate_password, validate_ticket_date, validate_ticket_name, validate_ticket_price, validate_ticket_quantity
 import qa327.backend as bn
 import re
@@ -210,8 +210,22 @@ def buy():
     price = request.form.get('price')
     expiration_date = request.form.get('date')
 
+    name_error = validate_ticket(name, quantity, price, expiration_date)
     exists_error = ticket_exists(name)
     quantity_error = enough_tickets(name, quantity)
+    user = bn.get_user(session['logged_in'])
+    balance_error = enough_balance(user.balance, price, quantity)
+
+    if name_error:
+        flash("Invalid ticket.")
+    if exists_error:
+        flash("Ticket does not exist.")
+    if quantity_error:
+        flash("The request quantity is not available.")
+    if balance_error:
+        flash("Insufficient balance")
+
+    # For any errors, redirect back to / and show an error message
     return redirect('/')
 
 

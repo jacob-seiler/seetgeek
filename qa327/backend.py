@@ -172,9 +172,22 @@ def validate_ticket(name, quantity, price, date):
 
 def ticket_exists(name):
     #The ticket name exists in the database
-    return False if (bn.get_ticket(name) is None) else True
+    if (bn.get_ticket(name) is None):
+        return False
+    else:
+        return True
 
 def enough_tickets(name, quantity):
     #Enough tickets exist in the database to sell 
     ticket = get_ticket(name)
-    return False if (ticket.quantity < quantity) else True
+    if (ticket.quantity < quantity):
+        return False
+    else:
+        return True
+
+def enough_balance(balance, price, quantity):
+    #The user has more balance than the ticket price * quantity + service fee (35%) + tax (5%)
+    if (balance < (price*quantity*1.35*1.05)):
+        return False
+    else:
+        return True
