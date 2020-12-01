@@ -173,3 +173,8 @@ def validate_ticket(name, quantity, price, date):
 def ticket_exists(name):
     #The ticket name exists in the database
     return False if (bn.get_ticket(name) is None) else True
+
+def enough_tickets(name, quantity):
+    #Enough tickets exist in the database to sell 
+    ticket = get_ticket(name)
+    return False if (ticket.quantity < quantity) else True

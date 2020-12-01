@@ -211,7 +211,7 @@ def buy():
     expiration_date = request.form.get('date')
 
     exists_error = ticket_exists(name)
-    
+    quantity_error = enough_tickets(name, quantity)
     return redirect('/')
 
 
