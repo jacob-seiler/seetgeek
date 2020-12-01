@@ -2,6 +2,7 @@ from logging import error
 from flask import flash, render_template, request, session, redirect
 from flask.helpers import url_for
 from qa327 import app
+from qa327.backend import enough_balance, enough_tickets, ticket_exists
 from qa327.utils import validate_email, validate_name, validate_password, validate_ticket_date, validate_ticket_name, validate_ticket_price, validate_ticket_quantity
 import qa327.backend as bn
 import re
@@ -190,7 +191,7 @@ def update():
 
     if error_message == None:
         # The ticket of the given name must exist
-        if bn.get_ticket(name) is None:
+        if ticket_exists(name):
             error_message = 'Ticket does not exist.'
         else:
             error_message = bn.update_ticket(name, quantity, price, date)
@@ -204,6 +205,13 @@ def update():
 
 @app.route('/buy', methods=['POST'])
 def buy():
+    name = request.form.get('name')
+    quantity = request.form.get('quantity')
+    price = request.form.get('price')
+    expiration_date = request.form.get('date')
+
+    exists_error = ticket_exists(name)
+    
     return redirect('/')
 
 

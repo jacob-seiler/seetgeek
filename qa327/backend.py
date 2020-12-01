@@ -169,3 +169,7 @@ def validate_ticket(name, quantity, price, date):
         return False
 
     return True
+
+def ticket_exists(name):
+    #The ticket name exists in the database
+    return False if (bn.get_ticket(name) is None) else True
