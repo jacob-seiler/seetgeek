@@ -245,6 +245,51 @@ Validates ticket information provided from form. If valid and if ticket with the
 
     If at any point an error message is not displayed, throw an error and fail the test.
 
+## /buy
+
+## /update
+
+### POST
+
+Validates ticket information provided from form. If valid, ticket with the same name exists, user has a sufficient balance and enough tickets exist, buys ticket.
+
+### Testing
+
+-   Testing that ticket validation works and purchases correctly
+
+    On a fresh database, create a ticket with the following data:
+
+    ```jsx
+    name: "Test",
+    quantity: 25,
+    price: 50.0,
+    expiration_date: 2050-11-28
+    ```
+
+    Now try to buy the ticket with the following data:
+
+    ```jsx
+    name: "Test",
+    quantity: 25,
+    price: 50,
+    expiration_date: 2050-11-28
+    ```
+
+    If purchase is successful, the user should be redirected to `/` and the ticket should be transferred over to them. Check that this is the case.
+
+-   Testing that correct error info is presented with the wrong conditions
+
+    On a fresh database, after a ticket is created, run a loop that tries to purchase tickets with data expected to give an error. Example:
+
+    ```jsx
+    name: "Test",
+    quantity: "hello",
+    price: 75.0,
+    expiration_date: 2077-12-10
+    ```
+
+    If at any point an error message is not displayed, throw an error and fail the test.
+
 ## /logout
 
 ### GET/POST
