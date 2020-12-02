@@ -2,7 +2,7 @@ from logging import error
 from flask import flash, render_template, request, session, redirect
 from flask.helpers import url_for
 from qa327 import app
-from qa327.backend import enough_balance, enough_tickets, ticket_exists, validate_ticket
+from qa327.backend import enough_balance, enough_tickets, ticket_exists
 from qa327.utils import validate_email, validate_name, validate_password, validate_ticket_date, validate_ticket_name, validate_ticket_price, validate_ticket_quantity
 import qa327.backend as bn
 import re
@@ -210,7 +210,7 @@ def buy():
     price = request.form.get('price')
     expiration_date = request.form.get('date')
 
-    name_error = validate_ticket(name, quantity, price, expiration_date)
+    name_error = bn.validate_ticket(name, quantity, price, expiration_date)
     exists_error = ticket_exists(name)
     quantity_error = enough_tickets(name, quantity)
     user = bn.get_user(session['logged_in'])
