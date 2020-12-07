@@ -60,7 +60,7 @@ class FrontEndLoginPageTest(BaseCase):
         # Open /login
         self.open(base_url + '/login')
         # Validate that current page does not contain #login-header
-        self.assert_element_not_present("#login-title")
+        self.assert_element_absent("#login-title")
 
     def test_login_message_exists(self, *_):
         """
@@ -109,7 +109,7 @@ class FrontEndLoginPageTest(BaseCase):
         # Open /
         self.open(base_url)
         # Validate that current page doesn't contain #welcome-header
-        self.assert_element_not_present("#welcome-header")
+        self.assert_element_absent("#welcome-header")
 
     def test_login_form(self, *_):
         """

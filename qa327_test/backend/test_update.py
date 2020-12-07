@@ -58,3 +58,26 @@ class BackEndUpdateTest(BaseCase):
         self.click('#update-form-submit')
         # validate that the #flash-message element shows 'Successfully updated ticket'
         self.assert_text("Successfully updated ticket", "#flash-message")
+
+    def test_ticket_is_not_alphanumeric(self, *_):
+        """
+        The name of the ticket has to be alphanumeric-only - negative
+        """
+        # open /logout (to invalidate any logged-in sessions that may exist)
+        self.open(base_url + '/logout')
+        # open /login
+        self.open(base_url + '/login')
+        # enter test_user's email and password and submit
+        self.type("#email", "tester0@gmail.com")
+        self.type("#password", "Password123")
+        self.click('input[type="submit"]')
+        # open /
+        self.open(base_url)
+        # enter test_ticket's info into the update form and submit
+        self.type("#update-form-name", "hello $$$")
+        self.type("#update-form-quantity", "50")
+        self.type("#update-form-price", "70")
+        self.type("#update-form-expiration-date", "99990117")
+        self.click('#update-form-submit')
+        # validate that the #flash-message element shows 'Ticket does not exist.'
+        self.assert_text("Invalid ticket. Could not update.", "#flash-message")

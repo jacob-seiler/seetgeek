@@ -44,7 +44,7 @@ class FrontEndHomePageTest(BaseCase):
         # Open /
         self.open(base_url)
         # Validate that current page does not contain #profile_header
-        self.assert_element_not_present('#profile_header')
+        self.assert_element_absent('#profile_header')
 
     @patch('qa327.backend.get_user', return_value=test_user)
     @patch('qa327.backend.get_all_tickets', return_value=test_tickets)
