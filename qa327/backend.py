@@ -125,6 +125,27 @@ def update_ticket(name, quantity, price, date):
             return 'Could not update ticket'
 
 
+def validate_ticket_name(name):
+    """
+    Validates that a given ticket name is valid
+    :param name: The ticket name
+    :return: True if name is valid
+    """
+    # The name of the ticket has to be alphanumeric-only, and space allowed only if it is not the first or the last character.
+    for i in range(len(name)):
+        char = name[i]
+        if char == ' ' and (i == 0 or i == len(name) - 1):
+            return False
+        elif not char.isalnum():
+            return False
+
+    # The name of the ticket is no longer than 60 characters
+    if (len(name) > 60):
+        return False
+
+    return True
+
+
 def validate_ticket(name, quantity, price, date):
     """
     Validates that all ticket data is correct
@@ -142,16 +163,8 @@ def validate_ticket(name, quantity, price, date):
     except ValueError:
         return False
 
-    # The name of the ticket has to be alphanumeric-only, and space allowed only if it is not the first or the last character.
-    for i in range(len(name)):
-        char = name[i]
-        if char == ' ' and (i == 0 or i == len(name) - 1):
-            return False
-        elif not char.isalnum():
-            return False
-
-    # The name of the ticket is no longer than 60 characters
-    if (len(name) > 60):
+    # Validate name
+    if not validate_ticket_name(name):
         return False
 
     # The quantity of the tickets has to be more than 0, and less than or equal to 100.
@@ -180,12 +193,16 @@ def ticket_exists(name):
 
 
 def enough_tickets(name, quantity):
+    # Check ticket exists
+    if not ticket_exists(name):
+        return False
+
     # Enough tickets exist in the database to sell
     ticket = get_ticket(name)
     if (ticket.quantity < quantity):
         return False
-    else:
-        return True
+
+    return True
 
 
 def enough_balance(balance, price, quantity):

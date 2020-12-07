@@ -188,7 +188,7 @@ def update():
 
     if error_message == None:
         # The ticket of the given name must exist
-        if ticket_exists(name):
+        if not bn.ticket_exists(name):
             error_message = 'Ticket does not exist.'
         else:
             error_message = bn.update_ticket(name, quantity, price, date)
@@ -206,23 +206,21 @@ def update():
 def buy():
     name = request.form.get('name')
     quantity = request.form.get('quantity')
-    price = request.form.get('price')
-    expiration_date = request.form.get('date')
 
-    name_error = bn.validate_ticket(name, quantity, price, expiration_date)
-    exists_error = ticket_exists(name)
-    quantity_error = enough_tickets(name, quantity)
-    user = bn.get_user(session['logged_in'])
-    balance_error = enough_balance(user.balance, price, quantity)
+    name_error = bn.validate_ticket_name(name)
+    exists_error = bn.ticket_exists(name)
+    quantity_error = bn.enough_tickets(name, quantity)
+    # user = bn.get_user(session['logged_in'])
+    # balance_error = bn.enough_balance(user.balance, price, quantity)
 
     if name_error:
         flash("Invalid ticket.")
-    if exists_error:
+    elif exists_error:
         flash("Ticket does not exist.")
-    if quantity_error:
+    elif quantity_error:
         flash("The request quantity is not available.")
-    if balance_error:
-        flash("Insufficient balance")
+    # if balance_error:
+    #     flash("Insufficient balance")
 
     # For any errors, redirect back to / and show an error message
     return redirect('/')
