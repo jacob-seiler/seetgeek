@@ -1,11 +1,8 @@
-from logging import error
 from flask import flash, render_template, request, session, redirect
-from flask.helpers import url_for
 from qa327 import app
 from qa327.backend import enough_balance, enough_tickets, ticket_exists
 from qa327.utils import validate_email, validate_name, validate_password, validate_ticket_date, validate_ticket_name, validate_ticket_price, validate_ticket_quantity
 import qa327.backend as bn
-import re
 
 """
 This file defines the front-end part of the service.
@@ -198,6 +195,8 @@ def update():
 
     if error_message is not None:
         flash(error_message)
+    else:
+        flash('Successfully updated ticket')
 
     # For any errors, redirect back to / and show an error message
     return redirect('/')

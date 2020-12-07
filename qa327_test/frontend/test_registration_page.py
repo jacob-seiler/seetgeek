@@ -35,14 +35,14 @@ test_tickets = [
 
 
 class FrontEndRegistrationPageTest(BaseCase):
-    '''
-    Test to make sure if all checks are passed, the user is able to create a 
-    valid new account. Mocking is done to verify no user with that info exists,
-    and the new user was able to be created. 
-    '''
     @patch('qa327.backend.get_user', return_value=None)
     @patch('qa327.backend.register_user', return_value=None)
     def test_registration_success(self, *_):
+        """
+        Test to make sure if all checks are passed, the user is able to create a 
+        valid new account. Mocking is done to verify no user with that info exists,
+        and the new user was able to be created. 
+        """
         self.open(base_url + '/register')
 
         self.assert_text("Register", "#title")
@@ -56,12 +56,12 @@ class FrontEndRegistrationPageTest(BaseCase):
 
         self.assert_text("Please login", "#message")
 
-    '''
-    Test to check if user already exists. Patching required to return existing
-    user.
-    '''
     @patch('qa327.backend.get_user', return_value=test_user)
     def test_registration_userexists(self, *_):
+        """
+        Test to check if user already exists. Patching required to return existing
+        user.
+        """
         self.open(base_url + '/register')
 
         self.assert_text("Register", "#title")

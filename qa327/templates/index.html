@@ -7,7 +7,7 @@
 {% block content %}
 
 {% for message in get_flashed_messages() %}
-    <p>{{ message }}</p>
+    <p id="flash-message">{{ message }}</p>
 {% endfor %}
 
 <h2 id="welcome-header">Hi {{ user.name }} !</h2>

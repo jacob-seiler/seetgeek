@@ -21,6 +21,7 @@ the user from the database.
 Annotate @patch before unit tests can mock backend methods (for that testing function)
 """
 
+
 class FrontEndLogoutPageTest(BaseCase):
     def test_logout_invalidates(self, *_):
         """
@@ -35,7 +36,7 @@ class FrontEndLogoutPageTest(BaseCase):
         self.open(base_url + "/logout")
         # Validate that current page contains #login-title
         self.assert_element("#login-title")
-    
+
     def test_logout_restricts(self, *_):
         """
         After logout, the user shouldn't be able to access restricted pages.
@@ -46,4 +47,3 @@ class FrontEndLogoutPageTest(BaseCase):
         self.open(base_url)
         # Validate that current page contains #login-title
         self.assert_element("#login-title")
-    
