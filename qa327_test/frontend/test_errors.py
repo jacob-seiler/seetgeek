@@ -20,8 +20,7 @@ Annotate @patch before unit tests can mock backend methods (for that testing fun
 """
 
 
-class FrontEndHomePageTest(BaseCase):
-
+class FrontEnd404PageTest(BaseCase):
     def test_error_404(self, *_):
         """
         This is a front end unit test to login to 404 error page.

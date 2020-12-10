@@ -125,68 +125,36 @@ def update_ticket(name, quantity, price, date):
             return 'Could not update ticket'
 
 
-def validate_ticket(name, quantity, price, date):
-    """
-    Validates that all ticket data is correct
-    :param name: The ticket name
-    :param quantity: The ticket quantity
-    :param price: The ticket price
-    :param date: The ticket experation date
-    :return: True if all data is valid
-    """
+def ticket_exists(name):
+    # The ticket name exists in the database
+    if get_ticket(name) is None:
+        return False
+    else:
+        return True
 
-    # Validate types
+
+def enough_tickets(name, quantity):
+    # Check type
     try:
         quantity = int(quantity)
-        price = float(price)
     except ValueError:
+        # Handle the exception
         return False
 
-    # The name of the ticket has to be alphanumeric-only, and space allowed only if it is not the first or the last character.
-    for i in range(len(name)):
-        char = name[i]
-        if char == ' ' and (i == 0 or i == len(name) - 1):
-            return False
-        elif not char.isalnum():
-            return False
-
-    # The name of the ticket is no longer than 60 characters
-    if (len(name) > 60):
+    # Check ticket exists
+    if not ticket_exists(name):
         return False
 
-    # The quantity of the tickets has to be more than 0, and less than or equal to 100.
-    if (quantity <= 0 or quantity > 100):
-        return False
-
-    # Price has to be of range [10, 100]
-    if (price < 10 or price > 100):
-        return False
-
-    # Date must be given in the format YYYYMMDD (e.g. 20200901)
-    try:
-        datetime.strptime(date, '%Y%m%d')
-    except ValueError:
+    # Enough tickets exist in the database to sell
+    ticket = get_ticket(name)
+    if quantity > ticket.quantity:
         return False
 
     return True
 
-def ticket_exists(name):
-    #The ticket name exists in the database
-    if (bn.get_ticket(name) is None):
-        return False
-    else:
-        return True
-
-def enough_tickets(name, quantity):
-    #Enough tickets exist in the database to sell 
-    ticket = get_ticket(name)
-    if (ticket.quantity < quantity):
-        return False
-    else:
-        return True
 
 def enough_balance(balance, price, quantity):
-    #The user has more balance than the ticket price * quantity + service fee (35%) + tax (5%)
+    # The user has more balance than the ticket price * quantity + service fee (35%) + tax (5%)
     if (balance < (price*quantity*1.35*1.05)):
         return False
     else:

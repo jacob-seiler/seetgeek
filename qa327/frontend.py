@@ -1,11 +1,8 @@
-from logging import error
 from flask import flash, render_template, request, session, redirect
-from flask.helpers import url_for
 from qa327 import app
 from qa327.backend import enough_balance, enough_tickets, ticket_exists
-from qa327.utils import validate_email, validate_name, validate_password, validate_ticket_date, validate_ticket_name, validate_ticket_price, validate_ticket_quantity
+from qa327.utils import validate_email, validate_name, validate_password, validate_ticket, validate_ticket_date, validate_ticket_name, validate_ticket_price, validate_ticket_quantity
 import qa327.backend as bn
-import re
 
 """
 This file defines the front-end part of the service.
@@ -128,15 +125,19 @@ def authenticate(inner_function):
     """
 
     def wrapped_inner():
-
+        user = None
         # check did we store the key in the session
         if 'logged_in' in session:
             email = session['logged_in']
             user = bn.get_user(email)
-            if user:
-                # if the user exists, call the inner_function
-                # with user as parameter
-                return inner_function(user)
+
+            if user is None:
+                del session['logged_in']
+
+        if user:
+            # if the user exists, call the inner_function
+            # with user as parameter
+            return inner_function(user)
         else:
             # else, redirect to the login page
             return redirect('/login')
@@ -186,18 +187,23 @@ def update():
 
     error_message = None
 
-    if error_message == None and not bn.validate_ticket(name, quantity, price, date):
-        error_message = 'Invalid ticket. Could not update.'
+    if error_message == None:
+        error_message = validate_ticket(name, quantity, price, date)
+
+        if error_message == False:
+            error_message = None
 
     if error_message == None:
         # The ticket of the given name must exist
-        if ticket_exists(name):
+        if not bn.ticket_exists(name):
             error_message = 'Ticket does not exist.'
         else:
             error_message = bn.update_ticket(name, quantity, price, date)
 
     if error_message is not None:
         flash(error_message)
+    else:
+        flash('Successfully updated ticket')
 
     # For any errors, redirect back to / and show an error message
     return redirect('/')
@@ -207,23 +213,21 @@ def update():
 def buy():
     name = request.form.get('name')
     quantity = request.form.get('quantity')
-    price = request.form.get('price')
-    expiration_date = request.form.get('date')
 
-    name_error = bn.validate_ticket(name, quantity, price, expiration_date)
-    exists_error = ticket_exists(name)
-    quantity_error = enough_tickets(name, quantity)
-    user = bn.get_user(session['logged_in'])
-    balance_error = enough_balance(user.balance, price, quantity)
+    name_error = validate_ticket_name(name)
+    exists_error = bn.ticket_exists(name) is False
+    quantity_error = bn.enough_tickets(name, quantity) is False
+    # user = bn.get_user(session['logged_in'])
+    # balance_error = bn.enough_balance(user.balance, price, quantity)
 
     if name_error:
         flash("Invalid ticket.")
-    if exists_error:
+    elif exists_error:
         flash("Ticket does not exist.")
-    if quantity_error:
+    elif quantity_error:
         flash("The request quantity is not available.")
-    if balance_error:
-        flash("Insufficient balance")
+    # if balance_error:
+    #     flash("Insufficient balance")
 
     # For any errors, redirect back to / and show an error message
     return redirect('/')

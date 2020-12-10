@@ -25,13 +25,8 @@ Annotate @patch before unit tests can mock backend methods (for that testing fun
 test_user = User(
     email='tester0@gmail.com',
     name='Tester Zero',
-    password=generate_password_hash('Password123')
+    password='Password123'
 )
-
-# Moch some sample tickets
-test_tickets = [
-    {'name': 't1', 'price': '100'}
-]
 
 
 class FrontEndLoginPageTest(BaseCase):
@@ -54,13 +49,13 @@ class FrontEndLoginPageTest(BaseCase):
         self.open(base_url + '/logout')
         # Log in user using #email and #password
         self.open(base_url + '/login')
-        self.type("#email", "tester0@gmail.com")
-        self.type("#password", "Password123")
+        self.type("#email", test_user.email)
+        self.type("#password", test_user.password)
         self.click('input[type="submit"]')
         # Open /login
         self.open(base_url + '/login')
         # Validate that current page does not contain #login-header
-        self.assert_element_not_present("#login-title")
+        self.assert_element_absent("#login-title")
 
     def test_login_message_exists(self, *_):
         """
@@ -92,8 +87,8 @@ class FrontEndLoginPageTest(BaseCase):
         self.open(base_url + '/logout')
         # Log in user using #email
         self.open(base_url + '/login')
-        self.type("#email", "tester0@gmail.com")
-        self.type("#password", "Password123")
+        self.type("#email", test_user.email)
+        self.type("#password", test_user.password)
         self.click('input[type="submit"]')
         # Open /
         self.open(base_url)
@@ -109,7 +104,7 @@ class FrontEndLoginPageTest(BaseCase):
         # Open /
         self.open(base_url)
         # Validate that current page doesn't contain #welcome-header
-        self.assert_element_not_present("#welcome-header")
+        self.assert_element_absent("#welcome-header")
 
     def test_login_form(self, *_):
         """
@@ -145,9 +140,9 @@ class FrontEndLoginPageTest(BaseCase):
         # Open /login
         self.open(base_url + '/login')
         # Enter value into #email
-        self.type("#email", "tester0@gmail.com")
+        self.type("#email", test_user.email)
         # Enter value into #password
-        self.type("#password", "Password123")
+        self.type("#password", test_user.password)
         # Click #btn-submit
         self.click("#btn-submit")
         # Validate POST request sent to current URL (/login)
@@ -161,9 +156,9 @@ class FrontEndLoginPageTest(BaseCase):
         # Open /login
         self.open(base_url + '/login')
         # Enter value into form field #email that is not empty
-        self.type("#email", "tester0@gmail.com")
+        self.type("#email", test_user.email)
         # Enter value into form field #password that is not empty
-        self.type("#password", "Password123")
+        self.type("#password", test_user.password)
         # Click #btn-submit
         self.click("#btn-submit")
         # Validate #message does not display error
@@ -179,7 +174,7 @@ class FrontEndLoginPageTest(BaseCase):
         # Enter value into form field #email that is empty
         self.type("#email", "")
         # Enter value into form field #password that is not empty
-        self.type("#password", "Password123")
+        self.type("#password", test_user.password)
         # Click #btn-submit
         self.click("#btn-submit")
         # Validate #message displays error
@@ -192,7 +187,7 @@ class FrontEndLoginPageTest(BaseCase):
         # Open /login
         self.open(base_url + '/login')
         # Enter value into form field #email that is not empty
-        self.type("#email", "tester0@gmail.com")
+        self.type("#email", test_user.email)
         # Enter value into form field #password that is empty
         self.type("#password", "")
         # Click #btn-submit
@@ -207,9 +202,9 @@ class FrontEndLoginPageTest(BaseCase):
         # Open /login
         self.open(base_url + '/login')
         # Enter value into form field #email that follows addr-spec defined in RFC 5322
-        self.type("#email", "tester0@gmail.com")
+        self.type("#email", test_user.email)
         # Enter value into form field #password
-        self.type("#password", "Password123")
+        self.type("#password", test_user.password)
         # Click #btn-submit
         self.click("#btn-submit")
         # Validate #message does not display error
@@ -225,7 +220,7 @@ class FrontEndLoginPageTest(BaseCase):
         # Enter value into form field #email that doesn't follow addr-spec defined in RFC 5322
         self.type("#email", "tester0gmail.com")
         # Enter value into form field #password
-        self.type("#password", "Password123")
+        self.type("#password", test_user.password)
         # Click #btn-submit
         self.click("#btn-submit")
         # Validate #message displays error
@@ -238,7 +233,7 @@ class FrontEndLoginPageTest(BaseCase):
         # Open /login
         self.open(base_url + '/login')
         # Enter value into form field #email that is not empty
-        self.type("#email", "tester0@gmail.com")
+        self.type("#email", test_user.email)
         # Enter value into form field #password that is less than 6 characters long
         self.type("#password", "hello")
         # Click #btn-submit
@@ -255,7 +250,7 @@ class FrontEndLoginPageTest(BaseCase):
         # Open /login
         self.open(base_url + '/login')
         # Enter value into form field #email that is not empty
-        self.type("#email", "tester0@gmail.com")
+        self.type("#email", test_user.email)
         # Enter value into form field #password that has no uppercase characters
         self.type("#password", "thishasnouppercase")
         # Click #btn-submit
@@ -270,7 +265,7 @@ class FrontEndLoginPageTest(BaseCase):
         # Open /login
         self.open(base_url + '/login')
         # Enter value into form field #email that is not empty
-        self.type("#email", "tester0@gmail.com")
+        self.type("#email", test_user.email)
         # Enter value into form field #password that has no lowercase characters
         self.type("#password", "THISHASNOLOWERCASE")
         # Click #btn-submit
@@ -285,7 +280,7 @@ class FrontEndLoginPageTest(BaseCase):
         # Open /login
         self.open(base_url + '/login')
         # Enter value into form field #email that is not empty
-        self.type("#email", "tester0@gmail.com")
+        self.type("#email", test_user.email)
         # Enter value into form field #password that has no special characters
         self.type("#password", "thisHasNoSpecialCharacters")
         # Click #btn-submit
@@ -300,9 +295,9 @@ class FrontEndLoginPageTest(BaseCase):
         # Open /login
         self.open(base_url + '/login')
         # Enter value into form field #email that is not empty
-        self.type("#email", "tester0@gmail.com")
+        self.type("#email", test_user.email)
         # Enter value into form field #password that is at least than 6 characters long, contains at least one upper case character, at least one lower case character, and at least one special character
-        self.type("#password", "Password123")
+        self.type("#password", test_user.password)
         # Click #btn-submit
         self.click("#btn-submit")
         # Validate #message does not display error
@@ -318,7 +313,7 @@ class FrontEndLoginPageTest(BaseCase):
         # Enter value into form field #email with formatting error(s)
         self.type("#email", "tester0gmail.com")
         # Enter value into form field #password without formatting error(s)
-        self.type("#password", "Password123")
+        self.type("#password", test_user.password)
         # Click #btn-submit
         self.click("#btn-submit")
         # Validate #message displays error
@@ -331,9 +326,9 @@ class FrontEndLoginPageTest(BaseCase):
         # Open /login
         self.open(base_url + '/login')
         # Enter value into form field #email without formatting error(s)
-        self.type("#email", "tester0@gmail.com")
+        self.type("#email", test_user.email)
         # Enter value into form field #password with formatting error(s)
-        self.type("#password", "password123")
+        self.type("#password", '$')
         # Click #btn-submit
         self.click("#btn-submit")
         # Validate #message displays error
@@ -346,9 +341,9 @@ class FrontEndLoginPageTest(BaseCase):
         # Open /login
         self.open(base_url + '/login')
         # Enter value into form field #email without formatting error(s)
-        self.type("#email", "tester0@gmail.com")
+        self.type("#email", test_user.email)
         # Enter value into form field #password withoutformatting error(s)
-        self.type("#password", "Password123")
+        self.type("#password", test_user.password)
         # Click #btn-submit
         self.click("#btn-submit")
         # Validate #message does not display error
@@ -364,9 +359,9 @@ class FrontEndLoginPageTest(BaseCase):
         # Open /login
         self.open(base_url + '/login')
         # Enter value into form field #email that is correct
-        self.type("#email", "tester0@gmail.com")
+        self.type("#email", test_user.email)
         # Enter value into form field #password that is correct
-        self.type("#password", "Password123")
+        self.type("#password", test_user.password)
         # Click #btn-submit
         self.click("#btn-submit")
         # Validate #welcome-header is displayed
@@ -383,7 +378,7 @@ class FrontEndLoginPageTest(BaseCase):
         # Enter value into form field #email that is not correct
         self.type("#email", "wrongemail@gmail.com")
         # Enter value into form field #password that is correct
-        self.type("#password", "Password123")
+        self.type("#password", test_user.password)
         # Click #btn-submit
         self.click("#btn-submit")
         # Validate #message displays error
@@ -398,13 +393,13 @@ class FrontEndLoginPageTest(BaseCase):
         # Open /login
         self.open(base_url + '/login')
         # Enter value into form field #email that is correct
-        self.type("#email", "tester0@gmail.com")
+        self.type("#email", test_user.email)
         # Enter value into form field #password that is not correct
-        self.type("#password", "wrongPassword123")
+        self.type("#password", "wrongtest_user.password")
         # Click #btn-submit
         self.click("#btn-submit")
         # Validate #message displays error
-        self.assert_text("email/password combination incorrect", "#message")
+        self.assert_text("email/password format is incorrect.", "#message")
 
     def test_email_and_password_correct(self, *_):
         """
@@ -415,17 +410,15 @@ class FrontEndLoginPageTest(BaseCase):
         # Open /login
         self.open(base_url + '/login')
         # Enter value into form field #email that is correct
-        self.type("#email", "tester0@gmail.com")
+        self.type("#email", test_user.email)
         # Enter value into form field #password that is correct
-        self.type("#password", "Password123")
+        self.type("#password", test_user.password)
         # Click #btn-submit
         self.click("#btn-submit")
         # Validate #message does not display error
         self.assert_text_not_visible(
             "email/password combination incorrect", "#message")
 
-    @patch('qa327.backend.get_user', return_value=test_user)
-    @patch('qa327.backend.get_all_tickets', return_value=test_tickets)
     def test_login_success(self, *_):
         """
         This is a sample front end unit test to login to home page
@@ -434,8 +427,8 @@ class FrontEndLoginPageTest(BaseCase):
         # open login page
         self.open(base_url + '/login')
         # fill email and password
-        self.type("#email", "tester0@gmail.com")
-        self.type("#password", "Password123")
+        self.type("#email", test_user.email)
+        self.type("#password", test_user.password)
         # click enter button
         self.click('input[type="submit"]')
 
@@ -452,18 +445,13 @@ class FrontEndLoginPageTest(BaseCase):
         self.open(base_url)
         # test if the page loads correctly
         self.assert_element("#welcome-header")
-        self.assert_text("Hi Tester Zero !", "#welcome-header")
-        self.assert_element("#tickets div h4")
-        self.assert_text("t1 100", "#tickets div h4")
 
-    @patch('qa327.backend.get_user', return_value=test_user)
-    @patch('qa327.backend.get_all_tickets', return_value=test_tickets)
     def test_login_password_failed(self, *_):
         """ Login and verify if the tickets are correctly listed."""
         # open login page
         self.open(base_url + '/login')
         # fill wrong email and password
-        self.type("#email", "tester0@gmail.com")
+        self.type("#email", test_user.email)
         self.type("#password", "Password124")
         # click enter button
         self.click('input[type="submit"]')
