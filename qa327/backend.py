@@ -125,81 +125,29 @@ def update_ticket(name, quantity, price, date):
             return 'Could not update ticket'
 
 
-def validate_ticket_name(name):
-    """
-    Validates that a given ticket name is valid
-    :param name: The ticket name
-    :return: True if name is valid
-    """
-    # The name of the ticket has to be alphanumeric-only, and space allowed only if it is not the first or the last character.
-    for i in range(len(name)):
-        char = name[i]
-        if char == ' ' and (i == 0 or i == len(name) - 1):
-            return False
-        elif not char.isalnum():
-            return False
-
-    # The name of the ticket is no longer than 60 characters
-    if (len(name) > 60):
-        return False
-
-    return True
-
-
-def validate_ticket(name, quantity, price, date):
-    """
-    Validates that all ticket data is correct
-    :param name: The ticket name
-    :param quantity: The ticket quantity
-    :param price: The ticket price
-    :param date: The ticket experation date
-    :return: True if all data is valid
-    """
-
-    # Validate types
-    try:
-        quantity = int(quantity)
-        price = float(price)
-    except ValueError:
-        return False
-
-    # Validate name
-    if not validate_ticket_name(name):
-        return False
-
-    # The quantity of the tickets has to be more than 0, and less than or equal to 100.
-    if (quantity <= 0 or quantity > 100):
-        return False
-
-    # Price has to be of range [10, 100]
-    if (price < 10 or price > 100):
-        return False
-
-    # Date must be given in the format YYYYMMDD (e.g. 20200901)
-    try:
-        datetime.strptime(date, '%Y%m%d')
-    except ValueError:
-        return False
-
-    return True
-
-
 def ticket_exists(name):
     # The ticket name exists in the database
-    if (get_ticket(name) is None):
+    if get_ticket(name) is None:
         return False
     else:
         return True
 
 
 def enough_tickets(name, quantity):
+    # Check type
+    try:
+        quantity = int(quantity)
+    except ValueError:
+        # Handle the exception
+        return False
+
     # Check ticket exists
     if not ticket_exists(name):
         return False
 
     # Enough tickets exist in the database to sell
     ticket = get_ticket(name)
-    if (ticket.quantity < quantity):
+    if quantity > ticket.quantity:
         return False
 
     return True

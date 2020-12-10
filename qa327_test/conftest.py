@@ -8,9 +8,11 @@ from qa327.__main__ import FLASK_PORT
 from qa327.__main__ import app
 import threading
 from werkzeug.serving import make_server
+from qa327.backend import get_user, get_ticket, register_user, create_ticket
 
 
 base_url = 'http://localhost:{}'.format(FLASK_PORT)
+
 
 class ServerThread(threading.Thread):
 
@@ -40,4 +42,13 @@ def server():
         yield
         server.shutdown()
         time.sleep(2)
-        
+
+
+@pytest.fixture(autouse=True)
+def run_around_tests():
+    if get_user('tester0@gmail.com') is None:
+        register_user('tester0@gmail.com', 'Tester Zero',
+                      'Password123', 'Password123')
+
+    if get_ticket('t1') is None:
+        create_ticket('t1', '50', '70', '20771210')

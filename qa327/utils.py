@@ -38,10 +38,17 @@ def validate_password(password):
 
 
 def validate_ticket_name(name):
+    """
+    Validates that a given ticket name is valid
+    :param name: The ticket name
+    :return: True if name is valid
+    """
+
     if not name.isalnum():
         return "Name must have alphanumeric characters only."
     if len(name) > 60:
         return "Name must be less than 60 characters."
+
     return False
 
 
@@ -71,3 +78,27 @@ def validate_ticket_date(date):
         return False
     except:
         return "Date must be in the format YYYYMMDD."
+
+
+def validate_ticket(name, quantity, price, date):
+    """
+    Validates that all ticket data is correct
+    :param name: The ticket name
+    :param quantity: The ticket quantity
+    :param price: The ticket price
+    :param date: The ticket experation date
+    :return: False if all data is valid, error message if not
+    """
+
+    error = validate_ticket_name(name)
+
+    if error == False:
+        error = validate_ticket_quantity(quantity)
+
+    if error == False:
+        error = validate_ticket_price(price)
+
+    if error == False:
+        error = validate_ticket_date(date)
+
+    return error

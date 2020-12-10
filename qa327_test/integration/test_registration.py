@@ -9,7 +9,6 @@ from qa327_test.conftest import base_url
 
 @pytest.mark.usefixtures('server')
 class Registered(BaseCase):
-
     def register(self):
         """register new user"""
         self.open(base_url + '/register')

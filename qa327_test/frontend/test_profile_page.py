@@ -25,13 +25,12 @@ Annotate @patch before unit tests can mock backend methods (for that testing fun
 test_user = User(
     email='tester0@gmail.com',
     name='Tester Zero',
-    password=generate_password_hash('Password123')
+    password='Password123'
 )
 
-# Mock some sample tickets
-test_tickets = [
-    {'name': 't1', 'price': '100'}
-]
+# Moch a sample ticket
+test_ticket = {'name': 't1', 'quantity': '50',
+               'price': '70', 'date': '20771210'}
 
 
 class FrontEndHomePageTest(BaseCase):
@@ -43,11 +42,9 @@ class FrontEndHomePageTest(BaseCase):
         self.open(base_url + '/logout')
         # Open /
         self.open(base_url)
-        # Validate that current page does not contain #profile_header
-        self.assert_element_absent('#profile_header')
+        # Validate that current page does not contain #welcome-header
+        self.assert_element_absent('#welcome-header')
 
-    @patch('qa327.backend.get_user', return_value=test_user)
-    @patch('qa327.backend.get_all_tickets', return_value=test_tickets)
     def test_logged_in_load_profile(self, *_):
         """
         If the user is logged in, load profile page
@@ -55,18 +52,15 @@ class FrontEndHomePageTest(BaseCase):
         # Open /
         self.open(base_url + '/login')
         # fill email and password
-        self.type("#email", "tester0@gmail.com")
-        self.type("#password", "Password123")
+        self.type("#email", test_user.email)
+        self.type("#password", test_user.password)
         # click enter button
         self.click('input[type="submit"]')
         # open /
         self.open(base_url)
-        # Validate that current page contains #profile_header
-        self.assert_element
-        ('#profile_header')
+        # Validate that current page contains #welcome-header
+        self.assert_element('#welcome-header')
 
-    @patch('qa327.backend.get_user', return_value=test_user)
-    @patch('qa327.backend.get_all_tickets', return_value=test_tickets)
     def test_greeting_header(self, *_):
         """
         If the user is logged in, load profile page
@@ -74,17 +68,15 @@ class FrontEndHomePageTest(BaseCase):
         # Open /
         self.open(base_url + '/login')
         # fill email and password
-        self.type("#email", "tester0@gmail.com")
-        self.type("#password", "Password123")
+        self.type("#email", test_user.email)
+        self.type("#password", test_user.password)
         # click enter button
         self.click('input[type="submit"]')
         # open /
         self.open(base_url)
-        # Validate that current page contains #profile_header
+        # Validate that current page contains ##welcome-header
         self.assert_element('#welcome-header')
 
-    @patch('qa327.backend.get_user', return_value=test_user)
-    @patch('qa327.backend.get_all_tickets', return_value=test_tickets)
     def test_show_user_balance(self, *_):
         """
         If the user is logged in, load profile page
@@ -92,16 +84,15 @@ class FrontEndHomePageTest(BaseCase):
         # Open /
         self.open(base_url + '/login')
         # fill email and password
-        self.type("#email", "tester0@gmail.com")
-        self.type("#password", "Password123")
+        self.type("#email", test_user.email)
+        self.type("#password", test_user.password)
         # click enter button
         self.click('input[type="submit"]')
         # open /
         self.open(base_url)
-        # Validate that current page contains #profile_header
+        # Validate that current page contains ##welcome-header
         self.assert_element('#user-balance')
 
-    @patch('qa327.backend.get_user', return_value=test_user)
     def test_logout_link(self, *_):
         """
         If the user is logged in, load profile page
@@ -109,8 +100,8 @@ class FrontEndHomePageTest(BaseCase):
         # Open /
         self.open(base_url + '/login')
         # fill email and password
-        self.type("#email", "tester0@gmail.com")
-        self.type("#password", "Password123")
+        self.type("#email", test_user.email)
+        self.type("#password", test_user.password)
         # click enter button
         self.click('input[type="submit"]')
         # open /
@@ -125,8 +116,8 @@ class FrontEndHomePageTest(BaseCase):
         # Open /
         self.open(base_url + '/login')
         # fill email and password
-        self.type("#email", "tester0@gmail.com")
-        self.type("#password", "Password123")
+        self.type("#email", test_user.email)
+        self.type("#password", test_user.password)
         # click enter button
         self.click('input[type="submit"]')
         # open /
@@ -141,8 +132,8 @@ class FrontEndHomePageTest(BaseCase):
         # Open /
         self.open(base_url + '/login')
         # fill email and password
-        self.type("#email", "tester0@gmail.com")
-        self.type("#password", "Password123")
+        self.type("#email", test_user.email)
+        self.type("#password", test_user.password)
         # click enter button
         self.click('input[type="submit"]')
         # open /
@@ -161,8 +152,8 @@ class FrontEndHomePageTest(BaseCase):
         # Open /
         self.open(base_url + '/login')
         # fill email and password
-        self.type("#email", "tester0@gmail.com")
-        self.type("#password", "Password123")
+        self.type("#email", test_user.email)
+        self.type("#password", test_user.password)
         # click enter button
         self.click('input[type="submit"]')
         # open /
@@ -179,8 +170,8 @@ class FrontEndHomePageTest(BaseCase):
         # Open /
         self.open(base_url + '/login')
         # fill email and password
-        self.type("#email", "tester0@gmail.com")
-        self.type("#password", "Password123")
+        self.type("#email", test_user.email)
+        self.type("#password", test_user.password)
         # click enter button
         self.click('input[type="submit"]')
         # open /
@@ -200,17 +191,17 @@ class FrontEndHomePageTest(BaseCase):
         self.open(base_url + '/logout')
         # Open / and login
         self.open(base_url + '/login')
-        self.type("#email", "tester0@gmail.com")
-        self.type("#password", "Password123")
+        self.type("#email", test_user.email)
+        self.type("#password", test_user.password)
         self.click('input[type="submit"]')
         # Enter value into form_sell_name
-        self.type('#sell-form-name', 'Ticket')
+        self.type('#sell-form-name', test_ticket['name'])
         # Enter value into form_sell_quantity
-        self.type('#sell-form-quantity', '1')
+        self.type('#sell-form-quantity', test_ticket['quantity'])
         # Enter value into form_sell_price
-        self.type('#sell-form-price', '9.99')
+        self.type('#sell-form-price', test_ticket['price'])
         # Enter value into #form_sell_expiration_date
-        self.type('#sell-form-expiration-date', '2020-11-20')
+        self.type('#sell-form-expiration-date', test_ticket['date'])
         # Click #form_button
         self.click('input[id="sell-form-submit"]')
         # Validate POST request sent to /sell
@@ -224,13 +215,13 @@ class FrontEndHomePageTest(BaseCase):
         self.open(base_url + '/logout')
         # Open / and login
         self.open(base_url + '/login')
-        self.type("#email", "tester0@gmail.com")
-        self.type("#password", "Password123")
+        self.type("#email", test_user.email)
+        self.type("#password", test_user.password)
         self.click('input[type="submit"]')
         # Enter value into form_buy_name
-        self.type('#buy-form-name', 'Ticket')
+        self.type('#buy-form-name', test_ticket['name'])
         # Enter value into form_buy_quantity
-        self.type('#buy-form-quantity', '1')
+        self.type('#buy-form-quantity', test_ticket['quantity'])
         # Click #form_button
         self.click('input[id="buy-form-submit"]')
         # Validate POST request sent to /buy
@@ -244,17 +235,17 @@ class FrontEndHomePageTest(BaseCase):
         self.open(base_url + '/logout')
         # Open / and login
         self.open(base_url + '/login')
-        self.type("#email", "tester0@gmail.com")
-        self.type("#password", "Password123")
+        self.type("#email", test_user.email)
+        self.type("#password", test_user.password)
         self.click('input[type="submit"]')
         # Enter value into form_update_name
-        self.type("#update-form-name", "Ticket")
+        self.type("#update-form-name", test_ticket['name'])
         # Enter value into form_update_quantity
-        self.type("#update-form-quantity", "1")
+        self.type("#update-form-quantity", test_ticket['quantity'])
         # Enter value into form_update_price
-        self.type("#update-form-price", "9.99")
+        self.type("#update-form-price", test_ticket['price'])
         # Enter value into #form_update_expiration_date
-        self.type("#update-form-expiration-date", "2020-11-20")
+        self.type("#update-form-expiration-date", test_ticket['date'])
         # Click #form_button
         self.click('input[id="update-form-submit"]')
         # Validate POST request sent to /update
