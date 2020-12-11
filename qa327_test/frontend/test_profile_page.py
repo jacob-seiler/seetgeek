@@ -3,7 +3,7 @@ from seleniumbase import BaseCase
 
 from qa327_test.conftest import base_url
 from unittest.mock import patch
-from qa327.models import db, User, Ticket
+from qa327.models import User, Ticket
 from werkzeug.security import generate_password_hash, check_password_hash
 
 """
