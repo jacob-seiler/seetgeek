@@ -44,8 +44,8 @@ class Registered(BaseCase):
         """ Open base url and sell a ticket """
         self.open(base_url)
         self.type("#sell-form-name", test_ticket.name)
-        self.type("#sell-form-quantity", test_ticket.quantity)
-        self.type("#sell-form-price", test_ticket.price)
+        self.type("#sell-form-quantity", str(test_ticket.quantity))
+        self.type("#sell-form-price", str(test_ticket.price))
         self.type("#sell-form-expiration-date", test_ticket.expiration_date)
         self.click('input[id="sell-form-submit"]')
 
