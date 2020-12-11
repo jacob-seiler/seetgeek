@@ -29,8 +29,12 @@ test_user = User(
 )
 
 # Moch a sample ticket
-test_ticket = {'name': 't1', 'quantity': '50',
-               'price': '70', 'date': '20771210'}
+test_ticket = Ticket(
+    name='t1',
+    quantity=50,
+    price=70.50,
+    expiration_date='20771210'
+)
 
 
 class FrontEndHomePageTest(BaseCase):
@@ -195,13 +199,13 @@ class FrontEndHomePageTest(BaseCase):
         self.type("#password", test_user.password)
         self.click('input[type="submit"]')
         # Enter value into form_sell_name
-        self.type('#sell-form-name', test_ticket['name'])
+        self.type('#sell-form-name', test_ticket.name)
         # Enter value into form_sell_quantity
-        self.type('#sell-form-quantity', test_ticket['quantity'])
+        self.type('#sell-form-quantity', str(test_ticket.quantity))
         # Enter value into form_sell_price
-        self.type('#sell-form-price', test_ticket['price'])
+        self.type('#sell-form-price', str(test_ticket.price))
         # Enter value into #form_sell_expiration_date
-        self.type('#sell-form-expiration-date', test_ticket['date'])
+        self.type('#sell-form-expiration-date', test_ticket.expiration_date)
         # Click #form_button
         self.click('input[id="sell-form-submit"]')
         # Validate POST request sent to /sell
@@ -219,9 +223,9 @@ class FrontEndHomePageTest(BaseCase):
         self.type("#password", test_user.password)
         self.click('input[type="submit"]')
         # Enter value into form_buy_name
-        self.type('#buy-form-name', test_ticket['name'])
+        self.type('#buy-form-name', test_ticket.name)
         # Enter value into form_buy_quantity
-        self.type('#buy-form-quantity', test_ticket['quantity'])
+        self.type('#buy-form-quantity', str(test_ticket.quantity))
         # Click #form_button
         self.click('input[id="buy-form-submit"]')
         # Validate POST request sent to /buy
@@ -239,13 +243,13 @@ class FrontEndHomePageTest(BaseCase):
         self.type("#password", test_user.password)
         self.click('input[type="submit"]')
         # Enter value into form_update_name
-        self.type("#update-form-name", test_ticket['name'])
+        self.type("#update-form-name", test_ticket.name)
         # Enter value into form_update_quantity
-        self.type("#update-form-quantity", test_ticket['quantity'])
+        self.type("#update-form-quantity", str(test_ticket.quantity))
         # Enter value into form_update_price
-        self.type("#update-form-price", test_ticket['price'])
+        self.type("#update-form-price", str(test_ticket.price))
         # Enter value into #form_update_expiration_date
-        self.type("#update-form-expiration-date", test_ticket['date'])
+        self.type("#update-form-expiration-date", test_ticket.expiration_date)
         # Click #form_button
         self.click('input[id="update-form-submit"]')
         # Validate POST request sent to /update

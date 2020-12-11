@@ -4,7 +4,7 @@ from seleniumbase import BaseCase
 
 from qa327_test.conftest import base_url
 from unittest.mock import patch
-from qa327.models import db, User
+from qa327.models import User, Ticket
 from qa327.backend import get_user, register_user, create_ticket
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -31,8 +31,12 @@ test_user = User(
 )
 
 # Moch a sample ticket
-test_ticket = {'name': 't1', 'quantity': '50',
-               'price': '70', 'date': '20771210'}
+test_ticket = Ticket(
+    name='t1',
+    quantity=50,
+    price=70.50,
+    expiration_date='20771210'
+)
 
 
 class BackEndUpdateTest(BaseCase):
@@ -51,10 +55,10 @@ class BackEndUpdateTest(BaseCase):
         # open /
         self.open(base_url)
         # enter test_ticket's info into the update form and submit
-        self.type("#update-form-name", test_ticket['name'])
-        self.type("#update-form-quantity", test_ticket['quantity'])
-        self.type("#update-form-price", test_ticket['price'])
-        self.type("#update-form-expiration-date", test_ticket['date'])
+        self.type("#update-form-name", test_ticket.name)
+        self.type("#update-form-quantity", str(test_ticket.quantity))
+        self.type("#update-form-price", str(test_ticket.price))
+        self.type("#update-form-expiration-date", test_ticket.expiration_date)
         self.click('#update-form-submit')
         # validate that the #flash-message element shows 'Successfully updated ticket'
         self.assert_text("Successfully updated ticket", "#flash-message")
@@ -75,9 +79,9 @@ class BackEndUpdateTest(BaseCase):
         self.open(base_url)
         # enter test_ticket's info into the update form and submit
         self.type("#update-form-name", 'hello $$$')
-        self.type("#update-form-quantity", test_ticket['quantity'])
-        self.type("#update-form-price", test_ticket['price'])
-        self.type("#update-form-expiration-date", test_ticket['date'])
+        self.type("#update-form-quantity", str(test_ticket.quantity))
+        self.type("#update-form-price", str(test_ticket.price))
+        self.type("#update-form-expiration-date", test_ticket.expiration_date)
         self.click('#update-form-submit')
         # validate that the #flash-message element shows 'Ticket does not exist.'
         self.assert_text(
@@ -98,10 +102,10 @@ class BackEndUpdateTest(BaseCase):
         # open /
         self.open(base_url)
         # enter test_ticket's info into the update form and submit
-        self.type("#update-form-name", test_ticket['name'])
-        self.type("#update-form-quantity", test_ticket['quantity'])
-        self.type("#update-form-price", test_ticket['price'])
-        self.type("#update-form-expiration-date", test_ticket['date'])
+        self.type("#update-form-name", test_ticket.name)
+        self.type("#update-form-quantity", str(test_ticket.quantity))
+        self.type("#update-form-price", str(test_ticket.price))
+        self.type("#update-form-expiration-date", test_ticket.expiration_date)
         self.click('#update-form-submit')
         # validate that the #flash-message element shows 'Ticket does not exist.'
         self.assert_text("Successfully updated ticket", "#flash-message")
@@ -123,9 +127,9 @@ class BackEndUpdateTest(BaseCase):
         # enter test_ticket's info into the update form and submit
         self.type("#update-form-name",
                   "thisis61characterslongaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-        self.type("#update-form-quantity", test_ticket['quantity'])
-        self.type("#update-form-price", test_ticket['price'])
-        self.type("#update-form-expiration-date", test_ticket['date'])
+        self.type("#update-form-quantity", str(test_ticket.quantity))
+        self.type("#update-form-price", str(test_ticket.price))
+        self.type("#update-form-expiration-date", test_ticket.expiration_date)
         self.click('#update-form-submit')
         # validate that the #flash-message element shows 'Ticket does not exist.'
         self.assert_text(
@@ -146,10 +150,10 @@ class BackEndUpdateTest(BaseCase):
         # open /
         self.open(base_url)
         # enter test_ticket's info into the update form and submit
-        self.type("#update-form-name", test_ticket['name'])
-        self.type("#update-form-quantity", test_ticket['quantity'])
-        self.type("#update-form-price", test_ticket['price'])
-        self.type("#update-form-expiration-date", test_ticket['date'])
+        self.type("#update-form-name", test_ticket.name)
+        self.type("#update-form-quantity", str(test_ticket.quantity))
+        self.type("#update-form-price", str(test_ticket.price))
+        self.type("#update-form-expiration-date", test_ticket.expiration_date)
         self.click('#update-form-submit')
         # validate that the #flash-message element shows 'Ticket does not exist.'
         self.assert_text("Successfully updated ticket", "#flash-message")
@@ -169,10 +173,10 @@ class BackEndUpdateTest(BaseCase):
         # open /
         self.open(base_url)
         # enter test_ticket's info into the update form and submit
-        self.type("#update-form-name", test_ticket['name'])
+        self.type("#update-form-name", test_ticket.name)
         self.type("#update-form-quantity", '0')
-        self.type("#update-form-price", test_ticket['price'])
-        self.type("#update-form-expiration-date", test_ticket['date'])
+        self.type("#update-form-price", str(test_ticket.price))
+        self.type("#update-form-expiration-date", test_ticket.expiration_date)
         self.click('#update-form-submit')
         # validate that the #flash-message element shows 'Ticket does not exist.'
         self.assert_text(
@@ -193,10 +197,10 @@ class BackEndUpdateTest(BaseCase):
         # open /
         self.open(base_url)
         # enter test_ticket's info into the update form and submit
-        self.type("#update-form-name", test_ticket['name'])
-        self.type("#update-form-quantity", test_ticket['quantity'])
-        self.type("#update-form-price", test_ticket['price'])
-        self.type("#update-form-expiration-date", test_ticket['date'])
+        self.type("#update-form-name", test_ticket.name)
+        self.type("#update-form-quantity", str(test_ticket.quantity))
+        self.type("#update-form-price", str(test_ticket.price))
+        self.type("#update-form-expiration-date", test_ticket.expiration_date)
         self.click('#update-form-submit')
         # validate that the #flash-message element shows 'Ticket does not exist.'
         self.assert_text("Successfully updated ticket", "#flash-message")
@@ -216,10 +220,10 @@ class BackEndUpdateTest(BaseCase):
         # open /
         self.open(base_url)
         # enter test_ticket's info into the update form and submit
-        self.type("#update-form-name", test_ticket['name'])
-        self.type("#update-form-quantity", test_ticket['quantity'])
+        self.type("#update-form-name", test_ticket.name)
+        self.type("#update-form-quantity", str(test_ticket.quantity))
         self.type("#update-form-price", '0')
-        self.type("#update-form-expiration-date", test_ticket['date'])
+        self.type("#update-form-expiration-date", test_ticket.expiration_date)
         self.click('#update-form-submit')
         # validate that the #flash-message element shows 'Ticket does not exist.'
         self.assert_text(
@@ -240,10 +244,10 @@ class BackEndUpdateTest(BaseCase):
         # open /
         self.open(base_url)
         # enter test_ticket's info into the update form and submit
-        self.type("#update-form-name", test_ticket['name'])
-        self.type("#update-form-quantity", test_ticket['quantity'])
-        self.type("#update-form-price", test_ticket['price'])
-        self.type("#update-form-expiration-date", test_ticket['date'])
+        self.type("#update-form-name", test_ticket.name)
+        self.type("#update-form-quantity", str(test_ticket.quantity))
+        self.type("#update-form-price", str(test_ticket.price))
+        self.type("#update-form-expiration-date", test_ticket.expiration_date)
         self.click('#update-form-submit')
         # validate that the #flash-message element shows 'Ticket does not exist.'
         self.assert_text("Successfully updated ticket", "#flash-message")
@@ -263,9 +267,9 @@ class BackEndUpdateTest(BaseCase):
         # open /
         self.open(base_url)
         # enter test_ticket's info into the update form and submit
-        self.type("#update-form-name", test_ticket['name'])
-        self.type("#update-form-quantity", test_ticket['quantity'])
-        self.type("#update-form-price", test_ticket['price'])
+        self.type("#update-form-name", test_ticket.name)
+        self.type("#update-form-quantity", str(test_ticket.quantity))
+        self.type("#update-form-price", str(test_ticket.price))
         self.type("#update-form-expiration-date", '123456789')
         self.click('#update-form-submit')
         # validate that the #flash-message element shows 'Ticket does not exist.'
@@ -287,10 +291,10 @@ class BackEndUpdateTest(BaseCase):
         # open /
         self.open(base_url)
         # enter test_ticket's info into the update form and submit
-        self.type("#update-form-name", test_ticket['name'])
-        self.type("#update-form-quantity", test_ticket['quantity'])
-        self.type("#update-form-price", test_ticket['price'])
-        self.type("#update-form-expiration-date", test_ticket['date'])
+        self.type("#update-form-name", test_ticket.name)
+        self.type("#update-form-quantity", str(test_ticket.quantity))
+        self.type("#update-form-price", str(test_ticket.price))
+        self.type("#update-form-expiration-date", test_ticket.expiration_date)
         self.click('#update-form-submit')
         # validate that the #flash-message element shows 'Ticket does not exist.'
         self.assert_text("Successfully updated ticket", "#flash-message")
@@ -311,9 +315,9 @@ class BackEndUpdateTest(BaseCase):
         self.open(base_url)
         # enter test_ticket's info into the update form and submit
         self.type("#update-form-name", "fakeTicketName")
-        self.type("#update-form-quantity", test_ticket['quantity'])
-        self.type("#update-form-price", test_ticket['price'])
-        self.type("#update-form-expiration-date", test_ticket['date'])
+        self.type("#update-form-quantity", str(test_ticket.quantity))
+        self.type("#update-form-price", str(test_ticket.price))
+        self.type("#update-form-expiration-date", test_ticket.expiration_date)
         self.click('#update-form-submit')
         # validate that the #flash-message element shows 'Ticket does not exist.'
         self.assert_text("Ticket does not exist.", "#flash-message")
