@@ -57,17 +57,18 @@ class FrontEndHomePageTest(BaseCase):
         # Enter value into form_sell_name
         self.type('#sell-form-name', test_ticket.name)
         # Enter value into form_sell_quantity
-        self.type('#sell-form-quantity', test_ticket.quantity)
+        self.type('#sell-form-quantity', str(test_ticket.quantity))
         # Enter value into form_sell_price
-        self.type('#sell-form-price', test_ticket.price)
+        self.type('#sell-form-price', str(test_ticket.price))
         # Enter value into #form_sell_expiration_date
         self.type('#sell-form-expiration-date', test_ticket.expiration_date)
         # Click #form_button
         self.click('input[id="sell-form-submit"]')
         # Validate POST request sent to /sell
-        self.assert_element_absent('#flash-message')
+        self.assert_element_not_visible('#flash-message')
 
     # Test that with invalid name there is error present
+
     @patch('qa327.backend.login_user', return_value=test_user)
     @patch('qa327.backend.create_ticket', return_value=None)
     @patch('qa327.backend.get_all_tickets', return_value=[])
@@ -85,9 +86,9 @@ class FrontEndHomePageTest(BaseCase):
         # Enter value into form_sell_name
         self.type('#sell-form-name', "$$$ HOTLINE - BLING $$$")
         # Enter value into form_sell_quantity
-        self.type('#sell-form-quantity', test_ticket.quantity)
+        self.type('#sell-form-quantity', str(test_ticket.quantity))
         # Enter value into form_sell_price
-        self.type('#sell-form-price', test_ticket.price)
+        self.type('#sell-form-price', str(test_ticket.price))
         # Enter value into #form_sell_expiration_date
         self.type('#sell-form-expiration-date', test_ticket.expiration_date)
         # Click #form_button
@@ -114,9 +115,9 @@ class FrontEndHomePageTest(BaseCase):
         # Enter value into form_sell_name
         self.type('#sell-form-name', test_ticket.name)
         # Enter value into form_sell_quantity
-        self.type('#sell-form-quantity', 0)
+        self.type('#sell-form-quantity', '0')
         # Enter value into form_sell_price
-        self.type('#sell-form-price', test_ticket.price)
+        self.type('#sell-form-price', str(test_ticket.price))
         # Enter value into #form_sell_expiration_date
         self.type('#sell-form-expiration-date', test_ticket.expiration_date)
         # Click #form_button
@@ -126,6 +127,7 @@ class FrontEndHomePageTest(BaseCase):
             "Quantity must be between 1 and 100.", '#flash-message')
 
     # Test that with invalid price there is error present
+
     @patch('qa327.backend.login_user', return_value=test_user)
     @patch('qa327.backend.create_ticket', return_value=None)
     @patch('qa327.backend.get_all_tickets', return_value=[])
@@ -143,9 +145,9 @@ class FrontEndHomePageTest(BaseCase):
         # Enter value into form_sell_name
         self.type('#sell-form-name', test_ticket.name)
         # Enter value into form_sell_quantity
-        self.type('#sell-form-quantity', test_ticket.quantity)
+        self.type('#sell-form-quantity', str(test_ticket.quantity))
         # Enter value into form_sell_price
-        self.type('#sell-form-price', 0)
+        self.type('#sell-form-price', '0')
         # Enter value into #form_sell_expiration_date
         self.type('#sell-form-expiration-date', test_ticket.expiration_date)
         # Click #form_button
@@ -173,11 +175,11 @@ class FrontEndHomePageTest(BaseCase):
         # Enter value into form_sell_name
         self.type('#sell-form-name', test_ticket.name)
         # Enter value into form_sell_quantity
-        self.type('#sell-form-quantity', test_ticket.quantity)
+        self.type('#sell-form-quantity', str(test_ticket.quantity))
         # Enter value into form_sell_price
-        self.type('#sell-form-price', test_ticket.price)
+        self.type('#sell-form-price', str(test_ticket.price))
         # Enter value into #form_sell_expiration_date
-        self.type('#sell-form-expiration-date', 2000)
+        self.type('#sell-form-expiration-date', '2000')
         # Click #form_button
         self.click('input[id="sell-form-submit"]')
         # Validate POST request sent to /sell
