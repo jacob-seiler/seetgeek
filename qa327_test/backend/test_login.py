@@ -22,7 +22,7 @@ test_user = User(
     email='tester0@gmail.com',
     name='Tester Zero',
     password='Password123',
-    balance=5000,
+    balance=5000
 )
 
 
