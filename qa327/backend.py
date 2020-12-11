@@ -45,7 +45,7 @@ def register_user(email, name, password, password2):
         new_user = User(email=email,
                         name=name,
                         password=hashed_pw,
-                        # balance=5000,
+                        balance=5000,
                         )
 
         db.session.add(new_user)

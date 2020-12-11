@@ -3,7 +3,7 @@ from seleniumbase import BaseCase
 
 from qa327_test.conftest import base_url
 from unittest.mock import patch
-from qa327.models import db, User
+from qa327.models import User
 from werkzeug.security import generate_password_hash, check_password_hash
 
 """
@@ -25,7 +25,8 @@ Annotate @patch before unit tests can mock backend methods (for that testing fun
 test_user = User(
     email='tester0@gmail.com',
     name='Tester Zero',
-    password='Password123'
+    password='Password123',
+    balance=5000
 )
 
 

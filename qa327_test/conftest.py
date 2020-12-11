@@ -51,4 +51,4 @@ def run_around_tests():
                       'Password123', 'Password123')
 
     if get_ticket('t1') is None:
-        create_ticket('t1', '50', '70', '20771210')
+        create_ticket('t1', 50, 70.50, '20771210')
