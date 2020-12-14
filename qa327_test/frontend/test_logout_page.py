@@ -34,6 +34,7 @@ class FrontEndLogoutPageTest(BaseCase):
     def test_logout_invalidates(self, *_):
         """
         Logout will invalidate the current session and redirect to the login page.
+        Test case ID: R7.1.1
         """
         # Log in user using #email and #password
         self.open(base_url + '/login')
@@ -48,6 +49,7 @@ class FrontEndLogoutPageTest(BaseCase):
     def test_logout_restricts(self, *_):
         """
         After logout, the user shouldn't be able to access restricted pages.
+        Test case ID: R7.1.2
         """
         # Log out user (to invalidate any logged-in sessions that may exist)
         self.open(base_url + "/logout")
