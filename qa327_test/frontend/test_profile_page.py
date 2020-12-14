@@ -42,6 +42,7 @@ class FrontEndHomePageTest(BaseCase):
     def test_not_logged_in_redirect(self, *_):
         """
         If the user is not logged in, redirect to login page
+        Test case ID: R3.1.1
         """
         # Log out user (to invalidate any logged-in sessions that may exist)
         self.open(base_url + '/logout')
@@ -53,6 +54,7 @@ class FrontEndHomePageTest(BaseCase):
     def test_logged_in_load_profile(self, *_):
         """
         If the user is logged in, load profile page
+        Test case ID: R3.1.2
         """
         # Open /
         self.open(base_url + '/login')
@@ -68,7 +70,8 @@ class FrontEndHomePageTest(BaseCase):
 
     def test_greeting_header(self, *_):
         """
-        If the user is logged in, load profile page
+        This page shows a header 'Hi {}'.format(user.name)
+        Test case ID: R3.2
         """
         # Open /
         self.open(base_url + '/login')
@@ -84,7 +87,8 @@ class FrontEndHomePageTest(BaseCase):
 
     def test_show_user_balance(self, *_):
         """
-        If the user is logged in, load profile page
+        This page shows user balance
+        Test case ID: R3.3
         """
         # Open /
         self.open(base_url + '/login')
@@ -100,7 +104,8 @@ class FrontEndHomePageTest(BaseCase):
 
     def test_logout_link(self, *_):
         """
-        If the user is logged in, load profile page
+        This page shows a logout link, pointing to /logout
+        Test case ID: R3.4
         """
         # Open /
         self.open(base_url + '/login')
@@ -116,7 +121,8 @@ class FrontEndHomePageTest(BaseCase):
 
     def test_tickets(self, *_):
         """
-        If the user is logged in, load profile page
+        This page lists all available tickets. Information including the quantity of each ticket, the owner's email, and the price, for tickets that are not expired.
+        Test case ID: R3.5
         """
         # Open /
         self.open(base_url + '/login')
@@ -132,7 +138,12 @@ class FrontEndHomePageTest(BaseCase):
 
     def test_ticket_sell_form(self, *_):
         """
-        If the user is logged in, load profile page
+        This page contains a form that a user can submit new tickets for sell.
+        This page contains a form that a user can submit new tickets for sell which requests the field name
+        This page contains a form that a user can submit new tickets for sell which requests the field quantity
+        This page contains a form that a user can submit new tickets for sell which requests the field price
+        This page contains a form that a user can submit new tickets for sell which requests the field expiration date
+        Test case IDs: R3.6.1, R3.6.2, R3.6.3, R3.6.4, R3.6.5
         """
         # Open /
         self.open(base_url + '/login')
@@ -152,7 +163,10 @@ class FrontEndHomePageTest(BaseCase):
 
     def test_ticket_buy_form(self, *_):
         """
-        If the user is logged in, load profile page
+        This page contains a form that a user can buy new tickets
+        This page contains a form that a user can buy new tickets that requests field name
+        This page contains a form that a user can buy new tickets that requests field quantity
+        Test case IDs: R3.7.1, R3.7.2, R3.7.3
         """
         # Open /
         self.open(base_url + '/login')
@@ -170,7 +184,12 @@ class FrontEndHomePageTest(BaseCase):
 
     def test_ticket_update_form(self, *_):
         """
-        If the user is logged in, load profile page
+        This page contains a form that a user can update existing tickets
+        This page contains a form that a user can update existing tickets which requests field name
+        This page contains a form that a user can update existing tickets which requests field quantity
+        This page contains a form that a user can update existing tickets which requests field price
+        This page contains a form that a user can update existing tickets which requests field expiration date
+        Test case IDs: R3.8.1, R3.8.2, R3.8.3, R3.8.4, R3.8.5
         """
         # Open /
         self.open(base_url + '/login')
@@ -191,6 +210,7 @@ class FrontEndHomePageTest(BaseCase):
     def test_ticket_sell_post(self, *_):
         """
         The ticket-selling form can be posted to /sell
+        Test case ID: R3.9
         """
         # Logout
         self.open(base_url + '/logout')
@@ -215,6 +235,7 @@ class FrontEndHomePageTest(BaseCase):
     def test_ticket_buy_post(self, *_):
         """
         The ticket-buying form can be posted to /buy
+        Test case ID: R3.10
         """
         # Logout
         self.open(base_url + '/logout')
@@ -235,6 +256,7 @@ class FrontEndHomePageTest(BaseCase):
     def test_ticket_update_post(self, *_):
         """
         The ticket-update form can be posted to /update
+        Test case ID: R3.11
         """
         # Logout
         self.open(base_url + '/logout')
