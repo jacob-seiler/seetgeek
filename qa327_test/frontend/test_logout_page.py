@@ -31,7 +31,6 @@ test_user = User(
 
 
 class FrontEndLogoutPageTest(BaseCase):
-    @patch('qa327.backend.logout', return_value=True)
     def test_logout_invalidates(self, *_):
         """
         Logout will invalidate the current session and redirect to the login page.
@@ -47,7 +46,6 @@ class FrontEndLogoutPageTest(BaseCase):
         # Validate that current page contains #login-title
         self.assert_element("#login-title")
 
-    @patch('qa327.backend.logout', return_value=True)
     def test_logout_restricts(self, *_):
         """
         After logout, the user shouldn't be able to access restricted pages.
