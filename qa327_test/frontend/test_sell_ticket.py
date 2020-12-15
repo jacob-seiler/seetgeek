@@ -39,14 +39,17 @@ test_ticket = Ticket(
 
 
 class FrontEndHomePageTest(BaseCase):
-
-    # Test that with valid values there are no errors present
     @patch('qa327.backend.login_user', return_value=test_user)
     @patch('qa327.backend.create_ticket', return_value=None)
     @patch('qa327.backend.get_all_tickets', return_value=[])
     def test_ticket_sell_post_success(self, *_):
         """
-        The ticket-selling form can be posted to /sell
+        The name of the ticket has to be alphanumeric-only - positive
+        The name of the ticket is no longer than 60 characters - positive
+        The quantity of the tickets has to be more than 0, and less than or equal to 100. - positive
+        Price has to be of range [10, 100] - positive
+        Date must be given in the format YYYYMMDD - positive
+        Test case ID: R4.1.1, R4.2.1, R4.3.1, R4.4.1, R4.5.1
         """
         # Logout
         self.open(base_url + '/logout')
@@ -68,14 +71,13 @@ class FrontEndHomePageTest(BaseCase):
         # Validate POST request sent to /sell
         self.assert_element_not_visible('#flash-message')
 
-    # Test that with invalid name there is error present
-
     @patch('qa327.backend.login_user', return_value=test_user)
     @patch('qa327.backend.create_ticket', return_value=None)
     @patch('qa327.backend.get_all_tickets', return_value=[])
     def test_ticket_sell_post_name_error(self, *_):
         """
-        The ticket-selling form can be posted to /sell
+        The name of the ticket has to be alphanumeric-only - negative
+        Test case ID: R4.1.2
         """
         # Logout
         self.open(base_url + '/logout')
@@ -98,13 +100,40 @@ class FrontEndHomePageTest(BaseCase):
         self.assert_text(
             "Name must have alphanumeric characters only.", '#flash-message')
 
-    # Test that with invalid quantity there is error present
+    def test_ticket_sell_post_name_too_long(self, *_):
+        """
+        The name of the ticket is no longer than 60 characters - negative
+        Test case ID: R4.2.2
+        """
+        # Logout
+        self.open(base_url + '/logout')
+        # Open / and login
+        self.open(base_url + '/login')
+        self.type("#email", test_user.email)
+        self.type("#password", test_user.password)
+        self.click('input[type="submit"]')
+        # Enter value into form_sell_name
+        self.type('#sell-form-name',
+                  "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+        # Enter value into form_sell_quantity
+        self.type('#sell-form-quantity', str(test_ticket.quantity))
+        # Enter value into form_sell_price
+        self.type('#sell-form-price', str(test_ticket.price))
+        # Enter value into #form_sell_expiration_date
+        self.type('#sell-form-expiration-date', test_ticket.expiration_date)
+        # Click #form_button
+        self.click('input[id="sell-form-submit"]')
+        # Validate POST request sent to /sell
+        self.assert_text(
+            "Name must be less than 60 characters.", '#flash-message')
+
     @patch('qa327.backend.login_user', return_value=test_user)
     @patch('qa327.backend.create_ticket', return_value=None)
     @patch('qa327.backend.get_all_tickets', return_value=[])
     def test_ticket_sell_post_quantity_error(self, *_):
         """
-        The ticket-selling form can be posted to /sell
+        The quantity of the tickets has to be more than 0, and less than or equal to 100. - negative
+        Test case ID: R4.3.2
         """
         # Logout
         self.open(base_url + '/logout')
@@ -134,7 +163,8 @@ class FrontEndHomePageTest(BaseCase):
     @patch('qa327.backend.get_all_tickets', return_value=[])
     def test_ticket_sell_post_price_error(self, *_):
         """
-        The ticket-selling form can be posted to /sell
+        Price has to be of range [10, 100] - negative
+        Test case ID: R4.4.2
         """
         # Logout
         self.open(base_url + '/logout')
@@ -164,7 +194,8 @@ class FrontEndHomePageTest(BaseCase):
     @patch('qa327.backend.get_all_tickets', return_value=[])
     def test_ticket_sell_post_date_error(self, *_):
         """
-        The ticket-selling form can be posted to /sell
+        Date must be given in the format YYYYMMDD - negative
+        Test case R4.5.2
         """
         # Logout
         self.open(base_url + '/logout')
