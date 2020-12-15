@@ -37,7 +37,6 @@ test_user_exists = User(
 
 
 class FrontEndRegistrationPageTest(BaseCase):
-    @patch('qa327.backend.get_user', return_value=test_user)
     def test_registration_logged_in(self, *_):
         """
         If the user has logged in, redirect back to the user profile page /
@@ -58,7 +57,6 @@ class FrontEndRegistrationPageTest(BaseCase):
         # Validate that current page does not contain `#title`
         self.assert_element_absent("#title")
 
-    @patch('qa327.backend.get_user', return_value=None)
     def test_registration_not_logged_in(self, *_):
         """
         If the user has not logged in, show the user registration page
@@ -95,7 +93,6 @@ class FrontEndRegistrationPageTest(BaseCase):
         self.assert_element_present("#password")
         self.assert_element_present("#password2")
 
-    @patch('qa327.backend.register_user', return_value=False)
     def test_email_empty(self, *_):
         """
         Email is not empty - negative
@@ -117,7 +114,6 @@ class FrontEndRegistrationPageTest(BaseCase):
         # Check that we did not leave the register page
         self.assert_element_present("#title")
 
-    @patch('qa327.backend.register_user', return_value=False)
     def test_password_empty(self, *_):
         """
         Password is not empty - negative
@@ -139,7 +135,6 @@ class FrontEndRegistrationPageTest(BaseCase):
         # Check that we did not leave the register page
         self.assert_element_present("#title")
 
-    @patch('qa327.backend.register_user', return_value=False)
     def test_password2_empty(self, *_):
         """
         Password2 is not empty - negative
@@ -161,7 +156,6 @@ class FrontEndRegistrationPageTest(BaseCase):
         # Check that we did not leave the register page
         self.assert_element_present("#title")
 
-    @patch('qa327.backend.register_user', return_value=False)
     def test_registration_email_badformat(self, *_):
         """
         Email follows addr-spec defined in RFC 5322 (see https://en.wikipedia.org/wiki/Email_address for a human-friendly explanation) - positive
@@ -179,7 +173,6 @@ class FrontEndRegistrationPageTest(BaseCase):
 
         self.assert_text("Email format invalid.", "#message")
 
-    @patch('qa327.backend.register_user', return_value=False)
     def test_registration_password_min(self, *_):
         """
         Password is at least 6 characters - negative
@@ -201,7 +194,6 @@ class FrontEndRegistrationPageTest(BaseCase):
         self.assert_text(
             "Password must be at least 6 characters long.", "#message")
 
-    @patch('qa327.backend.register_user', return_value=False)
     def test_registration_password_noupper(self, *_):
         """
         Password contains at least one upper case - negative
@@ -219,7 +211,6 @@ class FrontEndRegistrationPageTest(BaseCase):
         self.assert_text(
             "Password must have at least one uppercase character.", "#message")
 
-    @patch('qa327.backend.register_user', return_value=False)
     def test_registration_password_nolower(self, *_):
         """
         Password contains at least one lower case - negative
@@ -238,7 +229,6 @@ class FrontEndRegistrationPageTest(BaseCase):
         self.assert_text(
             "Password must have at least one lowercase character.", "#message")
 
-    @patch('qa327.backend.register_user', return_value=False)
     def test_registration_password_nospecial(self, *_):
         """
         Password contains at least one special character - negative
@@ -256,7 +246,6 @@ class FrontEndRegistrationPageTest(BaseCase):
         self.assert_text(
             "Password must have at least one special character.", "#message")
 
-    @patch('qa327.backend.register_user', return_value=False)
     def test_registration_password2_nomatch(self, *_):
         """
         Password and Password2 are exactly the same - negative
@@ -273,7 +262,6 @@ class FrontEndRegistrationPageTest(BaseCase):
 
         self.assert_text("The passwords do not match", "#message")
 
-    @patch('qa327.backend.register_user', return_value=False)
     def test_registration_name_nonalpha(self, *_):
         """
         User name is alphanumeric-only - negative
@@ -291,7 +279,6 @@ class FrontEndRegistrationPageTest(BaseCase):
         self.assert_text(
             "Name must only contain alphanumeric characters or spaces.", "#message")
 
-    @patch('qa327.backend.register_user', return_value=False)
     def test_registration_name_trailing(self, *_):
         """
         User name contains space that is not the first or the last character - negative
@@ -309,7 +296,6 @@ class FrontEndRegistrationPageTest(BaseCase):
         self.assert_text(
             "First and last characters can't be spaces.", "#message")
 
-    @patch('qa327.backend.register_user', return_value=False)
     def test_registration_username_too_short(self, *_):
         """
         User name is longer than 2 characters - negative
@@ -331,7 +317,6 @@ class FrontEndRegistrationPageTest(BaseCase):
         self.assert_text(
             "Name must be longer than 2 characters.", "#message")
 
-    @patch('qa327.backend.register_user', return_value=False)
     def test_registration_username_too_long(self, *_):
         """
         User name is shorter than 20 characters - negative
@@ -353,7 +338,6 @@ class FrontEndRegistrationPageTest(BaseCase):
         self.assert_text(
             "Name must be shorter than 20 characters.", "#message")
 
-    @patch('qa327.backend.register_user', return_value=False)
     def test_registration_userexists(self, *_):
         """
         If the email already exists, show message 'this email has been ALREADY used'
@@ -372,7 +356,6 @@ class FrontEndRegistrationPageTest(BaseCase):
 
         self.assert_text("User exists", "#message")
 
-    @patch('qa327.backend.register_user', return_value=True)
     def test_registration_success(self, *_):
         """
         The registration form can be submitted as a POST request to the current URL (/register)

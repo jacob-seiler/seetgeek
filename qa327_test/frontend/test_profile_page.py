@@ -39,7 +39,6 @@ test_ticket = Ticket(
 
 
 class FrontEndHomePageTest(BaseCase):
-    @patch('qa327.backend.get_user', return_value=test_user)
     def test_not_logged_in_redirect(self, *_):
         """
         If the user is not logged in, redirect to login page
@@ -52,7 +51,6 @@ class FrontEndHomePageTest(BaseCase):
         # Validate that current page does not contain #welcome-header
         self.assert_element_absent('#welcome-header')
 
-    @patch('qa327.backend.get_user', return_value=test_user)
     def test_logged_in_load_profile(self, *_):
         """
         If the user is logged in, load profile page
@@ -121,7 +119,6 @@ class FrontEndHomePageTest(BaseCase):
         # Validate that page contains button #logout
         self.assert_element_present('#logout-link')
 
-    @patch('qa327.backend.get_all_tickets', return_value=[])
     def test_tickets(self, *_):
         """
         This page lists all available tickets. Information including the quantity of each ticket, the owner's email, and the price, for tickets that are not expired.
@@ -210,7 +207,6 @@ class FrontEndHomePageTest(BaseCase):
         self.assert_element('#update-form-price')
         self.assert_element('#update-form-expiration-date')
 
-    @patch('qa327.backend.sell_ticket', return_value=True)
     def test_ticket_sell_post(self, *_):
         """
         The ticket-selling form can be posted to /sell
@@ -236,7 +232,6 @@ class FrontEndHomePageTest(BaseCase):
         # Validate POST request sent to /sell
         self.assert_element('#welcome-header')
 
-    @patch('qa327.backend.buy_ticket', return_value=True)
     def test_ticket_buy_post(self, *_):
         """
         The ticket-buying form can be posted to /buy
@@ -258,7 +253,6 @@ class FrontEndHomePageTest(BaseCase):
         # Validate POST request sent to /buy
         self.assert_element('#welcome-header')
 
-    @patch('qa327.backend.update_ticket', return_value=True)
     def test_ticket_update_post(self, *_):
         """
         The ticket-update form can be posted to /update

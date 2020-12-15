@@ -48,7 +48,6 @@ class FrontEndLoginPageTest(BaseCase):
         # Validate that current page does not contain #login-title
         self.assert_element_absent("#login-title")
 
-    @patch('qa327.backend.login_user', return_value=test_user)
     def test_default_not_logged_in(self, *_):
         """
         If the user hasn't logged in, show the login page
@@ -85,8 +84,6 @@ class FrontEndLoginPageTest(BaseCase):
         # Validate that #message contains value "Please login"
         self.assert_text("Please login", "#message")
 
-    @patch('qa327.backend.login_user', return_value=test_user)
-    @patch('qa327.backend.get_user', return_value=test_user)
     def test_redirect_logged_in(self, *_):
         """
         If the user has logged in, redirect to the user profile page
@@ -104,7 +101,6 @@ class FrontEndLoginPageTest(BaseCase):
         # Validate that current page contains #welcome-header
         self.assert_element("#welcome-header")
 
-    @patch('qa327.backend.get_user', return_value=test_user)
     def test_redirect_not_logged_in(self, *_):
         """
         If the user hasn't logged in, don't redirect to the user profile page
@@ -147,7 +143,6 @@ class FrontEndLoginPageTest(BaseCase):
         # Validate #password is displayed
         self.assert_element("#password")
 
-    @patch('qa327.backend.login_user', return_value=test_user)
     def test_login_form_submit_post(self, *_):
         """
         The login form can be submitted as a POST request to the current URL (/login)
@@ -165,7 +160,6 @@ class FrontEndLoginPageTest(BaseCase):
         self.open(base_url)
         self.assert_element("#welcome-header")
 
-    @patch('qa327.backend.login_user', return_value=test_user)
     def test_email_password_not_empty(self, *_):
         """
         Email and password are not empty
@@ -183,7 +177,6 @@ class FrontEndLoginPageTest(BaseCase):
         self.assert_text_not_visible(
             "email/password format is incorrect.", "#message")
 
-    @patch('qa327.backend.login_user', return_value=None)
     def test_email_empty(self, *_):
         """
         Email is empty
@@ -200,7 +193,6 @@ class FrontEndLoginPageTest(BaseCase):
         # Validate #message displays error
         self.assert_text("email/password format is incorrect.", "#message")
 
-    @patch('qa327.backend.login_user', return_value=None)
     def test_password_empty(self, *_):
         """
         Password is empty
@@ -217,7 +209,6 @@ class FrontEndLoginPageTest(BaseCase):
         # Validate #message displays error
         self.assert_text("email/password format is incorrect.", "#message")
 
-    @patch('qa327.backend.login_user', return_value=test_user)
     def test_email_valid(self, *_):
         """
         Email follows addr-spec defined in RFC 5322 (see https://en.wikipedia.org/wiki/Email_address for a human-friendly explanation) - positive
@@ -235,7 +226,6 @@ class FrontEndLoginPageTest(BaseCase):
         self.assert_text_not_visible(
             "email/password format is incorrect.", "#message")
 
-    @patch('qa327.backend.login_user', return_value=None)
     def test_email_invalid(self, *_):
         """
         Email follows addr-spec defined in RFC 5322 (see https://en.wikipedia.org/wiki/Email_address for a human-friendly explanation) - negative
@@ -252,7 +242,6 @@ class FrontEndLoginPageTest(BaseCase):
         # Validate #message displays error
         self.assert_text("email/password format is incorrect.", "#message")
 
-    @patch('qa327.backend.login_user', return_value=None)
     def test_password_small(self, *_):
         """
         Password does not meet the required complexity since length is less than 6
@@ -269,7 +258,6 @@ class FrontEndLoginPageTest(BaseCase):
         # Validate #message displays error
         self.assert_text("email/password format is incorrect.", "#message")
 
-    @patch('qa327.backend.login_user', return_value=None)
     def test_password_uppercase(self, *_):
         """
         Password does not meet the required complexity since no uppercase
@@ -288,7 +276,6 @@ class FrontEndLoginPageTest(BaseCase):
         # Validate #message displays error
         self.assert_text("email/password format is incorrect.", "#message")
 
-    @patch('qa327.backend.login_user', return_value=None)
     def test_password_lowercase(self, *_):
         """
         Password does not meet the required complexity since no lowercase
@@ -305,7 +292,6 @@ class FrontEndLoginPageTest(BaseCase):
         # Validate #message displays error
         self.assert_text("email/password format is incorrect.", "#message")
 
-    @patch('qa327.backend.login_user', return_value=None)
     def test_password_special(self, *_):
         """
         Password does not meet the required complexity since no special character
@@ -322,7 +308,6 @@ class FrontEndLoginPageTest(BaseCase):
         # Validate #message displays error
         self.assert_text("email/password format is incorrect.", "#message")
 
-    @patch('qa327.backend.login_user', return_value=test_user)
     def test_password_complex(self, *_):
         """
         Password meets the required complexity: minimum length 6, at least one upper case, at least one lower case, and at least one special character
@@ -340,7 +325,6 @@ class FrontEndLoginPageTest(BaseCase):
         self.assert_text_not_visible(
             "email/password format is incorrect.", "#message")
 
-    @patch('qa327.backend.login_user', return_value=None)
     def test_email_formatting_errors(self, *_):
         """
         For any email formatting errors, render the login page and show the message 'email/password format is incorrect.'
@@ -357,7 +341,6 @@ class FrontEndLoginPageTest(BaseCase):
         # Validate #message displays error
         self.assert_text("email/password format is incorrect.", "#message")
 
-    @patch('qa327.backend.login_user', return_value=None)
     def test_password_formatting_errors(self, *_):
         """
         For any password formatting errors, render the login page and show the message 'email/password format is incorrect.'
@@ -374,7 +357,6 @@ class FrontEndLoginPageTest(BaseCase):
         # Validate #message displays error
         self.assert_text("email/password format is incorrect.", "#message")
 
-    @patch('qa327.backend.login_user', return_value=test_user)
     def test_no_formatting_errors(self, *_):
         """
         If no formatting errors, don't show the message 'email/password format is incorrect.'
@@ -392,7 +374,6 @@ class FrontEndLoginPageTest(BaseCase):
         self.assert_text_not_visible(
             "email/password format is incorrect.", "#message")
 
-    @patch('qa327.backend.login_user', return_value=test_user)
     def test_redirect(self, *_):
         """
         If email/password are correct, redirect to /
@@ -411,7 +392,6 @@ class FrontEndLoginPageTest(BaseCase):
         # Validate #welcome-header is displayed
         self.assert_element("#welcome-header")
 
-    @patch('qa327.backend.login_user', return_value=None)
     def test_password_correct(self, *_):
         """
         If email isn't correct, redict to /login and show message 'email/password combination incorrect'
@@ -430,7 +410,6 @@ class FrontEndLoginPageTest(BaseCase):
         # Validate #message displays error
         self.assert_text("email/password combination incorrect", "#message")
 
-    @patch('qa327.backend.login_user', return_value=None)
     def test_email_correct(self, *_):
         """
         If password isn't correct, redict to /login and show message 'email/password combination incorrect'
@@ -449,7 +428,6 @@ class FrontEndLoginPageTest(BaseCase):
         # Validate #message displays error
         self.assert_text("email/password format is incorrect.", "#message")
 
-    @patch('qa327.backend.login_user', return_value=test_user)
     def test_email_and_password_correct(self, *_):
         """
         If email/password are correct, don't show message 'email/password combination incorrect'
