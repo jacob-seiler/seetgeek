@@ -156,8 +156,6 @@ class FrontEndHomePageTest(BaseCase):
         self.assert_text(
             "Quantity must be between 1 and 100.", '#flash-message')
 
-    # Test that with invalid price there is error present
-
     @patch('qa327.backend.login_user', return_value=test_user)
     @patch('qa327.backend.create_ticket', return_value=None)
     @patch('qa327.backend.get_all_tickets', return_value=[])
@@ -186,8 +184,6 @@ class FrontEndHomePageTest(BaseCase):
         # Validate POST request sent to /sell
         self.assert_text(
             "Price must be between 10 and 100 inclusive.", '#flash-message')
-
-    # Test that with invalid date there is error present
 
     @patch('qa327.backend.login_user', return_value=test_user)
     @patch('qa327.backend.create_ticket', return_value=None)
