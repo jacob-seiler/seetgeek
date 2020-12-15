@@ -39,9 +39,8 @@ test_ticket = Ticket(
 
 
 class FrontEndHomePageTest(BaseCase):
-    @patch('qa327.backend.login_user', return_value=test_user)
-    @patch('qa327.backend.buy_ticket', return_value=None)
-    @patch('qa327.backend.get_all_tickets', return_value=[])
+    @patch('qa327.backend.sell_ticket', return_value=True)
+    @patch('qa327.backend.get_user', return_value=test_user)
     def test_ticket_sell_post_success(self, *_):
         """
         The name of the ticket has to be alphanumeric-only - positive
@@ -71,9 +70,8 @@ class FrontEndHomePageTest(BaseCase):
         # Validate POST request sent to /sell
         self.assert_element_not_visible('#flash-message')
 
-    @patch('qa327.backend.login_user', return_value=test_user)
-    @patch('qa327.backend.buy_ticket', return_value=None)
-    @patch('qa327.backend.get_all_tickets', return_value=[])
+    @patch('qa327.backend.sell_ticket', return_value=False)
+    @patch('qa327.backend.get_user', return_value=test_user)
     def test_ticket_sell_post_name_error(self, *_):
         """
         The name of the ticket has to be alphanumeric-only - negative
@@ -100,6 +98,8 @@ class FrontEndHomePageTest(BaseCase):
         self.assert_text(
             "Name must have alphanumeric characters only.", '#flash-message')
 
+    @patch('qa327.backend.sell_ticket', return_value=False)
+    @patch('qa327.backend.get_user', return_value=test_user)
     def test_ticket_sell_post_name_too_long(self, *_):
         """
         The name of the ticket is no longer than 60 characters - negative
@@ -127,9 +127,8 @@ class FrontEndHomePageTest(BaseCase):
         self.assert_text(
             "Name must be less than 60 characters.", '#flash-message')
 
-    @patch('qa327.backend.login_user', return_value=test_user)
-    @patch('qa327.backend.buy_ticket', return_value=None)
-    @patch('qa327.backend.get_all_tickets', return_value=[])
+    @patch('qa327.backend.sell_ticket', return_value=False)
+    @patch('qa327.backend.get_user', return_value=test_user)
     def test_ticket_sell_post_quantity_error(self, *_):
         """
         The quantity of the tickets has to be more than 0, and less than or equal to 100. - negative
@@ -156,9 +155,8 @@ class FrontEndHomePageTest(BaseCase):
         self.assert_text(
             "Quantity must be between 1 and 100.", '#flash-message')
 
-    @patch('qa327.backend.login_user', return_value=test_user)
-    @patch('qa327.backend.buy_ticket', return_value=None)
-    @patch('qa327.backend.get_all_tickets', return_value=[])
+    @patch('qa327.backend.sell_ticket', return_value=False)
+    @patch('qa327.backend.get_user', return_value=test_user)
     def test_ticket_sell_post_price_error(self, *_):
         """
         Price has to be of range [10, 100] - negative
@@ -185,9 +183,8 @@ class FrontEndHomePageTest(BaseCase):
         self.assert_text(
             "Price must be between 10 and 100 inclusive.", '#flash-message')
 
-    @patch('qa327.backend.login_user', return_value=test_user)
-    @patch('qa327.backend.buy_ticket', return_value=None)
-    @patch('qa327.backend.get_all_tickets', return_value=[])
+    @patch('qa327.backend.sell_ticket', return_value=False)
+    @patch('qa327.backend.get_user', return_value=test_user)
     def test_ticket_sell_post_date_error(self, *_):
         """
         Date must be given in the format YYYYMMDD - negative
