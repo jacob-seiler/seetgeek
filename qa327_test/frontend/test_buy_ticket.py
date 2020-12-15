@@ -138,7 +138,7 @@ class FrontEndHomePageTest(BaseCase):
         self.click("#buy-form-submit")
 
         self.assert_text_visible(
-            "The request quantity is not available.", "#flash-message")
+            "Invalid ticket.", "#flash-message")
 
     def test_ticket_does_exist(self, *_):
         """
@@ -208,11 +208,10 @@ class FrontEndHomePageTest(BaseCase):
 
         # Buy ticket
         self.type("#buy-form-name", test_ticket.name)
-        self.type("#buy-form-quantity", str(test_ticket.quantity+1))
+        self.type("#buy-form-quantity", str(test_ticket.quantity-1))
         self.click("#buy-form-submit")
 
-        self.assert_text_visible(
-            "The request quantity is not available.", "#flash-message")
+        self.assert_element_not_visible("#flash-message")
 
     def test_ticket_quantity_is_not_enough(self, *_):
         """
@@ -233,10 +232,11 @@ class FrontEndHomePageTest(BaseCase):
 
         # Buy ticket
         self.type("#buy-form-name", test_ticket.name)
-        self.type("#buy-form-quantity", str(test_ticket.quantity-1))
+        self.type("#buy-form-quantity", str(test_ticket.quantity+1))
         self.click("#buy-form-submit")
 
-        self.assert_element_not_visible("#flash-message")
+        self.assert_text_visible(
+            "The request quantity is not available.", "#flash-message")
 
     def test_user_balance_is_enough(self, *_):
         """
