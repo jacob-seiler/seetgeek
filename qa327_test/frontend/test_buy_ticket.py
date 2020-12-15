@@ -93,6 +93,7 @@ class FrontEndHomePageTest(BaseCase):
     def test_ticket_name_is_too_long(self, *_):
         """
         The name of the ticket is no longer than 60 characters - negative
+        Test case ID: R6.2.2
         """
         # Invalidate previous session
         self.open(base_url + '/logout')
@@ -117,6 +118,7 @@ class FrontEndHomePageTest(BaseCase):
     def test_ticket_quantity_is_not_valid(self, *_):
         """
         The quantity of the tickets has to be more than 0, and less than or equal to 100. - negative
+        Test case ID: R6.3.2
         """
         # Invalidate previous session
         self.open(base_url + '/logout')
@@ -141,6 +143,7 @@ class FrontEndHomePageTest(BaseCase):
     def test_ticket_does_exist(self, *_):
         """
         The ticket of the given name must exist - positive
+        Test case ID: R6.4.1
         """
         # Invalidate previous session
         self.open(base_url + '/logout')
@@ -159,12 +162,12 @@ class FrontEndHomePageTest(BaseCase):
         self.type("#buy-form-quantity", str(test_ticket.quantity))
         self.click("#buy-form-submit")
 
-        self.assert_text_visible(
-            "Successfully bought ticket.", "#flash-message")
+        self.assert_element_not_visible("#flash-message")
 
     def test_ticket_does_not_exist(self, *_):
         """
         The ticket of the given name must exist - negative
+        Test case ID: R6.4.2
         """
         # Invalidate previous session
         self.open(base_url + '/logout')
@@ -189,6 +192,7 @@ class FrontEndHomePageTest(BaseCase):
     def test_ticket_quantity_is_enough(self, *_):
         """
         The quantity is more than the quantity requested to buy
+        Test case ID: R6.5.1
         """
         # Invalidate previous session
         self.open(base_url + '/logout')
@@ -204,7 +208,7 @@ class FrontEndHomePageTest(BaseCase):
 
         # Buy ticket 
         self.type("#buy-form-name", test_ticket.name)
-        self.type("#buy-form-quantity", str(test_ticket.quantity)+1)
+        self.type("#buy-form-quantity", str(test_ticket.quantity+1))
         self.click("#buy-form-submit")
 
         self.assert_text_visible(
@@ -213,6 +217,7 @@ class FrontEndHomePageTest(BaseCase):
     def test_ticket_quantity_is_not_enough(self, *_):
         """
         The quantity is less than the quantity requested to buy
+        Test case ID: R6.5.2
         """
         # Invalidate previous session
         self.open(base_url + '/logout')
@@ -228,16 +233,16 @@ class FrontEndHomePageTest(BaseCase):
 
         # Buy ticket 
         self.type("#buy-form-name", test_ticket.name)
-        self.type("#buy-form-quantity", str(test_ticket.quantity)+1)
+        self.type("#buy-form-quantity", str(test_ticket.quantity-1))
         self.click("#buy-form-submit")
 
-        self.assert_text_visible(
-            "Successfully bought ticket.", "#flash-message")
+        self.assert_element_not_visible("#flash-message")
 
 
     def test_user_balance_is_enough(self, *_):
         """
         The user has more balance than the ticket price * quantity + service fee (35%) + tax (5%)
+        Test case ID: R6.6.1
         """
         # Invalidate previous session
         self.open(base_url + '/logout')
@@ -256,12 +261,12 @@ class FrontEndHomePageTest(BaseCase):
         self.type("#buy-form-quantity", str(test_ticket.quantity))
         self.click("#buy-form-submit")
 
-        self.assert_text_visible(
-            "Successfully bought ticket.", "#flash-message")
+        self.assert_element_not_visible("#flash-message")
 
     def test_user_balance_is_not_enough(self, *_):
         """
         The user does not have more balance than the ticket price * quantity + service fee (35%) + tax (5%)
+        Test case ID: R6.6.2
         """
         # Invalidate previous session
         self.open(base_url + '/logout')

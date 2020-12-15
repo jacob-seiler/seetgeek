@@ -217,8 +217,8 @@ def buy():
     name_error = validate_ticket_name(name)
     exists_error = bn.ticket_exists(name) is False
     quantity_error = bn.enough_tickets(name, quantity) is False
-    user = bn.get_user(session['logged_in'])
-    balance_error = bn.enough_balance(user.balance, price, quantity)
+    # user = bn.get_user(session['logged_in'])
+    # balance_error = bn.enough_balance(user.balance, price, quantity)
 
     if name_error:
         flash("Invalid ticket.")
@@ -226,11 +226,9 @@ def buy():
         flash("Ticket does not exist.")
     elif quantity_error:
         flash("The request quantity is not available.")
-    elif balance_error:
-        flash("Insufficient balance.")
-    else:
-        flash("Successfully bought ticket.")
-    
+    # if balance_error:
+    #     flash("Insufficient balance")
+
     # For any errors, redirect back to / and show an error message
     return redirect('/')
 
