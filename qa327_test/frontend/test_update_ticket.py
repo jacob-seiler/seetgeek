@@ -258,7 +258,6 @@ class BackEndUpdateTest(BaseCase):
         The ticket of the given name must exist - negative
         Test case ID: R5.6.2
         """
-        return not ticket_exists('fakeTicketName')
         # Invalidate previous session
         self.open(base_url + '/logout')
 
