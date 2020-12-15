@@ -40,7 +40,7 @@ test_ticket = Ticket(
 
 class FrontEndHomePageTest(BaseCase):
     @patch('qa327.backend.login_user', return_value=test_user)
-    @patch('qa327.backend.create_ticket', return_value=None)
+    @patch('qa327.backend.buy_ticket', return_value=None)
     @patch('qa327.backend.get_all_tickets', return_value=[])
     def test_ticket_sell_post_success(self, *_):
         """
@@ -72,7 +72,7 @@ class FrontEndHomePageTest(BaseCase):
         self.assert_element_not_visible('#flash-message')
 
     @patch('qa327.backend.login_user', return_value=test_user)
-    @patch('qa327.backend.create_ticket', return_value=None)
+    @patch('qa327.backend.buy_ticket', return_value=None)
     @patch('qa327.backend.get_all_tickets', return_value=[])
     def test_ticket_sell_post_name_error(self, *_):
         """
@@ -128,7 +128,7 @@ class FrontEndHomePageTest(BaseCase):
             "Name must be less than 60 characters.", '#flash-message')
 
     @patch('qa327.backend.login_user', return_value=test_user)
-    @patch('qa327.backend.create_ticket', return_value=None)
+    @patch('qa327.backend.buy_ticket', return_value=None)
     @patch('qa327.backend.get_all_tickets', return_value=[])
     def test_ticket_sell_post_quantity_error(self, *_):
         """
@@ -157,7 +157,7 @@ class FrontEndHomePageTest(BaseCase):
             "Quantity must be between 1 and 100.", '#flash-message')
 
     @patch('qa327.backend.login_user', return_value=test_user)
-    @patch('qa327.backend.create_ticket', return_value=None)
+    @patch('qa327.backend.buy_ticket', return_value=None)
     @patch('qa327.backend.get_all_tickets', return_value=[])
     def test_ticket_sell_post_price_error(self, *_):
         """
@@ -186,7 +186,7 @@ class FrontEndHomePageTest(BaseCase):
             "Price must be between 10 and 100 inclusive.", '#flash-message')
 
     @patch('qa327.backend.login_user', return_value=test_user)
-    @patch('qa327.backend.create_ticket', return_value=None)
+    @patch('qa327.backend.buy_ticket', return_value=None)
     @patch('qa327.backend.get_all_tickets', return_value=[])
     def test_ticket_sell_post_date_error(self, *_):
         """
