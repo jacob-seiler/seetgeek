@@ -31,20 +31,10 @@ test_user = User(
 
 
 class FrontEndLoginPageTest(BaseCase):
-    def test_default_not_logged_in(self, *_):
-        """
-        If the user hasn't logged in, show the login page.
-        """
-        # Log out user
-        self.open(base_url + '/logout')
-        # Open /login
-        self.open(base_url + '/login')
-        # Validate that current page contains #login-title
-        self.assert_element("#login-title")
-
     def test_default_logged_in(self, *_):
         """
-        If the user has logged in, do not show the login page.
+        If the user has logged in, do not show the login page
+        Test case ID: R1.1.1
         """
         # Log out user (to invalidate any logged-in sessions that may exist)
         self.open(base_url + '/logout')
@@ -55,12 +45,25 @@ class FrontEndLoginPageTest(BaseCase):
         self.click('input[type="submit"]')
         # Open /login
         self.open(base_url + '/login')
-        # Validate that current page does not contain #login-header
+        # Validate that current page does not contain #login-title
         self.assert_element_absent("#login-title")
+
+    def test_default_not_logged_in(self, *_):
+        """
+        If the user hasn't logged in, show the login page
+        Test case ID: R1.1.2
+        """
+        # Log out user
+        self.open(base_url + '/logout')
+        # Open /login
+        self.open(base_url + '/login')
+        # Validate that current page contains #login-title
+        self.assert_element("#login-title")
 
     def test_login_message_exists(self, *_):
         """
-        The login page has a message.
+        The login page has a message
+        Test case ID: R1.2.1
         """
         # Log out user (to invalidate any logged-in sessions that may exist)
         self.open(base_url + '/logout')
@@ -71,7 +74,8 @@ class FrontEndLoginPageTest(BaseCase):
 
     def test_login_message_default(self, *_):
         """
-        The login page has a message that by default says 'Please login'.
+        The login page has a message that by default says 'Please login'
+        Test case ID: R1.2.2
         """
         # Log out user (to invalidate any logged-in sessions that may exist)
         self.open(base_url + '/logout')
@@ -82,7 +86,8 @@ class FrontEndLoginPageTest(BaseCase):
 
     def test_redirect_logged_in(self, *_):
         """
-        If the user has logged in, redirect to the user profile page.
+        If the user has logged in, redirect to the user profile page
+        Test case ID: R1.3.1
         """
         # Log out user (to invalidate any logged-in sessions that may exist)
         self.open(base_url + '/logout')
@@ -99,6 +104,7 @@ class FrontEndLoginPageTest(BaseCase):
     def test_redirect_not_logged_in(self, *_):
         """
         If the user hasn't logged in, don't redirect to the user profile page
+        Test case ID: R1.3.2
         """
         # Log out user (to invalidate any logged-in sessions that may exist)
         self.open(base_url + '/logout')
@@ -109,7 +115,8 @@ class FrontEndLoginPageTest(BaseCase):
 
     def test_login_form(self, *_):
         """
-        The login page provides a login form.
+        The login page provides a login form
+        Test case ID: R1.4.1
         """
         # Open /login
         self.open(base_url + '/login')
@@ -118,7 +125,8 @@ class FrontEndLoginPageTest(BaseCase):
 
     def test_login_form_email(self, *_):
         """
-        The login page provides a login form which requests the field email.
+        The login page provides a login form which requests the field email
+        Test case ID: R1.4.2
         """
         # Open /login
         self.open(base_url + '/login')
@@ -127,7 +135,8 @@ class FrontEndLoginPageTest(BaseCase):
 
     def test_login_form_password(self, *_):
         """
-        The login page provides a login form which requests the field password.
+        The login page provides a login form which requests the field password
+        Test case ID: R1.4.3
         """
         # Open /login
         self.open(base_url + '/login')
@@ -136,7 +145,8 @@ class FrontEndLoginPageTest(BaseCase):
 
     def test_login_form_submit_post(self, *_):
         """
-        The login form can be submitted as a POST request to the current URL (/login).
+        The login form can be submitted as a POST request to the current URL (/login)
+        Test case ID: R1.5
         """
         # Open /login
         self.open(base_url + '/login')
@@ -152,7 +162,8 @@ class FrontEndLoginPageTest(BaseCase):
 
     def test_email_password_not_empty(self, *_):
         """
-        Email and password are not empty.
+        Email and password are not empty
+        Test case ID: R1.6.1
         """
         # Open /login
         self.open(base_url + '/login')
@@ -168,7 +179,8 @@ class FrontEndLoginPageTest(BaseCase):
 
     def test_email_empty(self, *_):
         """
-        Email is empty.
+        Email is empty
+        Test case ID: R1.6.2
         """
         # Open /login
         self.open(base_url + '/login')
@@ -183,7 +195,8 @@ class FrontEndLoginPageTest(BaseCase):
 
     def test_password_empty(self, *_):
         """
-        Password is empty.
+        Password is empty
+        Test case ID: R1.6.3
         """
         # Open /login
         self.open(base_url + '/login')
@@ -198,7 +211,8 @@ class FrontEndLoginPageTest(BaseCase):
 
     def test_email_valid(self, *_):
         """
-        Email follows addr-spec defined in RFC 5322 (see https://en.wikipedia.org/wiki/Email_address for a human-friendly explanation).
+        Email follows addr-spec defined in RFC 5322 (see https://en.wikipedia.org/wiki/Email_address for a human-friendly explanation) - positive
+        Test case ID: R1.7.1
         """
         # Open /login
         self.open(base_url + '/login')
@@ -214,7 +228,8 @@ class FrontEndLoginPageTest(BaseCase):
 
     def test_email_invalid(self, *_):
         """
-        Email doesn't follow addr-spec defined in RFC 5322 (see https://en.wikipedia.org/wiki/Email_address for a human-friendly explanation).
+        Email follows addr-spec defined in RFC 5322 (see https://en.wikipedia.org/wiki/Email_address for a human-friendly explanation) - negative
+        Test case ID: R1.7.2
         """
         # Open /login
         self.open(base_url + '/login')
@@ -229,7 +244,8 @@ class FrontEndLoginPageTest(BaseCase):
 
     def test_password_small(self, *_):
         """
-        Password does not meet the required complexity since length is less than 6.
+        Password does not meet the required complexity since length is less than 6
+        Test case ID: R1.8.1
         """
         # Open /login
         self.open(base_url + '/login')
@@ -244,7 +260,8 @@ class FrontEndLoginPageTest(BaseCase):
 
     def test_password_uppercase(self, *_):
         """
-        Password does not meet the required complexity since no uppercase.
+        Password does not meet the required complexity since no uppercase
+        Test case ID: R1.8.2
         """
         # Logout to invalidate current session
         self.open(base_url + '/logout')
@@ -261,7 +278,8 @@ class FrontEndLoginPageTest(BaseCase):
 
     def test_password_lowercase(self, *_):
         """
-        Password does not meet the required complexity since no lowercase.
+        Password does not meet the required complexity since no lowercase
+        Test case ID: R1.8.3
         """
         # Open /login
         self.open(base_url + '/login')
@@ -276,7 +294,8 @@ class FrontEndLoginPageTest(BaseCase):
 
     def test_password_special(self, *_):
         """
-        Password does not meet the required complexity since no special character.
+        Password does not meet the required complexity since no special character
+        Test case ID: R1.8.4
         """
         # Open /login
         self.open(base_url + '/login')
@@ -291,7 +310,8 @@ class FrontEndLoginPageTest(BaseCase):
 
     def test_password_complex(self, *_):
         """
-        Password meets the required complexity: minimum length 6, at least one upper case, at least one lower case, and at least one special character.
+        Password meets the required complexity: minimum length 6, at least one upper case, at least one lower case, and at least one special character
+        Test case ID: R1.8.5
         """
         # Open /login
         self.open(base_url + '/login')
@@ -307,7 +327,8 @@ class FrontEndLoginPageTest(BaseCase):
 
     def test_email_formatting_errors(self, *_):
         """
-        For any email formatting errors, render the login page and show the message 'email/password format is incorrect.'.
+        For any email formatting errors, render the login page and show the message 'email/password format is incorrect.'
+        Test case ID: R1.9.1
         """
         # Open /login
         self.open(base_url + '/login')
@@ -322,7 +343,8 @@ class FrontEndLoginPageTest(BaseCase):
 
     def test_password_formatting_errors(self, *_):
         """
-        For any password formatting errors, render the login page and show the message 'email/password format is incorrect.'.
+        For any password formatting errors, render the login page and show the message 'email/password format is incorrect.'
+        Test case ID: R1.9.2
         """
         # Open /login
         self.open(base_url + '/login')
@@ -337,7 +359,8 @@ class FrontEndLoginPageTest(BaseCase):
 
     def test_no_formatting_errors(self, *_):
         """
-        If no formatting errors, don't show the message 'email/password format is incorrect.'.
+        If no formatting errors, don't show the message 'email/password format is incorrect.'
+        Test case ID: R1.9.3
         """
         # Open /login
         self.open(base_url + '/login')
@@ -354,6 +377,7 @@ class FrontEndLoginPageTest(BaseCase):
     def test_redirect(self, *_):
         """
         If email/password are correct, redirect to /
+        Test case ID: R1.10
         """
         # Log out user (to invalidate any logged-in sessions that may exist)
         self.open(base_url + '/logout')
@@ -370,7 +394,8 @@ class FrontEndLoginPageTest(BaseCase):
 
     def test_password_correct(self, *_):
         """
-        If email isn't correct, redict to /login and show message 'email/password combination incorrect'.
+        If email isn't correct, redict to /login and show message 'email/password combination incorrect'
+        Test case ID: R1.11.1
         """
         # Log out user (to invalidate any logged-in sessions that may exist)
         self.open(base_url + '/logout')
@@ -387,7 +412,8 @@ class FrontEndLoginPageTest(BaseCase):
 
     def test_email_correct(self, *_):
         """
-        If password isn't correct, redict to /login and show message 'email/password combination incorrect'.
+        If password isn't correct, redict to /login and show message 'email/password combination incorrect'
+        Test case ID: R1.11.2
         """
         # Log out user (to invalidate any logged-in sessions that may exist)
         self.open(base_url + '/logout')
@@ -404,7 +430,8 @@ class FrontEndLoginPageTest(BaseCase):
 
     def test_email_and_password_correct(self, *_):
         """
-        If email/password are correct, don't show message 'email/password combination incorrect'.
+        If email/password are correct, don't show message 'email/password combination incorrect'
+        Test case ID: R1.11.3
         """
         # Log out user (to invalidate any logged-in sessions that may exist)
         self.open(base_url + '/logout')
@@ -419,43 +446,3 @@ class FrontEndLoginPageTest(BaseCase):
         # Validate #message does not display error
         self.assert_text_not_visible(
             "email/password combination incorrect", "#message")
-
-    def test_login_success(self, *_):
-        """
-        This is a sample front end unit test to login to home page
-        and verify if the tickets are correctly listed.
-        """
-        # open login page
-        self.open(base_url + '/login')
-        # fill email and password
-        self.type("#email", test_user.email)
-        self.type("#password", test_user.password)
-        # click enter button
-        self.click('input[type="submit"]')
-
-        # after clicking on the browser (the line above)
-        # the front-end code is activated
-        # and tries to call get_user function.
-        # The get_user function is supposed to read data from database
-        # and return the value. However, here we only want to test the
-        # front-end, without running the backend logics.
-        # so we patch the backend to return a specific user instance,
-        # rather than running that program. (see @ annotations above)
-
-        # open home page
-        self.open(base_url)
-        # test if the page loads correctly
-        self.assert_element("#welcome-header")
-
-    def test_login_password_failed(self, *_):
-        """ Login and verify if the tickets are correctly listed."""
-        # open login page
-        self.open(base_url + '/login')
-        # fill wrong email and password
-        self.type("#email", test_user.email)
-        self.type("#password", "Password124")
-        # click enter button
-        self.click('input[type="submit"]')
-        # make sure it shows proper error message
-        self.assert_element("#message")
-        self.assert_text("email/password combination incorrect", "#message")

@@ -14,8 +14,10 @@ def validate_email(email):
 
 
 def validate_name(name):
-    if len(name) < 2 and len(name) > 20:
-        return "Name must be between 2 and 20 characters."
+    if not len(name) > 2:
+        return "Name must be longer than 2 characters."
+    if not len(name) < 20:
+        return "Name must be shorter than 20 characters."
     # Check if the name is all alphanumeric besides the spaces
     if not name.replace(" ", "").isalnum():
         return "Name must only contain alphanumeric characters or spaces."

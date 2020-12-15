@@ -26,21 +26,25 @@ test_user = User(
 )
 
 
-# In this case, the first condition will be true, meaning the or statement is true
 @patch('qa327.backend.get_user', return_value=None)
 def test_login_user_exist_false(self):
+    """
+    In this case, the first condition will be true, meaning the or statement is true
+    """
     return login_user(test_user.email, test_user.password) == None
-
-# In this case, the second condition will be true, meaning the or statement is true
 
 
 @patch('qa327.backend.get_user', return_value=test_user)
 def test_login_password_match_false(self):
+    """
+    In this case, the second condition will be true, meaning the or statement is true
+    """
     return login_user(email=test_user.email, password="WrongPassword123") == None
-
-# In this case both are false, meaning the if statements doesn't get executed
 
 
 @patch('qa327.backend.get_user', return_value=test_user)
 def test_login_success(self):
+    """
+    In this case both are false, meaning the if statements doesn't get executed
+    """
     return login_user(test_user.email, test_user.password) == test_user

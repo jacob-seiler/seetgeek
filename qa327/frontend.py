@@ -215,16 +215,17 @@ def buy():
     quantity = request.form.get('quantity')
 
     name_error = validate_ticket_name(name)
+    quantity_error = validate_ticket_quantity(quantity) is not False
     exists_error = bn.ticket_exists(name) is False
-    quantity_error = bn.enough_tickets(name, quantity) is False
+    enough_error = bn.enough_tickets(name, quantity) is False
     # user = bn.get_user(session['logged_in'])
     # balance_error = bn.enough_balance(user.balance, price, quantity)
 
-    if name_error:
+    if name_error or quantity_error:
         flash("Invalid ticket.")
     elif exists_error:
         flash("Ticket does not exist.")
-    elif quantity_error:
+    elif enough_error:
         flash("The request quantity is not available.")
     # if balance_error:
     #     flash("Insufficient balance")

@@ -24,6 +24,7 @@ class FrontEnd404PageTest(BaseCase):
     def test_error_404(self, *_):
         """
         This is a front end unit test to login to 404 error page.
+        Test case ID: R8.1
         """
         # open an incorrect page
         self.open(base_url + '/error')
