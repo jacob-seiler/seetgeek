@@ -5,8 +5,6 @@ from seleniumbase import BaseCase
 from qa327_test.conftest import base_url
 from unittest.mock import patch
 from qa327.models import User, Ticket
-from qa327.utils import validate_ticket
-from qa327.backend import ticket_exists
 from werkzeug.security import generate_password_hash, check_password_hash
 
 """
