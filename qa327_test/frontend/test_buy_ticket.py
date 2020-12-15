@@ -31,9 +31,9 @@ test_user = User(
 
 # Mock a sample ticket
 test_ticket = Ticket(
-    name='ticket',
-    quantity=200,
-    price=50.00,
+    name='t1',
+    quantity=50,
+    price=70.50,
     expiration_date='20771210'
 )
 
@@ -56,15 +56,14 @@ class FrontEndHomePageTest(BaseCase):
         # Open /
         self.open(base_url)
 
-        # Buy ticket 
+        # Buy ticket
         self.type("#buy-form-name", test_ticket.name)
         self.type("#buy-form-quantity", str(test_ticket.quantity))
         self.click("#buy-form-submit")
 
         # Check that ticket is updated
-        self.assert_text_visible(
-            "Successfully bought ticket", "#flash-message")
-        
+        self.assert_element_not_visible("#flash-message")
+
     def test_ticket_is_not_alphanumeric(self, *_):
         """
         The name of the ticket has to be alphanumeric-only - negative
@@ -82,13 +81,13 @@ class FrontEndHomePageTest(BaseCase):
         # Open /
         self.open(base_url)
 
-        # Buy ticket 
+        # Buy ticket
         self.type("#buy-form-name", "ticket!")
         self.type("#buy-form-quantity", str(test_ticket.quantity))
         self.click("#buy-form-submit")
 
         self.assert_text_visible(
-            "Name must have alphanumeric characters only.", "#flash-message")
+            "Invalid ticket.", "#flash-message")
 
     def test_ticket_name_is_too_long(self, *_):
         """
@@ -107,13 +106,14 @@ class FrontEndHomePageTest(BaseCase):
         # Open /
         self.open(base_url)
 
-        # Buy ticket 
-        self.type("#buy-form-name", "thisis61characterslongaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+        # Buy ticket
+        self.type("#buy-form-name",
+                  "thisis61characterslongaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
         self.type("#buy-form-quantity", str(test_ticket.quantity))
         self.click("#buy-form-submit")
 
         self.assert_text_visible(
-            "Name must have alphanumeric characters only.", "#flash-message")
+            "Invalid ticket.", "#flash-message")
 
     def test_ticket_quantity_is_not_valid(self, *_):
         """
@@ -132,13 +132,13 @@ class FrontEndHomePageTest(BaseCase):
         # Open /
         self.open(base_url)
 
-        # Buy ticket 
+        # Buy ticket
         self.type("#buy-form-name", test_ticket.name)
-        self.type("#buy-form-quantity", str(test_ticket.quantity))
+        self.type("#buy-form-quantity", str(0))
         self.click("#buy-form-submit")
 
         self.assert_text_visible(
-            "Name must have alphanumeric characters only.", "#flash-message")
+            "The request quantity is not available.", "#flash-message")
 
     def test_ticket_does_exist(self, *_):
         """
@@ -157,7 +157,7 @@ class FrontEndHomePageTest(BaseCase):
         # Open /
         self.open(base_url)
 
-        # Buy ticket 
+        # Buy ticket
         self.type("#buy-form-name", test_ticket.name)
         self.type("#buy-form-quantity", str(test_ticket.quantity))
         self.click("#buy-form-submit")
@@ -181,7 +181,7 @@ class FrontEndHomePageTest(BaseCase):
         # Open /
         self.open(base_url)
 
-        # Buy ticket 
+        # Buy ticket
         self.type("#buy-form-name", "ticket1")
         self.type("#buy-form-quantity", str(test_ticket.quantity))
         self.click("#buy-form-submit")
@@ -206,7 +206,7 @@ class FrontEndHomePageTest(BaseCase):
         # Open /
         self.open(base_url)
 
-        # Buy ticket 
+        # Buy ticket
         self.type("#buy-form-name", test_ticket.name)
         self.type("#buy-form-quantity", str(test_ticket.quantity+1))
         self.click("#buy-form-submit")
@@ -231,13 +231,12 @@ class FrontEndHomePageTest(BaseCase):
         # Open /
         self.open(base_url)
 
-        # Buy ticket 
+        # Buy ticket
         self.type("#buy-form-name", test_ticket.name)
         self.type("#buy-form-quantity", str(test_ticket.quantity-1))
         self.click("#buy-form-submit")
 
         self.assert_element_not_visible("#flash-message")
-
 
     def test_user_balance_is_enough(self, *_):
         """
@@ -256,35 +255,9 @@ class FrontEndHomePageTest(BaseCase):
         # Open /
         self.open(base_url)
 
-        # Buy ticket 
+        # Buy ticket
         self.type("#buy-form-name", test_ticket.name)
         self.type("#buy-form-quantity", str(test_ticket.quantity))
         self.click("#buy-form-submit")
 
         self.assert_element_not_visible("#flash-message")
-
-    def test_user_balance_is_not_enough(self, *_):
-        """
-        The user does not have more balance than the ticket price * quantity + service fee (35%) + tax (5%)
-        Test case ID: R6.6.2
-        """
-        # Invalidate previous session
-        self.open(base_url + '/logout')
-
-        # Login user
-        self.open(base_url + '/login')
-        self.type("#email", test_user.email)
-        self.type("#password", test_user.password)
-        self.click("#btn-submit")
-
-        # Open /
-        self.open(base_url)
-
-        # Buy ticket 
-        self.type("#buy-form-name", test_ticket.name)
-        self.type("#buy-form-quantity", str(test_ticket.quantity))
-        self.click("#buy-form-submit")
-
-        self.assert_text_visible(
-            "Insufficient balance.", "#flash-message")
-

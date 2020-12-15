@@ -215,8 +215,8 @@ def buy():
     quantity = request.form.get('quantity')
 
     name_error = validate_ticket_name(name)
+    quantity_error = validate_ticket_quantity(quantity) is not False
     exists_error = bn.ticket_exists(name) is False
-    quantity_error = bn.enough_tickets(name, quantity) is False
     # user = bn.get_user(session['logged_in'])
     # balance_error = bn.enough_balance(user.balance, price, quantity)
 
