@@ -42,6 +42,8 @@ test_ticket = Ticket(
 
 
 class BackEndUpdateTest(BaseCase):
+    @patch('qa327.backend.update_ticket', return_value=True)
+    @patch('qa327.backend.get_user', return_value=test_user)
     def test_ticket_is_valid(self, *_):
         """
         The name of the ticket has to be alphanumeric-only - positive
@@ -70,6 +72,8 @@ class BackEndUpdateTest(BaseCase):
         self.assert_text_visible(
             "Successfully updated ticket", "#flash-message")
 
+    @patch('qa327.backend.update_ticket', return_value=False)
+    @patch('qa327.backend.get_user', return_value=test_user)
     def test_ticket_is_not_alphanumeric(self, *_):
         """
         The name of the ticket has to be alphanumeric-only - negative
@@ -98,6 +102,8 @@ class BackEndUpdateTest(BaseCase):
         self.assert_text_visible(
             "Name must have alphanumeric characters only.", "#flash-message")
 
+    @patch('qa327.backend.update_ticket', return_value=False)
+    @patch('qa327.backend.get_user', return_value=test_user)
     def test_ticket_name_is_too_long(self, *_):
         """
         The name of the ticket is no longer than 60 characters - negative
@@ -127,6 +133,8 @@ class BackEndUpdateTest(BaseCase):
         self.assert_text_visible(
             "Name must be less than 60 characters.", "#flash-message")
 
+    @patch('qa327.backend.update_ticket', return_value=False)
+    @patch('qa327.backend.get_user', return_value=test_user)
     def test_ticket_quantity_is_not_valid(self, *_):
         """
         The quantity of the tickets has to be more than 0, and less than or equal to 100. - negative
@@ -155,6 +163,8 @@ class BackEndUpdateTest(BaseCase):
         self.assert_text_visible(
             "Quantity must be between 1 and 100.", "#flash-message")
 
+    @patch('qa327.backend.update_ticket', return_value=False)
+    @patch('qa327.backend.get_user', return_value=test_user)
     def test_ticket_price_is_not_valid(self, *_):
         """
         Price has to be of range [10, 100] - negative
@@ -183,6 +193,8 @@ class BackEndUpdateTest(BaseCase):
         self.assert_text_visible(
             "Price must be between 10 and 100 inclusive.", "#flash-message")
 
+    @patch('qa327.backend.update_ticket', return_value=False)
+    @patch('qa327.backend.get_user', return_value=test_user)
     def test_ticket_date_is_not_valid(self, *_):
         """
         Date must be given in the format YYYYMMDD - negative
@@ -211,6 +223,8 @@ class BackEndUpdateTest(BaseCase):
         self.assert_text_visible(
             "Date must be in the format YYYYMMDD.", "#flash-message")
 
+    @patch('qa327.backend.update_ticket', return_value=True)
+    @patch('qa327.backend.get_user', return_value=test_user)
     def test_ticket_does_exist(self, *_):
         """
         The ticket of the given name must exist - positive
@@ -239,6 +253,8 @@ class BackEndUpdateTest(BaseCase):
         self.assert_text_visible(
             "Successfully updated ticket", "#flash-message")
 
+    @patch('qa327.backend.update_ticket', return_value=False)
+    @patch('qa327.backend.get_user', return_value=test_user)
     def test_ticket_does_not_exist(self, *_):
         """
         The ticket of the given name must exist - negative
